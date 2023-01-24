@@ -4,7 +4,7 @@ published: true
 It's 0:30am, Jan 24th, 2023. I'm writing this very first blog on this website.
 
 ### Who am I?
-By the time these words were typed, I was an undergraduate majored in Computer Engineering, spending my Junior year in UIUC campus as an exchange student from ZJU.
+By the time these words were typed, I was an undergraduate majored in Computer Engineering, spending my junior year in UIUC campus as an exchange student from ZJU.
 
 My professional webpage is this one -> [https://silkrow.github.io/](https://silkrow.github.io/)
 
