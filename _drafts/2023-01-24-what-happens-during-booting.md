@@ -13,7 +13,7 @@ _Don't worry, this post will answer all these annoying questions._
 Bootstrapping is the process to bring at least a portion of the operating system into main memory and have the processor execute it, it also denotes the initialization of kernel data structures, the creation of some user processes, and the transfer of control to one of them.
 
 Bootstrap is highly dependent on the computer architecture.
-### Step 0.BIOS
+### Step 0. BIOS
 1. A special hardware circuit raises the logical value of RESET pin of the CPU to **start booting**.
 2. After RESET is asserted, some registers of the processor (including cs and eip) are set to fixed values, and the code found at physical address 0xfffffff0 is executed.
 	* This address is mapped by the hardware to ROM.
@@ -25,3 +25,10 @@ Bootstrap is highly dependent on the computer architecture.
         * Recent 80×86, AMD64, and Itanium computers make use of the Advanced Configuration and Power Interface (ACPI) standard. The bootstrap code in an ACPI-compliant BIOS builds several tables that describe the hardware devices present in the system. These tables have a vendor-independent format and can be read by the operating system kernel to learn how to handle the devices.
 	2. **Initializes the hardware devices**. This phase is crucial in modern **PCI-based** architectures, because it guarantees that all hardware devices operate without conflicts on the IRQ lines and I/O ports. At the end of this phase, a table of installed PCI devices is displayed.
     3. **Searches** for an operating system **to boot!!** Depending on the BIOS setting, the procedure may try access (in a predefined, customizable order) the first sector (boot sector) of every floppy disk, hard disk, and CD-ROM in the system.
+    4. As soon as a valid device is found, it **copies the contents of its first sector into RAM**, starting from physical address 0x00007c00, and then jumps into that address and executes the code just loaded.
+
+### Step 1. Boot Loader
+The **boot loader** is the program invoked by the BIOS to load the image of an operating system kernel into RAM.
+
+Here’s an example of how boot loaders work in IBM’s PC architecture:
+1. Recall that in the BIOS section above (I’m not saying the BIOS is ended now), the instructions stored in some device’s first sector is detected and copied to the RAM, followed by execution of it. These instructions in the first sector contains a **boot loader** (or part of a boot loader).
