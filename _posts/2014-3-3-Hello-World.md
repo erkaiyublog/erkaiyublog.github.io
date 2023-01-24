@@ -4,12 +4,12 @@ title: Hello World
 published: true
 ---
 
-It's 0:10am, Jan 24th, 2023. I'm writing this very first blog on this website.
+It's 0:30am, Jan 24th, 2023. I'm writing this very first blog on this website.
 
 ### Who am I?
 By the time these words were typed, I was an undergraduate majored in Computer Engineering, spending my Junior year in UIUC campus as an exchange student from ZJU.
 
-My professional webpage is this one: https://silkrow.github.io/
+My professional webpage is this one -> [https://silkrow.github.io/](https://silkrow.github.io/)
 
 ### What's this website about?
 I created a new github account to hold this website with github.io, simply because I like how easy it is to hold websites online with github, and I don't like worrying about my content to disappear if I write on some other fancy blog websites, also, I don't have time to buy a server and setup very thing in a more geek way ;).
@@ -22,4 +22,4 @@ Before setting up this website, I've written several blogs on [this free website
 ### Why should you read my blogs?
 ;) IDK, maybe for some magical reason you wanted to find out more about me. Or you just happened to click to one of my blogs because of some random advertisements. 
 
-No matter what kind of miracle brought you here, I hope you enjoyed reading my blogs, and I wish that you may find them helpful. 
+No matter what kind of miracle brought you here, I hope you enjoyed reading my blogs, and I wish that you may find them helpful.
