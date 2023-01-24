@@ -10,6 +10,7 @@ _Don't worry, this post will answer all these annoying questions._
 ---
 ### References
 Appendix A of [ULK(Understanding Linux Kernel), the 3rd Edition](https://www.amazon.com/Understanding-Linux-Kernel-Third-Daniel/dp/0596005652). 
+
 [UEFI vs BIOS: What's the Difference?](https://www.freecodecamp.org/news/uefi-vs-bios/#:~:text=UEFI%20provides%20faster%20boot%20time,booting%20from%20unauthorized%2Funsigned%20applications.)
 
 ## Story of BIOS
