@@ -1,6 +1,11 @@
 ---
-published: false
+published: true
 ---
+---
+layout: post
+title: Hello World
+---
+
 It's 0:30am, Jan 24th, 2023. I'm writing this very first blog on this website.
 
 ### Who am I?
