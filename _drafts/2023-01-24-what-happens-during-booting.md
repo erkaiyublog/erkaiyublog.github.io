@@ -8,6 +8,10 @@ _What happens after you switch on your computer? What is a bootloader? What is B
 _Don't worry, this post will answer all these annoying questions._
 
 ---
+### References
+Appendix A of [ULK(Understanding Linux Kernel), the 3rd Edition](https://www.amazon.com/Understanding-Linux-Kernel-Third-Daniel/dp/0596005652). 
+[UEFI vs BIOS: What's the Difference?](https://www.freecodecamp.org/news/uefi-vs-bios/#:~:text=UEFI%20provides%20faster%20boot%20time,booting%20from%20unauthorized%2Funsigned%20applications.)
+
 ## Story of BIOS
 ### Bootstrap 
 Bootstrapping is the process to bring at least a portion of the operating system into main memory and have the processor execute it, it also denotes the initialization of kernel data structures, the creation of some user processes, and the transfer of control to one of them.
@@ -38,3 +42,30 @@ Here’s an example of how boot loaders work in IBM’s PC architecture:
     * To boot from a hard disk (cont’d): LILO may be installed either on the MBR or in the boot sector of every disk partition. In both cases, the final result is the same: when the loader is executed **at boot time, the user may choose which operating system to load**.
     * To boot from a hard disk (cont’d): LILO boot loader is in fact too large for a **single sector**, so it’s broken into two parts (two-stage), the MBR or the partition boot sector includes a small boot loader, which is loaded into RAM starting from address 0x0007c00 by the BIOS. This small boot loader moves itself to 0x00096a00, sets up the Real Mode stack (ranging from 0x00098000 to 0x000969ff), **loads the second part of the LILO boot loader** into RAM starting from 0x00096c00, and jumps into it.
     * To boot from a hard disk (cont’d): This latter part of boot loader reads a map of bootable operating systems from disk and offers the user a prompt so she can **choose one of them**. After the user picked the operating system to boot, the boot loader may either copy the boot sector of the corresponding partition into RAM and execute it or directly copy the kernel image into RAM.
+    * To boot from a hard disk (cont’d): If the Linux kernel image has to be copied and booted, here’s what LILO will do:
+    	1. Invokes a BIOS procedure to display a “Loading” message.
+        2. Invokes a BIOS procedure to load an **initial portion of the kernel image** from disk: the first 512B of the kernel image are put in RAM at 0x00090000, the **setup()** function is put in RAM starting from 0x00090200.
+        3. Invokes a BIOS procedure to load the rest of the kernel image from disk and put it in AM starting from either 0x00010000 (for small kernel images compiled with **make zImage**, such process is so called “loaded low”) or 0x00100000 (for big kernel images compiled with **make bzImage**, such process is so called “loaded high”).
+        4. Jumps to **setup()**.
+
+### Step 2. setup()
+setup() is assembly code that placed by the **linker** at **offset 0x200 of the kernel image file**. Boot loader will copy it into RAM at 0x00090200.
+
+setup() initializes the hardware devices in the computer and set up the environment for execution of the kernel program.
+
+Although the BIOS already initialized most hardware devices, Linux doesn’t rely on it.
+
+setup() does the following things:
+* In ACPI-compliant systems, it invokes a BIOS routine that builds a table in RAM describing the layout of the system’s physical memory.
+* Sets the **keyboard repeat delay and rate**.
+* Initializes the video adapter card.
+* Reinitializes the disk controller and determines the hard disk parameter.
+* Checks for an IBM Micro Channel bus.
+* Checks for a PS/2 pointing device (bus mouse).
+* Checks for Advanced Power Management BIOS support.
+* If the BIOS supports the Enhanced Disk Drive Services, it invokes the proper BIOS procedure to build a table in RAM describing the hard disks available in the system.
+* If the kernel image was **loaded low** in RAM, the setup() function now moves it to 0x00001000 (not the same address with either “loaded low” or “loaded high”).
+* Sets the A20 pin located on the 8042 keyboard controller.
+* Sets up a provisional IDT and a provisional GDT.
+* Resets the floating-point unit (FPU), if any.
+* Reprograms the **Programmable Interrupt Controllers** (PIC) to mask all interrupts, except IQR2 (If you don’t know why, check for cascading interrupt between two PICs).
