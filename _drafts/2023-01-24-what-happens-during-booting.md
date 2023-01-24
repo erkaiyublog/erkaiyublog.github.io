@@ -69,3 +69,19 @@ setup() does the following things:
 * Sets up a provisional IDT and a provisional GDT.
 * Resets the floating-point unit (FPU), if any.
 * Reprograms the **Programmable Interrupt Controllers** (PIC) to mask all interrupts, except IQR2 (If you don’t know why, check for cascading interrupt between two PICs).
+* Switches **the CPU from Real Mode to Protected Mode** by setting the PE bit in the cr0 status register.
+* Jumps to the **startup_32()** function.
+
+### Step 3. startup_32() & Step 4. start_kernel()
+There're also tedious setup functions following setup(), but I'm not including them here.
+
+## What about UEFI?
+UEFI stands for Unified Extensible Firmware Interface, it’s another way to boot the operating system.
+
+The main difference between UEFI and BIOS is that UEFI stores all data about initialization and startup in an **.efi** file, instead of storing it on the firmware.
+
+This **.efi** file is stored on a special partition called EFI System Partition (ESP) on the hard disk. This ESP partition also contains the bootloader.
+
+UEFI usually boots faster than BIOS, and it also supports larger hard disk partition than BIOS does.
+
+UEFI runs in 32-bit or 64-bit mode. BIOS runs only in 16-bit mode and may utilize only 1 MB of executable memory.
