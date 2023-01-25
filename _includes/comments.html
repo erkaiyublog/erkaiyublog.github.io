@@ -96,19 +96,19 @@
     		const edited = comment.created_at !== comment.updated_at;
 
     		return `<li class="comment">
-                <div class="commenter">
-                    <img src="${user.avatar_url}" alt="" aria-hidden="true" class="meta avatar" />
-                    <a
-                        href="https://github.com/${user.login}"
-                        class="meta username"
-                        >${user.login}</a
-                    >
-                    <div class="meta date-posted">commented <time datetime="${comment.created_at}">${datePosted}</time></div>
-                    ${postedByAuthor ? '<span class="meta tag author-badge">Author</span>' : ''}
-                    ${edited ? `<span class="meta comment-edited">Edited</span>` : ''}
-                </div>
-                <div class="comment-body">${body}</div>
-            </li>`;
+                		<div class="commenter">
+                    		<img src="${user.avatar_url}" alt="" aria-hidden="true" class="meta avatar" />
+                    		<a
+                        		href="https://github.com/${user.login}"
+                        		class="meta username"
+                        		>${user.login}</a
+             				>
+                    		<div class="meta date-posted">commented <time datetime="${comment.created_at}">${datePosted}</time></div>
+                    		${postedByAuthor ? '<span class="meta tag author-badge">Author</span>' : ''}
+    	                	${edited ? `<span class="meta comment-edited">Edited</span>` : ''}
+        	        	</div>
+                	<div class="comment-body">${body}</div>
+            		</li>`;
   		})
   		.join('');
 
