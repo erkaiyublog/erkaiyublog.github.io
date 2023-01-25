@@ -84,3 +84,5 @@ exclude:
   - LICENSE
   - README.md
   - CNAME
+
+issues_repo: erkaiyublog/erkaiyublog.github.io
