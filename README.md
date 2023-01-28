@@ -1,6 +1,11 @@
 2023.1.23: This repository is forked from https://github.com/barryclark/jekyll-now I use it as a website to hold my blogs.
 Access my blog website here: https://erkaiyublog.github.io/
 
+Here're some useful links that I referred to when building my blog:
+* [To add comments base on github issues](https://www.aleksandrhovhannisyan.com/blog/jekyll-comment-system-github-issues/)
+* [To add the visualised statics map](https://www.revolvermaps.com/?target=gallery)
+* [Jekyll documents](http://jekyllrb.com/docs/)
+
 ---
 > March, 2016: If you're on an old version of Jekyll Now and run into a) build warnings or b) syntax highlighting issues caused by [Jekyll 3 and GitHub Pages updates](https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0), just :sparkles:[update your _config.yml](https://github.com/barryclark/jekyll-now/pull/445/files):sparkles: and you'll be set!
 
