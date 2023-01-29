@@ -1,6 +1,7 @@
 ---
 published: true
 comments_id: 3
+tags: general
 ---
 It's 0:30am, Jan 24th, 2023. I'm writing this very first blog on this website.
 
