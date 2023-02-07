@@ -19,7 +19,11 @@ The feedback will tell you that GDB can't obtain sufficient information of the p
 
 	gcc -g example.c
     
-With that, you'll be able to run GDB on the new a.out program. 
+With that, you'll be able to run GDB on the new a.out program. It's also a common practice to pass **-O** flag together with **-g** to GCC,
+
+	gcc -Og example.c
+    
+With **-O** optimization of compiler will be disabled, for a better debugging experience. 
 ## Basic GDB Commands
 ## References
 https://gcc.gnu.org/onlinedocs/gcc/Debugging-Options.html
