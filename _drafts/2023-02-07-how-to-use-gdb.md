@@ -38,3 +38,4 @@ If there're arguments for "a.out", we can specify them like this:
 
 ## References
 https://gcc.gnu.org/onlinedocs/gcc/Debugging-Options.html
+https://developer.apple.com/library/archive/documentation/DeveloperTools/gdb/gdb/gdb_18.html
