@@ -14,3 +14,6 @@ However, the presentation they gave didn't include the technical details of repr
 
 My review will generally follow the structure of the paper, but I choose to start with a briefly outline of the exploit. 
 ## Outline of the Exploit
+## References
+* http://www.phrack.org/issues/70/5.html#article
+* https://www.technovelty.org/linux/plt-and-got-the-key-to-code-sharing-and-dynamic-libraries.html
