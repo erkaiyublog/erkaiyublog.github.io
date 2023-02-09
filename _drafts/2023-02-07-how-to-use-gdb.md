@@ -25,5 +25,16 @@ With that, you'll be able to run GDB on the new a.out program. It's also a commo
     
 With **-O** optimization of compiler will be disabled, for a better debugging experience. 
 ## Basic GDB Commands
+In this section, some basic GDB commands will be introduced. For a detailed list of GDB commands, you may search online for GDB cheatsheets.
+### Start GDB
+Suppose "a.out" is the program that we want to debug, we can start GDB with the following command:
+	
+    gdb a.out
+    
+If there're arguments for "a.out", we can specify them like this:
+
+	gdb --args a.out arg1 arg2 ...
+    
+
 ## References
 https://gcc.gnu.org/onlinedocs/gcc/Debugging-Options.html
