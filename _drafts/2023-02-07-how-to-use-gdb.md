@@ -35,7 +35,7 @@ If there're arguments for "a.out", we can specify them like this:
 
 	gdb --args a.out arg1 arg2 ...
     
-
+If the program we want to debug is on another machine, **remote debugging** will help. For instructions related to remote debugging, check [this document](https://sourceware.org/gdb/onlinedocs/gdb/Connecting.html).
 ## References
 https://gcc.gnu.org/onlinedocs/gcc/Debugging-Options.html
-https://developer.apple.com/library/archive/documentation/DeveloperTools/gdb/gdb/gdb_18.html
+https://sourceware.org/gdb/onlinedocs/gdb/Connecting.html
