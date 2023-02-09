@@ -25,6 +25,6 @@ Then, with CVE-2015-5165, the exploit will find out:
 use the memory leak to find out the address of the payload. 
 
 Eventually, use CVE-2015-7504 to overwrite a structure on the heap, so that later interrupt handlers for the PCNET network card will be decided by the attacker. The overwritten interrupt handler will first use **mprotect()** to enable the execution bit of certain pages where the payload resides, then trigger **system()** to execute codes in the payload, which brings up a shell in the host machine.
-## References
+## Sources
 * http://www.phrack.org/issues/70/5.html#article
 * https://www.technovelty.org/linux/plt-and-got-the-key-to-code-sharing-and-dynamic-libraries.html
