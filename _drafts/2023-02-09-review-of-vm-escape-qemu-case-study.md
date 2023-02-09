@@ -12,4 +12,5 @@ At HITB 2016, Xu Liu and Shengping Wang from Qihoo 360 have showcased a successf
 
 However, the presentation they gave didn't include the technical details of reproducing the attack, so the Prhack article was written to provide a in-depth analysis of CVE-2015-5165 and CVE-2015-7504, and discuss the technical details to exploit the vulnerabilities on QEMU's network card device emulation, and provide generic techniques that could be re-used to exploit future bugs in QEMU.
 
-My review will 
+My review will generally follow the structure of the paper, but I choose to start with a briefly outline of the exploit. 
+## Outline of the Exploit
