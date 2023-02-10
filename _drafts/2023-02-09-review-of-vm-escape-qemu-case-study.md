@@ -12,7 +12,7 @@ At HITB 2016, Xu Liu and Shengping Wang from Qihoo 360 have showcased a successf
 
 However, the presentation they gave didn't include the technical details of reproducing the attack, so the Prhack article was written to provide a in-depth analysis of CVE-2015-5165 and CVE-2015-7504, discuss the technical details to exploit the vulnerabilities on QEMU's network card device emulation, and provide generic techniques that could be re-used to exploit future bugs in QEMU.
 
-My review will generally follow the structure of the paper, but I choose to start with a brief outline of the exploit. In the following article, if not otherwise specified, by "they" I refer to the writers of the Phrack article: Mehdi Talbi and Paul Fariello, by "the article" I refer to [VM escape - QEMU Case Study](http://www.phrack.org/issues/70/5.html#article).
+My review will generally follow the structure of the paper, but I choose to start with a brief outline of the exploit. In the following article, if not otherwise specified, by "they" I refer to the authors of the Phrack article: Mehdi Talbi and Paul Fariello, by "the article" I refer to [VM escape - QEMU Case Study](http://www.phrack.org/issues/70/5.html#article).
 ## Outline of the Exploit
 The exploit makes use of two vulnerabilites present in two different network card device emulator models. CVE-2015-5165 is on network card RTL8139, a memory-leak vulnerability. CVE-2015-7504 is on network card PCNET, a heap-based overflow vulnerability. 
 
@@ -92,6 +92,8 @@ There are two layers of translation in QEMU (can be seen in the graph above):
 1. guest virtual <-> guest physical
 2. guest physical <-> QEMU virtual 
 Their exploit involves with guest virtual <-> guest physical when configuring network cards' Tx/Rx buffers (network card needs DMA). On the guest physical <-> QEMU virtual level, their exploit **inject payload and get its precise address** in QEMU's virtual address space. 
+
+The authors rely on [Nelson Elhage's code](https://github.com/nelhage/virtunoid/blob/master/virtunoid.c) to **convert guest virtual address to guest physical address**.
 
 ## Sources
 * http://www.phrack.org/issues/70/5.html#article
