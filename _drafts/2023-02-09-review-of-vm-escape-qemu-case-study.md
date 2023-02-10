@@ -31,7 +31,37 @@ virtualization infrastructure for user space programs. It allows one to run
 multiple virtual machines running unmodified Linux or Windows images.
 
 The user space component of KVM is included in mainline QEMU (Quick
-Emulator) which handles especially devices emulation.
+Emulator) which **handles especially devices emulation**.
+### QEMU Memory Layout
+The following figure illustrates how the guest's memory and host's memory
+cohabits.
+
+							Guests processes
+							+--------------------+
+		Virtual addr space  |                    |
+							+--------------------+
+							|                    |
+							 \__   Page Table     \__
+								\                    \
+								 |                    |  Guest kernel
+							+----+--------------------+----------------+
+		 Guests phy. memory |    |                    |                |
+							+----+--------------------+----------------+
+							|                                          |
+							 \__                                        \__
+								\                                          \
+								 |             QEMU process                 |
+							+----+------------------------------------------+
+		 Virtual addr space |    |                                          |
+							+----+------------------------------------------+
+							|                                               |
+							 \__                Page Table                   \__
+								\                                               \
+								 |                                               |
+							+----+-----------------------------------------------++
+		 Physical memory    |    |                                               ||
+							+----+-----------------------------------------------++
+
 ## Sources
 * http://www.phrack.org/issues/70/5.html#article
 * https://www.technovelty.org/linux/plt-and-got-the-key-to-code-sharing-and-dynamic-libraries.html
