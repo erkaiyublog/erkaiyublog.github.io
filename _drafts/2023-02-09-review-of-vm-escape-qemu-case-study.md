@@ -38,7 +38,7 @@ cohabits.
 
 							Guests processes
 							+--------------------+
-		Virtual addr space  |                    |
+		 Virtual addr space |                    |
 							+--------------------+
 							|                    |
 							 \__   Page Table     \__
@@ -61,6 +61,30 @@ cohabits.
 							+----+-----------------------------------------------++
 		 Physical memory    |    |                                               ||
 							+----+-----------------------------------------------++
+                            
+Additionaly, QEMU reserves a memory region for BIOS and ROM. These mappings
+are available in QEMU's maps file:
+
+	7f1824ecf000-7f1828000000 rw-p 00000000 00:00 0
+	7f1828000000-7f18a8000000 rw-p 00000000 00:00 0         [2 GB of RAM]
+	7f18a8000000-7f18a8992000 rw-p 00000000 00:00 0
+	7f18a8992000-7f18ac000000 ---p 00000000 00:00 0
+	7f18b5016000-7f18b501d000 r-xp 00000000 fd:00 262489    [first shared lib]
+	7f18b501d000-7f18b521c000 ---p 00007000 fd:00 262489           ...
+	7f18b521c000-7f18b521d000 r--p 00006000 fd:00 262489           ...
+	7f18b521d000-7f18b521e000 rw-p 00007000 fd:00 262489           ...
+
+	                     ...                                [more shared libs]
+
+	7f18bc01c000-7f18bc5f4000 r-xp 00000000 fd:01 30022647  [qemu-system-x86_64]
+	7f18bc7f3000-7f18bc8c1000 r--p 005d7000 fd:01 30022647         ...
+	7f18bc8c1000-7f18bc943000 rw-p 006a5000 fd:01 30022647         ...
+
+	7f18bd328000-7f18becdd000 rw-p 00000000 00:00 0         [heap]
+	7ffded947000-7ffded968000 rw-p 00000000 00:00 0         [stack]
+	7ffded968000-7ffded96a000 r-xp 00000000 00:00 0         [vdso]
+	7ffded96a000-7ffded96c000 r--p 00000000 00:00 0         [vvar]
+	ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0 [vsyscall]  
 
 ## Sources
 * http://www.phrack.org/issues/70/5.html#article
