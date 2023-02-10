@@ -62,6 +62,8 @@ cohabits.
 		 Physical memory    |    |                                               ||
 							+----+-----------------------------------------------++
                             
+As shown in the graph above, **the Guest's phsical memory is actually a mmapp'ed private region in the virtual address of QEMU process**.
+                            
 Additionaly, QEMU reserves a memory region for BIOS and ROM. These mappings
 are available in QEMU's maps file:
 
@@ -85,6 +87,11 @@ are available in QEMU's maps file:
 	7ffded968000-7ffded96a000 r-xp 00000000 00:00 0         [vdso]
 	7ffded96a000-7ffded96c000 r--p 00000000 00:00 0         [vvar]
 	ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0 [vsyscall]  
+### Address Translation
+There are two layers of translation in QEMU (can be seen in the graph above):
+1. guest virtual <-> guest physical
+2. guest physical <-> QEMU virtual 
+Their exploit involves with guest virtual <-> guest physical when configuring network cards' Tx/Rx buffers (network card needs DMA). On the guest physical <-> QEMU virtual level, their exploit **inject payload and get its precise address** in QEMU's virtual address space. 
 
 ## Sources
 * http://www.phrack.org/issues/70/5.html#article
