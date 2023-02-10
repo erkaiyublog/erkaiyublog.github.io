@@ -94,6 +94,7 @@ There are two layers of translation in QEMU (can be seen in the graph above):
 Their exploit involves with guest virtual <-> guest physical when configuring network cards' Tx/Rx buffers (network card needs DMA). On the guest physical <-> QEMU virtual level, their exploit **inject payload and get its precise address** in QEMU's virtual address space. 
 
 The authors rely on [Nelson Elhage's code](https://github.com/nelhage/virtunoid/blob/master/virtunoid.c) to **convert guest virtual address to guest physical address**.
+### CVE-2015-5165 Memory Leak Exploitation
 
 ## Sources
 * http://www.phrack.org/issues/70/5.html#article
