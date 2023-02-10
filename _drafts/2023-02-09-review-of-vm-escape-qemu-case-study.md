@@ -95,6 +95,7 @@ Their exploit involves with guest virtual <-> guest physical when configuring ne
 
 The authors rely on [Nelson Elhage's code](https://github.com/nelhage/virtunoid/blob/master/virtunoid.c) to **convert guest virtual address to guest physical address**.
 ## CVE-2015-5165 Memory Leak Exploitation
+CVE-2015-5165 is a memory leak vulnerability that affects the RTL8139 network card device emulator. They exploit this vulnerability to **leak the memory layout of QEMU** for later exploitation.
 
 # Sources
 * http://www.phrack.org/issues/70/5.html#article
