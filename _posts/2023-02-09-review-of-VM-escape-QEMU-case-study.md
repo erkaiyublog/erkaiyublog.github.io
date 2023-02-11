@@ -104,9 +104,11 @@ The goal of memory leak is to find:
 
 Note that from the description above, we can see that they'll inject **shellcode** and **other dummy structures** on different parts of the memory, that's because DEP forces the injection of code and structure to be in their own places.  
 ## The Vulnerable Code
+So, how does the memory leak happen?
+
 REALTEK network card supports two receive/transmit modes: C mode and C+ mode. The vulnerability arises in C+ mode where the NIC device emulator miscalculates the length of IP packet data and ends up **sending more data than actually available in the packet**. Thus the extra data that got sent will be a leak of memory.
 
-In the article, there're snippets of code from **hw/net/rtl8139.c** illustrating this vulnerability.
+In the article, there're snippets of code from **hw/net/rtl8139.c** illustrating this vulnerability. 
 
 	/* ip packet header */
 	ip_header *ip = NULL;
@@ -139,6 +141,8 @@ In the article, there're snippets of code from **hw/net/rtl8139.c** illustrating
         	ip_data_len = be16_to_cpu(ip->ip_len) - hlen;
 		}
 	}	
+    
+In the code above, **hlen** is supposed to be the length of the IP header (20 bytes considering a packet without options), **ip->ip_len** is the total length of the packet including IP header. However, the substraction **ip_data_len = be16_to_cpu(ip->ip_len) - hlen;** assigned **ip_data_len** without checking if **ip->ip_len** is not smaller than **hlen**. So a negative integer can potentially be assigned to **ip_data_len**, note that this variable is of type uint16_t, so the negative int will be later seen as a large unsigned integer. 
 
 # Sources
 * http://www.phrack.org/issues/70/5.html#article
