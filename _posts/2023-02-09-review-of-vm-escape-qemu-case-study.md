@@ -35,33 +35,34 @@ Emulator) which **handles especially devices emulation**.
 ## QEMU Memory Layout
 The following figure illustrates how the guest's memory and host's memory
 cohabits.
+```
+Guests processes
++--------------------+
+Virtual addr space |                    |
++--------------------+
+|                    |
+\__   Page Table     \__
+\                    \
+|                    |  Guest kernel
++----+--------------------+----------------+
+Guests phy. memory |    |                    |                |
++----+--------------------+----------------+
+|                                          |
+\__                                        \__
+\                                          \
+|             QEMU process                 |
++----+------------------------------------------+
+Virtual addr space |    |                                          |
++----+------------------------------------------+
+|                                               |
+\__                Page Table                   \__
+\                                               \
+|                                               |
++----+-----------------------------------------------++
+Physical memory    |    |                                               ||
++----+-----------------------------------------------++
+```
 
-						Guests processes
-						+--------------------+
-     Virtual addr space |                    |
-						+--------------------+
-						|                    |
-						\__   Page Table     \__
-							\                    \
-							 |                    |  Guest kernel
-						+----+--------------------+----------------+
-	Guests phy. memory |    |                    |                |
-						+----+--------------------+----------------+
-						|                                          |
-						\__                                        \__
-							\                                          \
-							|             QEMU process                 |
-						+----+------------------------------------------+
-	Virtual addr space |    |                                          |
-						+----+------------------------------------------+
-						|                                               |
-						\__                Page Table                   \__
-							\                                               \
-							|                                               |
-						+----+-----------------------------------------------++
-	Physical memory    |    |                                               ||
-						+----+-----------------------------------------------++
-                            
 As shown in the graph above, **the Guest's phsical memory is actually a mmapp'ed private region in the virtual address of QEMU process**.
                             
 Additionaly, QEMU reserves a memory region for BIOS and ROM. These mappings
