@@ -94,7 +94,7 @@ There are two layers of translation in QEMU (can be seen in the graph above):
 Their exploit involves with guest virtual <-> guest physical when configuring network cards' Tx/Rx buffers (network card needs DMA). On the guest physical <-> QEMU virtual level, their exploit **inject fake structures and get their precise addresses** in QEMU's virtual address space. 
 
 The authors rely on [Nelson Elhage's code](https://github.com/nelhage/virtunoid/blob/master/virtunoid.c) to **convert guest virtual address to guest physical address**.
-## CVE-2015-5165 Memory Leak Exploitation
+# CVE-2015-5165 Memory Leak Exploitation
 CVE-2015-5165 is a memory leak vulnerability that affects the RTL8139 network card device emulator. They exploit this vulnerability to **leak the memory layout of QEMU** for later exploitation. 
 
 The goal of memory leak is to find:
@@ -102,6 +102,42 @@ The goal of memory leak is to find:
 2. The base address of the physical memory allocated for the guest, in order to get **the precise address of some injected dummy structures**.
 
 Note that from the description above, we can see that they'll inject **shellcode** and **other dummy structures** on different parts of the memory, that's because DEP forces the injection of code and structure to be in their own places.  
+## The Vulnerable Code
+REALTEK network card supports two receive/transmit modes: C mode and C+ mode. The vulnerability arises in C+ mode where the NIC device emulator miscalculates the length of IP packet data and ends up **sending more data than actually available in the packet**. Thus the extra data that got sent will be a leak of memory.
+
+In the article, there're snippets of code from **hw/net/rtl8139.c** illustrating this vulnerability.
+
+	/* ip packet header */
+	ip_header *ip = NULL;
+	int hlen = 0;
+	uint8_t  ip_protocol = 0;
+	uint16_t ip_data_len = 0;
+
+	uint8_t *eth_payload_data = NULL;
+	size_t   eth_payload_len  = 0;
+
+	int proto = be16_to_cpu(*(uint16_t *)(saved_buffer + 12));
+	if (proto == ETH_P_IP)
+	{
+    	DPRINTF("+++ C+ mode has IP packet\n");
+
+    	/* not aligned */
+    	eth_payload_data = saved_buffer + ETH_HLEN;
+    	eth_payload_len  = saved_size   - ETH_HLEN;
+
+    	ip = (ip_header*)eth_payload_data;
+
+    	if (IP_HEADER_VERSION(ip) != IP_HEADER_VERSION_4) {
+        	DPRINTF("+++ C+ mode packet has bad IP version %d "
+            	"expected %d\n", IP_HEADER_VERSION(ip),
+            	IP_HEADER_VERSION_4);
+        	ip = NULL;
+    	} else {
+        	hlen = IP_HEADER_LENGTH(ip);
+        	ip_protocol = ip->ip_p;
+        	ip_data_len = be16_to_cpu(ip->ip_len) - hlen;
+		}
+	}	
 
 # Sources
 * http://www.phrack.org/issues/70/5.html#article
