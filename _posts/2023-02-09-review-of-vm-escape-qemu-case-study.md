@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 ---
 ---
 *This is a review of the article [VM escape - QEMU Case Study](http://www.phrack.org/issues/70/5.html#article) by Mehdi Talbi and Paul Fariello published on [Phrack](http://www.phrack.org/).*
