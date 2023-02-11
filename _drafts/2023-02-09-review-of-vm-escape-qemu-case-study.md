@@ -91,7 +91,7 @@ are available in QEMU's maps file:
 There are two layers of translation in QEMU (can be seen in the graph above):
 1. guest virtual <-> guest physical
 2. guest physical <-> QEMU virtual 
-Their exploit involves with guest virtual <-> guest physical when configuring network cards' Tx/Rx buffers (network card needs DMA). On the guest physical <-> QEMU virtual level, their exploit **inject payload and get its precise address** in QEMU's virtual address space. 
+Their exploit involves with guest virtual <-> guest physical when configuring network cards' Tx/Rx buffers (network card needs DMA). On the guest physical <-> QEMU virtual level, their exploit **inject fake structures and get their precise addresses** in QEMU's virtual address space. 
 
 The authors rely on [Nelson Elhage's code](https://github.com/nelhage/virtunoid/blob/master/virtunoid.c) to **convert guest virtual address to guest physical address**.
 ## CVE-2015-5165 Memory Leak Exploitation
@@ -99,7 +99,9 @@ CVE-2015-5165 is a memory leak vulnerability that affects the RTL8139 network ca
 
 The goal of memory leak is to find:
 1. The base address of the **.text** segment **to build the shellcode**.
-2. The base address of the physical memory allocated for the guest in order to be able to get **the precise address of some injected dummy structures**.
+2. The base address of the physical memory allocated for the guest, in order to get **the precise address of some injected dummy structures**.
+
+Note that from the description above, we can see that they'll inject **shellcode** and **other dummy structures** on different parts of the memory, that's because DEP forces the injection of code and structure to be in their own places.  
 
 # Sources
 * http://www.phrack.org/issues/70/5.html#article
