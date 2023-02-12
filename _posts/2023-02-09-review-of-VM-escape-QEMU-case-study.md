@@ -144,6 +144,35 @@ In the article, there're snippets of code from **hw/net/rtl8139.c** illustrating
     
 In the code above, **hlen** is supposed to be the length of the IP header (20 bytes considering a packet without options), **ip->ip_len** is the total length of the packet including IP header. However, the substraction **ip_data_len = be16_to_cpu(ip->ip_len) - hlen;** assigned **ip_data_len** without checking if **ip->ip_len** is not smaller than **hlen**. So a negative integer can potentially be assigned to **ip_data_len**, note that this variable is of type uint16_t, so the negative int will be later seen as a large unsigned integer. 
 
+The later code snippet is shown below. Note the for loop that uses **tcp_data_len** as boundary, since **tcp_data_len** is calculated by **ip_data_len - tcp_len**, and **ip_data_len** is the overflow integer, **tcp_data_len** can ended up to be around 2^16, such that **memcpy** in the for loop will perform a memory leak. 
+```
+int tcp_data_len = ip_data_len - tcp_hlen;
+int tcp_chunk_size = ETH_MTU - hlen - tcp_hlen;
+
+int is_last_frame = 0;
+
+for (tcp_send_offset = 0; tcp_send_offset < tcp_data_len;
+    tcp_send_offset += tcp_chunk_size) {
+    uint16_t chunk_size = tcp_chunk_size;
+
+    /* check if this is the last frame */
+    if (tcp_send_offset + tcp_chunk_size >= tcp_data_len) {
+        is_last_frame = 1;
+        chunk_size = tcp_data_len - tcp_send_offset;
+    }
+
+    memcpy(data_to_checksum, saved_ip_header + 12, 8);
+
+    if (tcp_send_offset) {
+        memcpy((uint8_t*)p_tcp_hdr + tcp_hlen,
+                (uint8_t*)p_tcp_hdr + tcp_hlen + tcp_send_offset,
+                chunk_size);
+    }
+
+    /* more code follows */
+}
+```
+
 # Sources
 * http://www.phrack.org/issues/70/5.html#article
 * https://www.technovelty.org/linux/plt-and-got-the-key-to-code-sharing-and-dynamic-libraries.html
