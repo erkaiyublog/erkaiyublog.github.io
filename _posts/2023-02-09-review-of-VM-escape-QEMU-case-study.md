@@ -172,6 +172,7 @@ for (tcp_send_offset = 0; tcp_send_offset < tcp_data_len;
     /* more code follows */
 }
 ```
+As **saved_ip_header** is something allocated on the heap, the vulnerability exploited above will give us about 64KB of QEMU's heap memory.
 
 # Sources
 * http://www.phrack.org/issues/70/5.html#article
