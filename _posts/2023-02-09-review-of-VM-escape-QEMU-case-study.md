@@ -204,7 +204,7 @@ typedef struct ObjectProperty
 } ObjectProperty;
 ```
 QEMU uses an object model to manage **devices, memory regions**, etc. At startup, QEMU creates several objects and assigns to them properties. It's likely that these function pointers found on the 64KB leaked memory are from the internal structures of QEMU. So, they search for **80 bytes memory chunks** (the size of **ObjectProperty** structure) where at least one of the function
-pointers is set (get, set, resolve or release).
+pointers is set (get, set, resolve or release). So even with ASLR, they could still manage to calculate (i) base address of the **.text** segment, (ii) base address of the physical memory (guest's). 
 
 # Sources
 * http://www.phrack.org/issues/70/5.html#article
