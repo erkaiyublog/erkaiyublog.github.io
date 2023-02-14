@@ -178,7 +178,11 @@ The details of how to configure RTL8139 registers to trigger this vulnerability 
 
 The interesting part of reading security paper is that you can verify the existance of the vulnerability by yourself. Below is a screenshot of folders in **qemu/hw/** on github [qemu repository, v2.3.1](https://github.com/qemu/qemu/tree/v2.3.1/hw). You can see that there's a commit in **net/** folder about the fix for CVE-2015-5165.
 
+![qemu/hw/ at v2.3.1](../images/posts/2023-02-09-review-of-VM-escape-QEMU-case-study/gitrepopic.png)
+
 Below is the code snippet in v2.3.1 that fixes the vulnerability. Line 2196 gives the key **if statement**.
+
+![code snippet from qemu/hw/net/rtl8139.c](../images/posts/2023-02-09-review-of-VM-escape-QEMU-case-study/code1.png)
 
 # Sources
 * http://www.phrack.org/issues/70/5.html#article
