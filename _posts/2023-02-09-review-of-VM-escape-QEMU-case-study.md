@@ -174,6 +174,12 @@ for (tcp_send_offset = 0; tcp_send_offset < tcp_data_len;
 ```
 As **saved_ip_header** is something allocated on the heap, the vulnerability exploited above will give us about 64KB of QEMU's heap memory.
 
+The details of how to configure RTL8139 registers to trigger this vulnerability can be found in the paper, I'll not cover them here. 
+
+The interesting part of reading security paper is that you can verify the existance of the vulnerability by yourself. Below is a screenshot of folders in **qemu/hw/** on github [qemu repository, v2.3.1](https://github.com/qemu/qemu/tree/v2.3.1/hw). You can see that there's a commit in **net/** folder about the fix for CVE-2015-5165.
+
+Below is the code snippet in v2.3.1 that fixes the vulnerability. Line 2196 gives the key **if statement**.
+
 # Sources
 * http://www.phrack.org/issues/70/5.html#article
 * https://www.technovelty.org/linux/plt-and-got-the-key-to-code-sharing-and-dynamic-libraries.html
