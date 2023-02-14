@@ -187,6 +187,25 @@ Below is the code snippet in v2.3.1 that fixes the vulnerability. Line 2196 give
 ## How to Dig Information in Leaked Memory
 With their configuration of RTL8139 network card, the leaked memory will be stored in Rx buffers. When analyzing the leaked memory, they found that there were several **function pointers**. 
 
+These function pointers are members of the same QEMU internal structure:
+```
+typedef struct ObjectProperty
+{
+    gchar *name;
+    gchar *type;
+    gchar *description;
+    ObjectPropertyAccessor *get;
+    ObjectPropertyAccessor *set;
+    ObjectPropertyResolve *resolve;
+    ObjectPropertyRelease *release;
+    void *opaque;
+
+    QTAILQ_ENTRY(ObjectProperty) node;
+} ObjectProperty;
+```
+QEMU uses an object model to manage **devices, memory regions**, etc. At startup, QEMU creates several objects and assigns to them properties. It's likely that these function pointers found on the 64KB leaked memory are from the internal structures of QEMU. So, they search for **80 bytes memory chunks** (the size of **ObjectProperty** structure) where at least one of the function
+pointers is set (get, set, resolve or release).
+
 # Sources
 * http://www.phrack.org/issues/70/5.html#article
 * https://www.technovelty.org/linux/plt-and-got-the-key-to-code-sharing-and-dynamic-libraries.html
