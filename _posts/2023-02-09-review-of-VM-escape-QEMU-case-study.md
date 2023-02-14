@@ -184,6 +184,9 @@ Below is the code snippet in v2.3.1 that fixes the vulnerability. Line 2196 give
 
 ![code snippet from qemu/hw/net/rtl8139.c](../images/posts/2023-02-09-review-of-VM-escape-QEMU-case-study/code1.png)
 
+## How to Dig Information in Leaked Memory
+With their configuration of RTL8139 network card, the leaked memory will be stored in Rx buffers. When analyzing the leaked memory, they found that there were several **function pointers**. 
+
 # Sources
 * http://www.phrack.org/issues/70/5.html#article
 * https://www.technovelty.org/linux/plt-and-got-the-key-to-code-sharing-and-dynamic-libraries.html
