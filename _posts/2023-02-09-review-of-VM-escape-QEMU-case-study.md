@@ -260,9 +260,109 @@ struct PCNetState_st {
     int looptest;
 };
 ```
-So the 4 bytes following **buffer[4096]** happens to be part of **irq**!! This means that we'll be able to change this **irq** to point to fake structures that we stored in the memory, so that the behaviour of interrupt handlers will all be controlled by us.
-## Fake irq to Execute Shellcode
+So the 4 bytes following **buffer[4096]** happens to be part of **irq**!! It's a pointer to a structure that stores information for interrupt handler. This means that we'll be able to change this **irq** to point to fake structures that we stored in the memory, so that the behaviour of interrupt handlers will all be controlled by us.
+## Fake IRQState to Control %rip
+The structure **irq** points to which we want to fake looks like this:
+```
+struct IRQState {
+    Object parent_obj;
+    qemu_irq_handler handler;
+    void *opaque;
+    int n;
+};
+```
+At the end of **pcnet_receive()** function, the **handler** function above will be called:
+```
+void qemu_set_irq(qemu_irq irq, int level)
+{
+    if (!irq)
+        return;
 
+    irq->handler(irq->opaque, irq->n, level);
+}
+```
+To control how's **irq** gonna be overwritten, they have a way to generate any CRC number as they want (the method is mentioned in the article) by passing certain packet. 
+
+The preparation for the exploit is to **allocate fake IRQStates on QEMU's physical memory**, and use the base address leaked by the CVE-2015-5165 to find out the precise address of the fake structures. Why I used the word "structures" instead of "structure"? Since they are going to use **two** fake structures to exploit the vulnerability.
+
+Different from the real structure, their fake **IRQState** looks like this:
+```
+struct IRQState {
+    uint8_t  _nothing[44];
+    uint64_t  handler;
+    uint64_t  arg_1;
+    int32_t   arg_2;
+};
+```
+Their fake structures will be defined like this:
+```
+struct IRQState  fake_irq[2];
+hptr_t fake_irq_mem = gva_to_hva(fake_irq);
+
+/* do qemu_set_irq */
+fake_irq[0].handler = qemu_set_irq_addr;
+fake_irq[0].arg_1 = fake_irq_mem + sizeof(struct IRQState);
+fake_irq[0].arg_2 = PROT_READ | PROT_WRITE | PROT_EXEC;
+
+/* do mprotect */
+fake_irq[1].handler = mprotec_addrt;
+fake_irq[1].arg_1 = (fake_irq_mem >> PAGE_SHIFT) << PAGE_SHIFT;
+fake_irq[1].arg_2 = PAGE_SIZE;
+```
+Note that function **gva_to_hva** here means converting guest virtual memory to host virtual memory.
+
+When function **qemu_set_irq(qemu_irq irq, int level)** (code of this function is shown above) is called for the first time, it will trigger the handler in **fake_irq[0]**, which is once again **qemu_set_irq_addr**, with arguments: fake_irq[0].arg_1 = fake_irq_mem + sizeof(struct IRQState) and fake_irq[0].arg_2 = PROT_READ | PROT_WRITE | PROT_EXEC. 
+
+The first argument gives the address of fake_irq[1], thus the next fake structure, and the second argument is the flags for **mprotect()** function call. 
+
+**fake_irq[1]** has **mprotect()** as its handler, which will than be called with three arguments: fake_irq[1].arg_1 = (fake_irq_mem >> PAGE_SHIFT) << PAGE_SHIFT, fake_irq[1].arg_2 = PAGE_SIZE, and fake_irq[0].arg_2 = PROT_READ | PROT_WRITE | PROT_EXEC. 
+
+This **mprotect()** call will make the page that contains these fake strutures to be both **writable and executable**, that's basically disabling DEP!
+
+After DEP is disabled, they will change the fields in fake_irq[1] to make %rip jump to real shellcode that they want to execute.
+# Wrap Up of the Exploitation 
+The whole injected payload they use is defined as a structure like this:
+```
+struct payload {
+	struct IRQState    fake_irq[2];
+	struct shared_data shared_data;
+	uint8_t            shellcode[1024];
+	uint8_t            pipe_fd2r[1024];
+	uint8_t            pipe_r2fd[1024];
+};
+```
+Recall in the exploitation of CVE-2015-7504 they will use **mprotect()** to disable DEP of the page fake_irq locates, while **shellcode[1024]** is almost right below **fake_irq[2]**, thus the shellcode will then be executable.
+
+**shared_data**, **pipe_fd2r** and **pipe_r2fd** are fields they use to enable the communication of shellcode with host machine threads. I will not cover the details here.
+
+## Limitation
+One thing to note is that the exploit does not work on linux kernels compiled without the CONFIG_ARCH_BINFMT_ELF_RANDOMIZE_PIE flag. In this case QEMU binary (compiled by default with -fPIE) is mapped into a separate address space as shown by the following listing:
+```
+55e5e3fdd000-55e5e4594000 r-xp 00000000 fe:01 6940407   [qemu-system-x86_64]
+55e5e4794000-55e5e4862000 r--p 005b7000 fe:01 6940407           ...
+55e5e4862000-55e5e48e3000 rw-p 00685000 fe:01 6940407           ...
+55e5e48e3000-55e5e4d71000 rw-p 00000000 00:00 0 
+55e5e6156000-55e5e7931000 rw-p 00000000 00:00 0         [heap]
+
+7fb80b4f5000-7fb80c000000 rw-p 00000000 00:00 0 
+7fb80c000000-7fb88c000000 rw-p 00000000 00:00 0         [2 GB of RAM] 
+7fb88c000000-7fb88c915000 rw-p 00000000 00:00 0 
+                     ...
+7fb89b6a0000-7fb89b6cb000 r-xp 00000000 fe:01 794385    [first shared lib]
+7fb89b6cb000-7fb89b8cb000 ---p 0002b000 fe:01 794385            ...
+7fb89b8cb000-7fb89b8cc000 r--p 0002b000 fe:01 794385            ...
+7fb89b8cc000-7fb89b8cd000 rw-p 0002c000 fe:01 794385            ...
+                     ...
+7ffd8f8f8000-7ffd8f91a000 rw-p 00000000 00:00 0         [stack]
+7ffd8f970000-7ffd8f972000 r--p 00000000 00:00 0         [vvar]
+7ffd8f972000-7ffd8f974000 r-xp 00000000 00:00 0         [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0 [vsyscall]
+```
+Since the overflow of CRC in CVE-2015-7504 is only 4 bytes, it cannot control the whole **irq** field, but only the less significant part of it. If the memory layout is like above, the original **irq** will be started with 0x55, while recall that payload they used were located on physical memory (RAM) which starts with 0x7f, it will be impossible for them to overwrite a 0x55xxxxxxxxxx to 0x7fxxxxxxxxxx with only 4 bytes overflow. Thus the exploitation won't work.
+# Conclusion
+This is my first review of a security paper. I found this paper interesting because it shows how to combine two vulnerabilities to generate greater attacks. There're many tricky parts and coincidences in the process of exploitation. Also, it's cool to verify the existance of the vulnerabilities by looking them up on github.
+
+Most importantly, I wrote this review because the topic in this paper happens to meet with my poor knowledge in Operating System, virtual machine as well as overflow vulnerabilities.
 
 # Sources
 * http://www.phrack.org/issues/70/5.html#article
