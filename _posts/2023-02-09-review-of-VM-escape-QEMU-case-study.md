@@ -206,6 +206,62 @@ typedef struct ObjectProperty
 QEMU uses an object model to manage **devices, memory regions**, etc. At startup, QEMU creates several objects and assigns to them properties. It's likely that these function pointers found on the 64KB leaked memory are from the internal structures of QEMU. So, they search for **80 bytes memory chunks** (the size of **ObjectProperty** structure) where at least one of the function
 pointers is set (get, set, resolve or release). So even with ASLR, they could still manage to calculate (i) base address of the **.text** segment, (ii) base address of the physical memory (guest's). 
 
+# CVE-2015-7504 Heap-based Overflow Exploitation
+The goal of exploiting CVE-2015-7504 is to use an overflow to **control %rip register**. The vulnerability is related to the AMD PCNET network card emulator. 
+
+## The Vulnerable Code
+The code can be found in **hw/net/pcnet.c**. The PCNET device emulator reserves a buffer of 4 kB to store packets. If the ADDFCS flag is enabled on Tx descriptor buffer, the card appends a CRC to received packets. Overflow happens when the received packet itself is already 4096 bytes, in this case CRC will cause an overflow of 4 bytes.
+```
+uint8_t *src = s->buffer;
+
+/* ... */
+
+if (!s->looptest) {
+    memcpy(src, buf, size);
+    /* no need to compute the CRC */
+    src[size] = 0;
+    src[size + 1] = 0;
+    src[size + 2] = 0;
+    src[size + 3] = 0;
+    size += 4;
+} else if (s->looptest == PCNET_LOOPTEST_CRC ||
+           !CSR_DXMTFCS(s) || size < MIN_BUF_SIZE+4) {
+    uint32_t fcs = ~0;
+    uint8_t *p = src;
+
+    while (p != &src[size])
+        CRC(fcs, *p++);
+    *(uint32_t *)p = htonl(fcs);
+    size += 4;
+}
+```
+In the case of **else**, the CRC will cause 4 bytes after **s->buffer** to be overwritten. Interestingly, the structure of **s** looks like this:
+```
+struct PCNetState_st {
+    NICState *nic;
+    NICConf conf;
+    QEMUTimer *poll_timer;
+    int rap, isr, lnkst;
+    uint32_t rdra, tdra;
+    uint8_t prom[16];
+    uint16_t csr[128];
+    uint16_t bcr[32];
+    int xmit_pos;
+    uint64_t timer;
+    MemoryRegion mmio;
+    uint8_t buffer[4096];
+    qemu_irq irq;
+    void (*phys_mem_read)(void *dma_opaque, hwaddr addr,
+                          uint8_t *buf, int len, int do_bswap);
+    void (*phys_mem_write)(void *dma_opaque, hwaddr addr,
+                           uint8_t *buf, int len, int do_bswap);
+    void *dma_opaque;
+    int tx_busy;
+    int looptest;
+};
+```
+So the 4 bytes following **buffer[4096]** happens to be part of **irq**!!
+
 # Sources
 * http://www.phrack.org/issues/70/5.html#article
 * https://www.technovelty.org/linux/plt-and-got-the-key-to-code-sharing-and-dynamic-libraries.html
