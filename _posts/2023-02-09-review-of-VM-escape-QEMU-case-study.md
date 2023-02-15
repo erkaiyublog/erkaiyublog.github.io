@@ -260,8 +260,9 @@ struct PCNetState_st {
     int looptest;
 };
 ```
-So the 4 bytes following **buffer[4096]** happens to be part of **irq**!!
+So the 4 bytes following **buffer[4096]** happens to be part of **irq**!! This means that we'll be able to change this **irq** to point to fake structures that we stored in the memory, so that the behaviour of interrupt handlers will all be controlled by us.
+## Fake irq to Execute Shellcode
+
 
 # Sources
 * http://www.phrack.org/issues/70/5.html#article
-* https://www.technovelty.org/linux/plt-and-got-the-key-to-code-sharing-and-dynamic-libraries.html
