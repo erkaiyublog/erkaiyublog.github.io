@@ -5,7 +5,7 @@ permalink: /about/
 published: true
 ---
 
-I'm an undergraduate major in Computer Engineering. 
+I'm an undergraduate majoring in Computer Engineering. 
 
 ### More Information
 [My professional webpage](https://silkrow.github.io/)
