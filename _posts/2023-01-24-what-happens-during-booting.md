@@ -1,5 +1,6 @@
 ---
 published: true
+title: What Happens during Booting?
 comments_id: 5
 tags: OS
 ---

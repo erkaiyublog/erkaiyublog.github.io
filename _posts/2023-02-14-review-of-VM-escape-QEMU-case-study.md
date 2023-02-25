@@ -1,5 +1,6 @@
 ---
 published: true
+title: Review of VM Escape QEMU Case Study
 comments_id: 18
 tags: security qemu paper
 ---
