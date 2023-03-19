@@ -1,7 +1,7 @@
 ---
 published: true
-title: What Made Me Angry -- Reverse Engineering Tools Introduction: Ghidra, angr, Pin
-tags: CTF reverse_engineering  
+title: Introduction to Reverse Engineering Tools with an Angry Example
+tags: CTF reverse-engineering  
 ---
 ---
 _Infact, I spent three days in the spring break to work on a single CTF problem, and ended with failure ..._
