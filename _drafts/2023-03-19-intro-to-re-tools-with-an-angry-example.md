@@ -19,7 +19,7 @@ Since the executable would always contain **machine code** for the processor to 
 # CTF Example Description
 I guess it might be helpful to introduce tools with examples. [Here](https://ctf.sigpwny.com/challenges#Meetings/angry-417)'s a good one, a CTF puzzle that worths 500 points on [sigpwny CTF website](https://ctf.sigpwny.com/). 
 
-![ctf problem](../images/posts/2023-03-19-intro-to-re-tools-with-an-angry-example/ctf-pro.png)
+![ctf problem](../images/posts/intro-to-re-tools-with-an-angry-example/ctf-pro.png)
 
 In fact, I've been playing CTF puzzles on sigpwny website for fun during the spring break, I gathered my solutions in a github [repo](https://github.com/silkrow/CTF_sigpwny). The puzzle I use as an example here cost me more than three days to solve ... 
 
