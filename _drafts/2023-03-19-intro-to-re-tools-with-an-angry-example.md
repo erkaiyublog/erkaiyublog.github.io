@@ -7,6 +7,7 @@ tags: CTF reverse-engineering
 _Infact, I spent three days in the spring break to work on a single CTF problem, and ended with failure ..._
 
 _This article gives a brief introduction to tools related with reverse engineering, including Ghidra, angr, and Pin, with a concrete_ [CTF example](https://ctf.sigpwny.com/challenges#Meetings/angry-417)
+
 ---
 # Motivation
 Well, I believe you've at least heard about the term "reverse engineering". Reverse engineering is necessary when we want to investigate the behavior of an executable file without the access of its source code. 
@@ -17,6 +18,8 @@ Since the executable would always contain **machine code** for the processor to 
 
 # CTF Example Description
 I guess it might be helpful to introduce tools with examples. [Here](https://ctf.sigpwny.com/challenges#Meetings/angry-417)'s a good one, a CTF puzzle that worths 500 points on [sigpwny CTF website](https://ctf.sigpwny.com/). 
+
+![ctf problem](../images/posts/2023-03-19-intro-to-re-tools-with-an-angry-example/ctf-pro.png)
 
 In fact, I've been playing CTF puzzles on sigpwny website for fun during the spring break, I gathered my solutions in a github [repo](https://github.com/silkrow/CTF_sigpwny). The puzzle I use as an example here cost me more than three days to solve ... 
 
