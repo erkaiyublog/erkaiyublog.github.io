@@ -32,7 +32,7 @@ Useful Links:
 * [ghidra source code on Github](https://github.com/NationalSecurityAgency/ghidra)
 
 ---
-First thing first, I used ```file``` command in Linux to check the basic information of ```angry```. From the result shown below, I knew ```angry``` was an executable in ELF format, it was **not stripped**, so I could use **gdb** to run it. 
+First thing first, I used ***file*** command in Linux to check the basic information of ***angry***. From the result shown below, I knew ***angry*** was an executable in ELF format, it was **not stripped**, so I could use **gdb** to run it. 
 
 	$ file angry
 	angry: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=264818a1be1cdd674a24a74ad2ecaffbef7e21b1, for GNU/Linux 3.2.0, not stripped	
@@ -44,7 +44,7 @@ A typical screenshot of ghidra window is shown below,
 
 ![decompile of main](../images/posts/intro-to-re-tools-with-an-angry-example/main.png)
 
-After loading ```angry``` into ghidra, I took a look at the decompilation result of ```main``` function. Below is a copy of the raw result I got from ghidra,
+After loading ***angry*** into ghidra, I took a look at the decompilation result of ***main*** function. Below is a copy of the raw result I got from ghidra,
 
 ```
 undefined4 main(int param_1,long param_2)
@@ -113,17 +113,17 @@ undefined4 main(int param_1,long param_2)
 }
 ```
 
-From the first ```if``` statement in the ```main``` function, I learnt that the input to ```angry``` should be given as a command line argument. According to the second ```if``` statement, the correct input should be ```0x1f``` long, which is ```31``` in decimal. 
+From the first ***if*** statement in the ***main*** function, I learnt that the input to ***angry*** should be given as a command line argument. According to the second ***if*** statement, the correct input should be ***0x1f*** long, which is ***31*** in decimal. 
 
-With these in mind, I knew that a valid input for ```angry``` should be something like this,
+With these in mind, I knew that a valid input for ***angry*** should be something like this,
 
 ```
 ./angry 1234567890123456789012345678901
 ```
 
-The string ```1234567890123456789012345678901``` above is just specifying that the input should be 31 characters, I like to use the numbers to control my input length :)
+The string ***1234567890123456789012345678901*** above is just specifying that the input should be 31 characters, I like to use the numbers to control my input length :)
 
-Back to the ```main```  function decompilation, after the program pass the second ```if``` statement, it makes a bunch of function calls on ```local_18 + 8```, which is the address of the input string. I clicked on the function names in ghidra, and investigated the decompilation results of these functions. All of them are just doing some modification on characters in the input string. Below is a snippet from the definition of the first function, ```s2206376623```,
+Back to the ***main***  function decompilation, after the program pass the second ***if*** statement, it makes a bunch of function calls on ***local_18 + 8***, which is the address of the input string. I clicked on the function names in ghidra, and investigated the decompilation results of these functions. All of them are just doing some modification on characters in the input string. Below is a snippet from the definition of the first function, ***s2206376623***,
 
 ```
 void s2206376623(char *param_1)
@@ -150,9 +150,9 @@ void s2206376623(char *param_1)
 }
 ```
 
-The other functions called in ``main``` are all similar with this ```s2206376623```, they do arithmetic or logic operations on the characters, so that input string will be **"encoded"** by some comlicated rules.
+The other functions called in ***main*** are all similar with this ***s2206376623***, they do arithmetic or logic operations on the characters, so that input string will be **"encoded"** by some comlicated rules.
 
-After the list of function calls, within the second ```if``` statement, there are some local variable definitions, I didn't find them to be useful. I jumped right into the for loop, since it was clearly the key component in this problem. Below is a copy of the for loop snippet from ```main``` function,
+After the list of function calls, within the second ***if*** statement, there are some local variable definitions, I didn't find them to be useful. I jumped right into the for loop, since it was clearly the key component in this problem. Below is a copy of the for loop snippet from ***main*** function,
 
 ```
       for (local_3c = 0; local_3c < 0x1f; local_3c = local_3c + 1) {
@@ -170,7 +170,7 @@ After the list of function calls, within the second ```if``` statement, there ar
 
 Obviously, the for loop compares the **"encoded"** input string with some hidden string character by character, and sends an error message whenever a pair of inequal characters appear. If the for loop is safely passed, there will be a congrat message which indicates the input string is the correct flag.
 
-Up to now, here's a flow chart I concluded for the behavior of ```angry```.
+Up to now, here's a flow chart I concluded for the behavior of ***angry***.
 
 ```
     command line input
@@ -206,14 +206,14 @@ Up to now, here's a flow chart I concluded for the behavior of ```angry```.
          Congrats!
 ```
 
-It's quite straight forward! In fact, as long as I give ```angry``` a 31-character string as command line argument, the first two "Incorrect" conditions won't be triggered. The third "Incorrect" condition can be found inside the **for loop**, since whenever **if** statement is true, the program will **puts** the message and return, so the **puts** function call in **if** statement can be seen as a mark of **incorrect flag**. Correspondingly, the **puts** function call after the for loop which prints the congratulation message can be seen as a mark of **correct flag**.
+It's quite straight forward! In fact, as long as I give ***angry*** a 31-character string as command line argument, the first two "Incorrect" conditions won't be triggered. The third "Incorrect" condition can be found inside the **for loop**, since whenever **if** statement is true, the program will **puts** the message and return, so the **puts** function call in **if** statement can be seen as a mark of **incorrect flag**. Correspondingly, the **puts** function call after the for loop which prints the congratulation message can be seen as a mark of **correct flag**.
 
 With the **incorrect flag** and **correct flag** in mind, I used ghidra to find out the addresses of these two **puts** calls. Find the addresses were easy, just left click on the source code and ghidra will high light the corresponding assembly instruction for you in the assembly window. 
 
 * incorrect address = 0x0040544f
 * correct address = 0x0040547d
 
-My goal was then to let the program avoid hitting on ```incorrect address```, and try to reach ```correct address```. To acheive that, I used a tool called **"angr"**.
+My goal was then to let the program avoid hitting on ***incorrect address***, and try to reach ***correct address***. To acheive that, I used a tool called **"angr"**.
 
 # Find & Avoid with angr
 
