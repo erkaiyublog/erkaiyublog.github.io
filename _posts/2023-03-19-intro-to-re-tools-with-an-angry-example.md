@@ -24,7 +24,7 @@ _I'd like to share the approaches I made to solve this CTF problem in this post,
 
 
 If you are only interested in the source codes I used to solve this CTF problem checkout my [repo](https://github.com/silkrow/CTF_sigpwny). 
-# Start with Ghidra
+# Start with _Ghidra_
 ---
 Useful Links:
 * [sigpwny presentation for ghidra installation](https://www.youtube.com/watch?v=n8W7ROpvx58)
@@ -206,16 +206,26 @@ Up to now, here's a flow chart I concluded for the behavior of ***angry***.
          Congrats!
 ```
 
-It's quite straight forward! In fact, as long as I give ***angry*** a 31-character string as command line argument, the first two "Incorrect" conditions won't be triggered. The third "Incorrect" condition can be found inside the **for loop**, since whenever **if** statement is true, the program will **puts** the message and return, so the **puts** function call in **if** statement can be seen as a mark of **incorrect flag**. Correspondingly, the **puts** function call after the for loop which prints the congratulation message can be seen as a mark of **correct flag**.
+It's quite straight forward! In fact, as long as I give ***angry*** a 31-character string as command line argument, the first two "Incorrect" conditions won't be triggered. The third "Incorrect" condition can be found inside the **for loop**, since whenever ***if*** statement is true, the program will ***puts*** the message and return, so the ***puts*** function call in ***if*** statement can be seen as a mark of **incorrect flag**. Correspondingly, the ***puts*** function call after the for loop which prints the congratulation message can be seen as a mark of **correct flag**.
 
-With the **incorrect flag** and **correct flag** in mind, I used ghidra to find out the addresses of these two **puts** calls. Find the addresses were easy, just left click on the source code and ghidra will high light the corresponding assembly instruction for you in the assembly window. 
+With the **incorrect flag** and **correct flag** in mind, I used ghidra to find out the addresses of these two ***puts*** calls. Find the addresses were easy, just left click on the source code and ghidra will high light the corresponding assembly instruction for you in the assembly window. 
 
 * incorrect address = 0x0040544f
 * correct address = 0x0040547d
 
 My goal was then to let the program avoid hitting on ***incorrect address***, and try to reach ***correct address***. To acheive that, I used a tool called **"angr"**.
 
-# Find & Avoid with angr
+# Find & Avoid with _angr_
+---
+Useful Links:
+* [angr source code on github](https://github.com/angr/angr)
+* [Examples of solving CTF problem with angr](https://docs.angr.io/examples)
+* [Core concepts in angr](https://docs.angr.io/core-concepts) (I read through this one to get started)
+* [Some example usage](https://book.hacktricks.xyz/reversing-and-exploiting/reversing-tools-basic-methods/angr/angr-examples)
+
+---
+Unlike **ghidra** which provides GUI to do reverse engineering by mouse clicks, **angr** is in fact a python module developed by people from [the Computer Security Lab at UC Santa Barbara](https://seclab.cs.ucsb.edu/) and [SEFCOM at Arizona State University](https://sefcom.asu.edu/). According to its own documentation on github, angr is "a platform-agnostic binary analysis framework". 
+
 
 
 ## References
