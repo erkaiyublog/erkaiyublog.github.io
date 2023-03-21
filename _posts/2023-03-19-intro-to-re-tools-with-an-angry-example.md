@@ -168,8 +168,54 @@ After the list of function calls, within the second ```if``` statement, there ar
 
 ```
 
-Obviously, the for loop compares the **"encoded"** input string with some hidden string character by character, and sents an error message whenever a pair of inequal characters appear. If the for loop is safely passed, there will be a congrat message which indicates the input string is the correct flag.
+Obviously, the for loop compares the **"encoded"** input string with some hidden string character by character, and sends an error message whenever a pair of inequal characters appear. If the for loop is safely passed, there will be a congrat message which indicates the input string is the correct flag.
 
+Up to now, here's a flow chart I concluded for the behavior of ```angry```.
+
+```
+    command line input
+            ||
+            ||
+            \/
+      two arguments?      ---- No ----> Incorrect
+            ||
+           Yes
+            ||
+            \/
+    flag length == 31?    ---- No ----> Incorrect
+            ||
+           Yes
+            ||
+            \/
+       ------------
+       | blackbox |
+       | encode   |
+       | each     |
+       | char     |
+       | in the   |
+       | flag     |
+       ------------
+            ||
+            ||
+            \/
+ for (i = 0; i < 31; i++) ---- encoded_flag[i] != hidden_str[i] --> Incorrect
+            ||
+      for loop ended
+            ||
+            \/
+         Congrats!
+```
+
+It's quite straight forward! In fact, as long as I give ```angry``` a 31-character string as command line argument, the first two "Incorrect" conditions won't be triggered. The third "Incorrect" condition can be found inside the **for loop**, since whenever **if** statement is true, the program will **puts** the message and return, so the **puts** function call in **if** statement can be seen as a mark of **incorrect flag**. Correspondingly, the **puts** function call after the for loop which prints the congratulation message can be seen as a mark of **correct flag**.
+
+With the **incorrect flag** and **correct flag** in mind, I used ghidra to find out the addresses of these two **puts** calls. Find the addresses were easy, just left click on the source code and ghidra will high light the corresponding assembly instruction for you in the assembly window. 
+
+* incorrect address = 0x0040544f
+* correct address = 0x0040547d
+
+My goal was then to let the program avoid hitting on ```incorrect address```, and try to reach ```correct address```. To acheive that, I used a tool called **"angr"**.
+
+# Find & Avoid with angr
 
 
 ## References
