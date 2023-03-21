@@ -113,7 +113,64 @@ undefined4 main(int param_1,long param_2)
 }
 ```
 
-From the first ```if``` statement in the ```main``` function, I learnt that the input to ```angry``` should be given as a command line argument, from the second ```if``` statement, I learnt that the correct input should be ```0x1f``` long, which is ```31``` in decimal. 
+From the first ```if``` statement in the ```main``` function, I learnt that the input to ```angry``` should be given as a command line argument. According to the second ```if``` statement, the correct input should be ```0x1f``` long, which is ```31``` in decimal. 
+
+With these in mind, I knew that a valid input for ```angry``` should be something like this,
+
+```
+./angry 1234567890123456789012345678901
+```
+
+The string ```1234567890123456789012345678901``` above is just specifying that the input should be 31 characters, I like to use the numbers to control my input length :)
+
+Back to the ```main```  function decompilation, after the program pass the second ```if``` statement, it makes a bunch of function calls on ```local_18 + 8```, which is the address of the input string. I clicked on the function names in ghidra, and investigated the decompilation results of these functions. All of them are just doing some modification on characters in the input string. Below is a snippet from the definition of the first function, ```s2206376623```,
+
+```
+void s2206376623(char *param_1)
+
+{
+  param_1[0x1c] = param_1[0x1c] + -0x25;
+  param_1[2] = param_1[2] + 'X';
+  param_1[0x13] = param_1[0x13] + -0x2e;
+  param_1[0xb] = param_1[0xb] + '?';
+  param_1[0xe] = param_1[0xe] + -0x1f;
+  param_1[10] = param_1[10] + -0x4b;
+  param_1[5] = param_1[5] + -0x37;
+  param_1[0x1d] = param_1[0x1d] + -0x1e;
+  param_1[0x17] = param_1[0x17] + -0x6d;
+  param_1[10] = param_1[10] + 'y';
+  param_1[0x1e] = param_1[0x1e] ^ 0xb2;
+  param_1[0x13] = param_1[0x13] + -0xc;
+  param_1[0x12] = param_1[0x12] ^ 0x35;
+  *param_1 = *param_1 + '&';
+  param_1[0x1b] = param_1[0x1b] + -0x20;
+  param_1[0xc] = param_1[0xc] + -0x6b;
+  param_1[1] = param_1[1] + '\x10';
+  return;
+}
+```
+
+The other functions called in ``main``` are all similar with this ```s2206376623```, they do arithmetic or logic operations on the characters, so that input string will be **"encoded"** by some comlicated rules.
+
+After the list of function calls, within the second ```if``` statement, there are some local variable definitions, I didn't find them to be useful. I jumped right into the for loop, since it was clearly the key component in this problem. Below is a copy of the for loop snippet from ```main``` function,
+
+```
+      for (local_3c = 0; local_3c < 0x1f; local_3c = local_3c + 1) {
+        if (*(char *)(*(long *)(local_18 + 8) + (long)local_3c) !=
+            *(char *)((long)&local_38 + (long)local_3c)) {
+          puts("That flag is incorrect.");
+          return 0;
+        }
+      }
+      puts("That flag is correct! Congrats.");
+      local_c = 0;
+    }
+
+```
+
+Obviously, the for loop compares the **"encoded"** input string with some hidden string character by character, and sents an error message whenever a pair of inequal characters appear. If the for loop is safely passed, there will be a congrat message which indicates the input string is the correct flag.
+
+
 
 ## References
 1. [https://research.kudelskisecurity.com/2016/08/08/angr-management-first-steps-and-limitations/](https://research.kudelskisecurity.com/2016/08/08/angr-management-first-steps-and-limitations/)
