@@ -26,11 +26,17 @@ In fact, I've been playing CTF puzzles on sigpwny website for fun during the spr
 
 The puzzle is called *Angry*, which perfectly describes my feeling when trying to solve it. The executable takes a string in form ```sigpwny{..}``` and tells you if it's the right flag or not. 
 
-**Spoil Alert: I will introduce my solution to this CTF puzzle in the following post, if you want to figure it out by yourself, you have to stop reading RN :(**
+**(#'O') Spoil Alert: I will introduce my solution to this CTF puzzle in the following post, if you want to figure it out by yourself, you have to stop reading RN :(**
 
 # Start with Ghidra
 To begin with, let's look at the file given to us. In case if the [sigpwny link](https://ctf.sigpwny.com/challenges#Meetings/angry-417) does not work, I've stored the file on my website, you can [click here](../backup_files/posts/intro-to-re-tools-with-an-angry-example/angry) to download the given executable called ```angry```.
 
+First thing first, we may use ```file``` command in Linux to check the basic information of ```angry```. From the result shown below, we know ```angry``` is an executable in ELF format, it's **not stripped**, so we can use **gdb** to run it. 
+
+	$ file angry
+	angry: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=264818a1be1cdd674a24a74ad2ecaffbef7e21b1, for GNU/Linux 3.2.0, not stripped	
+
+The tool we use to investigate the executable is called **[Ghidra](https://ghidra-sre.org/)**. Ghidra is developed by National Security Agency, it's [open sourced](https://github.com/NationalSecurityAgency/ghidra), written in Java. Ghidra provides a **neat GUI to generate guesses of source code base on executable**. 
 
 
 ## References
