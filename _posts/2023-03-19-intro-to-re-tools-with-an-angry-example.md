@@ -38,6 +38,33 @@ First thing first, we may use ```file``` command in Linux to check the basic inf
 
 The tool we use to investigate the executable is called **[Ghidra](https://ghidra-sre.org/)**. Ghidra is developed by National Security Agency, it's [open sourced](https://github.com/NationalSecurityAgency/ghidra), written in Java. Ghidra provides a **neat GUI to generate guesses of source code base on executable**. 
 
+I will not cover how to install **ghidra**, check [this video](https://www.youtube.com/watch?v=n8W7ROpvx58) by sigpwny might help you with that. 
+
+Now start working with **ghidra**! First we launch it, click on **"File"** at top left and click on **"New Project"**, it should give you something like this,
+
+![ghidra new project](../images/posts/intro-to-re-tools-with-an-angry-example/ghidra_new_proj1.png)
+
+Select **"Non-Shared Project"**, click on **"Next"**, then assign the project with an arbitrary directory and name, note that this directory isn't necessary to be the same place as where ```angry``` locates, you can pick wherever you like. After that, click on **"Finish"** and it should give you a new project like this (I named it just "proj"), 
+
+![ghidra project](../images/posts/intro-to-re-tools-with-an-angry-example/ghidra_new_proj2.png)
+
+Next, click on **"File"** at the top left, select **"Import File"** to import your executable (```angry``` in our example). There will be two windows pop up one after the other, just click the **"OK"** button for both of them. 
+
+Then you will see something like this,
+
+![ghidra angry import](../images/posts/intro-to-re-tools-with-an-angry-example/ghidra_angry_import.png)
+
+Now, double click on **"angry"** file, and start the reverse engineering journey!
+
+Oops, a window pops up! Just click on **"Yes"** and click **"Analyze"** without changing any default settings to next pop up window.
+
+![anaylze options](../images/posts/intro-to-re-tools-with-an-angry-example/analyze_option.png)
+
+Then, find the **"Symbol Tree"** panel, and find **"main"** in **"Functions"**, double click on that, it should give you something in the decompiler. 
+
+![decompile of main](../images/posts/main.png)
+
+Take a look at the decompiled result, it's the guessed C code generated automatically by ghidra based on the assembly it sees.
 
 ## References
 1. [https://research.kudelskisecurity.com/2016/08/08/angr-management-first-steps-and-limitations/](https://research.kudelskisecurity.com/2016/08/08/angr-management-first-steps-and-limitations/)
