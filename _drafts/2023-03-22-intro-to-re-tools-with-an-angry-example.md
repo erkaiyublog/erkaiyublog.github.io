@@ -268,7 +268,7 @@ Sounds awsome! So I ran the script with 100% confidence and below is what I saw 
 
 ![failure method](../images/posts/intro-to-re-tools-with-an-angry-example/failure_method.png)
 
-What happened?? Honestly, I have no idea... Even at the time when I'm writing this blog post, I'm still not sure why ***angr*** failed to find the correct flag. I tried to use some logging support when executing the script above, and found that the memory usage of this script rapidly grows up whenever it reaches 4 "avoids" (basicly means that 4 for loop failures have been encountered and avoided), the memory consumation would then kill the process.
+What happened?? Honestly, I have no idea... Even at the time when I'm writing this blog post, I'm still not sure why ***angr*** failed to find the correct flag. I tried to use some logging support when executing the script above, and found that the memory usage of this script rapidly grows up whenever it reaches 4 "avoids" (basically means that 4 for loop failures have been encountered and avoided), the memory consumation would then kill the process.
 
 As the problem description said that the form of the CTF flag should be *sigpwny{...}*, it actually revealed the first 8 bytes in the flag. I tried to set constraints to ***arg1*** so that the first 8 bytes in this symbol are preset to be *sigpwny{*, however, the exploration failed again when 4 "avoids" were reached. So weird!
 
@@ -400,4 +400,100 @@ Useful Links:
 * [An youtube video about using gdb with Python](https://www.youtube.com/watch?v=xt9v5t4_zvE)
 
 ---
+In both ***angr*** and ***PinCTF*** section, I have a pretty clear plan in mind to find out the flag. Basically, I just needed to do **brute force** for each single character in the flag and **find out if it was correct by checking the number of iterations reached in the for loop**.
+
+To start with, I ran the following command to feed ***angry*** with a flag starting with ***"s"*** and put it in gdb.
+```
+gdb --args angry s123456789012345678901234567890
+```
+
+Then I set a break point at ***0x00405465*** (for_success from ***angr*** section), and ran the program. When the breakpoint was reached, I printed out ***eax*** and found it to be ***0***. If I type ***continue*** at this point, the program will not hit the breakpoint again. The reason for doing this was based on the ghidra analysis of the for loop,
+
+![for loop assembly](../images/posts/intro-to-re-tools-with-an-angry-example/for.png)
+
+From the assembly, I knew that ***eax*** was used to update the for loop index, so by investigating ***eax***, I could find out how many iterations have been done so far (I applied this strategy in the second Python script in ***angr*** section).
+
+There're **ord('~') - ord('!') + 1 = 94** possible characters for each character in the **31 characters** long flag, so the brute force only takes **94 x 31 = 2914** trials! If I manually do the gdb operations I did above, I could figure out the flag character by character in a reasonable amount of time! :)
+
+Thankfully, I wasn't that crazy. At least I have the concept of **gdb Python API** in mind even though I haven't really used it before. So I watched an [youtube tutorial](https://www.youtube.com/watch?v=xt9v5t4_zvE) to have an idea of how people use it, and then referred to the [gdb Python API documentation](https://sourceware.org/gdb/onlinedocs/gdb/Python-API.html) to produce the following Python script. 
+
+```
+import gdb
+
+char_range = ord('~') - ord('!') + 1
+# information obtained with Ghidra
+for_success = 0x00405465
+for_update = 0x00405468
+fail = 0x0040544f
+flag_len = 31 
+# global variables
+known_flag = ''
+known_len = 0
+unknown_len = flag_len - known_len
+
+# Iteration on each character in the flag
+for i in range(flag_len):
+	# Iteration to find next character
+	for j in range(char_range):
+		# skip special characters, I bet ' is not in the flag, lol
+		if (ord('!')+j == ord("'")):
+			continue
+
+		# load the executable
+		gdb.execute("file angry", False, True)
+
+		# set argument
+		input = known_flag+chr(ord('!')+j)+(unknown_len-1)*"0"
+		gdb.execute("set args '{}'".format(input), False, True)
+
+		# print known flag and input, so that we can see it in the end	
+		print(known_flag)
+		print(input)
+
+		# set breakpoint and run
+		gdb.execute("b *{}".format(fail), False, True)
+		gdb.execute("r", False, True)
+
+		# examine eax
+		s = gdb.execute("p $eax", False, True)
+		
+		# parsing
+		num = s.split("=")
+		s = num[1].split()
+		eax = int(s[0], 0)
+
+		if (eax > known_len):
+			known_len += 1
+			unknown_len -= 1
+			known_flag += chr(ord('!')+j)
+			gdb.execute("c", False, True)
+			break
+		print(eax)
+		gdb.execute("c", False, True)
+```
+Basically, the Python script did the brute force for me by automatically setting breakpoints in for loop, and investigate the ***eax*** to decide if the character is correctly guessed. It would load the ***angry*** file each time so that command line argument could be reset for the new trial, this was the most time consuming part in the brute force process. 
+
+Eventually, to run this Python script in gdb, I **launched gdb**, and ran the following commands in gdb,
+
+```
+(gdb) source brute.py
+```
+And, the magic happened ... ;)
+
+![correct](../images/posts/intro-to-re-tools-with-an-angry-example/correct.png)
+
+# Wrap up
+Well, it took me 3 days to figure out the CTF problem, and another 3 days to finish writing this blog...
+
+In fact, I started on this CTF problem to get some hands on experience of ***angr***, then I got angry, and I got angry, and ***angry***... ;)
+
+Overall, this CTF problem showed that I was quite an unskillful reverse engineering practicer, 
+1. If I was familiar with gdb Python API, I could have wrote the brute force solution once I saw the ***ghidra*** result.
+2. If I was good at reading documentations, I could have figured out why ***angr*** and ***PinCTF*** failed, and fix them quickly.
+3. If I was good at reverse engineering, I could have read the decompiled results in ***"blackbox"*** and figure out how it made analyzation tools to fail.
+
+Unfortunately, I failed to meet any of the requirements above, and ended with spending three days on a single CTF problem :( Anyway, I did get myself familiar with some of the reverse engineering tools.
+
+I hope you enjoyed this blog post, thank you for reading it!
+
 
