@@ -1,6 +1,7 @@
 ---
 published: true
 title: Angry - How I Spent 3 Days on A Reverse Engineering CTF Problem
+comments_id: 19
 tags: CTF reverse-engineering  
 ---
 ---
