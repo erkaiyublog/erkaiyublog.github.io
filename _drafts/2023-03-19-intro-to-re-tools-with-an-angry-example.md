@@ -226,7 +226,144 @@ Useful Links:
 ---
 Unlike **ghidra** which provides GUI to do reverse engineering by mouse clicks, **angr** is in fact a python module developed by people from [the Computer Security Lab at UC Santa Barbara](https://seclab.cs.ucsb.edu/) and [SEFCOM at Arizona State University](https://sefcom.asu.edu/). According to its own documentation on github, angr is "a platform-agnostic binary analysis framework". 
 
+**angr** provides a feature called **"symbolic execution"**, instead of assigning concrete values to variables during execution, angr can assign symbols to variables instead. Whenever the execution flow meets branches, angr will analyze all the possible paths by adding constraints on the corresponding symbols. One can manually add constraints to symbols (or even to part of a symbol). Such technique allows a much more efficient way of investigating control flows, and fits the situation of this CTF problem quite well. 
 
+A simple usage of angr is to assign a symbolic variable for input, and specify **the addresses we want to avoid**, together with **the addresses we want to reach**, then let angr to analyze the executable for us. 
+
+After reading some core concepts and some CTF examples in the angr document, I came up with the Python script as shown below, 
+
+```
+import logging
+import angr
+import claripy
+
+success = 0x0040547d
+fail = 0x0040544f
+
+proj = angr.Project("./angry")
+
+arg1 = claripy.BVS('arg1', 31*8)
+
+state = proj.factory.entry_state(
+	args=['angry', arg1],
+	add_options = angr.options.unicorn
+)
+
+for b in arg1.chop(8):
+	state.add_constraints(b >= ord('!'))
+	state.add_constraints(b <= ord('~'))
+
+sm = proj.factory.simulation_manager(state)
+
+
+sm.explore(find = success, avoid = fail)
+print(sm.found[0].solver.eval(arg1, cast_to=bytes))
+```
+
+The script shown above sets a BVS variable (you can find definition of BVS in **core concepts** section in angr document) called "arg1", which is 31 bytes long, I passed it as an command line argument to ***angry***, through the ***state*** I defined for angr to begin analysis with. I then created a **simulation manager** base on the ***state***. 
+
+The last two instructions are the most important ones in this script, ***sm.explore*** triggers the simulation manager to explore the program, with constraints ***find = success, avoid = fail***, meaning the target address is ***success***, during the exploration, ***fail*** should be avoided. After exploration, ***sm.found[0]*** gives the state found, so use it to evaluate the updated ***arg1***, which should be the correct flag.
+
+Sounds awsome! So I ran the script with 100% confidence and below is what I saw after about one minute,
+
+![failure method](../images/posts/intro-to-re-tools-with-an-angry-example/failure_method.png)
+
+What happened?? Honestly, I have no idea... Even at the time when I'm writing this blog post, I'm still not sure why ***angr*** failed to find the correct flag. I tried to use some logging support when executing the script above, and found that the memory usage of this script rapidly grows up whenever it reaches 4 "avoids" (basicly means that 4 for loop failures have been encountered and avoided), the memory consumation would then kill the process.
+
+As the problem description said that the form of the CTF flag should be *sigpwny{...}*, it actually revealed the first 8 bytes in the flag. I tried to set constraints to ***arg1*** so that the first 8 bytes in this symbol are preset to be *sigpwny{*, however, the exploration failed again when 4 "avoids" were reached. So weird!
+
+Since it was my first time using ***angr***, I didn't have a clear picture of how ***sm.explore*** work under the hood. According to the behavior of rapid memory consumation, an idea I came up with was to find the characters one by one **instead of directly aiming for the success address**. My approach was to view the **next for loop iteration** as a "success in for loop", so whenever I reach one more "success in for loop" than before, I know that one more character in flag is corrected guessed. 
+
+With that in mind, I looked that the ghidra decompilation result once again, and found the place where **for loop** goes to next iteration,
+
+![for loop assembly](../images/posts/intro-to-re-tools-with-an-angry-example/for.png)
+
+From that ghidra result, I found that ***for_success = 0x00405465*** was an address that marked the success of one for loop iteration. So I came up with the following Python script.
+
+```
+import logging
+import angr
+import claripy
+
+len_fail = 0x004052ec
+success = 0x0040547d
+fail = 0x0040544f
+for_success = 0x00405465
+
+known = []
+iter_num = 0
+
+def find_condition(state):
+	if (state.addr == for_success and state.solver.eval(state.regs.eax) == iter_num):
+		return True
+	else:
+		return False
+
+for i in range(31):
+	iter_num = i
+	print('round: ' + str(i))
+	print(known)
+
+	proj = angr.Project("./angry")
+	arg1 = claripy.BVS('arg1', 31*8)
+
+	ent_state = proj.factory.entry_state(args=['angry', arg1])	
+
+	if (i > 0):
+		for j in range(len(known)):
+			ent_state.add_constraints(arg1.get_byte(j) == known[j])
+
+
+	sm = proj.factory.simulation_manager(ent_state)
+
+	print(sm.active[0].solver.eval(arg1, cast_to=bytes))
+
+	sm.explore(find=find_condition, avoid=fail)
+	known.append(sm.found[0].solver.eval(arg1.get_byte(i), cast_to = bytes))
+
+s = sm.active[0]
+print("Done!")
+print(s.solver.eval(arg1,cast_to=bytes))
+
+```  
+
+This time, the thing I tried to do was to force ***angr*** simulation to start all over again for each character, and each time when investigating one character, the characters before it should have been determined and preset as ***arg1*** constraints. The main idea was to make sure the angr analyzer was finding the characters **one by one**. 
+
+Well, it failed again...
+
+![method2](../images/posts/intro-to-re-tools-with-an-angry-example/method2.png)
+
+Once again, the failure showed that the memory blew up at around the 4th "avoid" which matched with the result of the previous Python script. 
+
+I also wrote and compiled a similar executable by myself, the only difference was that instead of modifying the characters in input flag before examine them in the for loop, my executable passed the input flag directly into the verification for loop. I ran the two Python scripts to exploit my own executable, and they both successed in finding out the flag! 
+
+By that point, I could be sure that what made ***angr*** to fail in this CTF executable **was not the for loop**, but the **"blackbox"** functions that modify the input flag characters.
+
+```
+      s2206376623(*(undefined8 *)(local_18 + 8));
+      s3880481467(*(undefined8 *)(local_18 + 8));
+      s345299474(*(undefined8 *)(local_18 + 8));
+      s373069732(*(undefined8 *)(local_18 + 8));
+      s3278859051(*(undefined8 *)(local_18 + 8));
+      s493285452(*(undefined8 *)(local_18 + 8));
+      s3088440140(*(undefined8 *)(local_18 + 8));
+      s2319860955(*(undefined8 *)(local_18 + 8));
+      s1343118312(*(undefined8 *)(local_18 + 8));
+      s1994491177(*(undefined8 *)(local_18 + 8));
+      s2477169866(*(undefined8 *)(local_18 + 8));
+      s3306800787(*(undefined8 *)(local_18 + 8));
+      s2030153530(*(undefined8 *)(local_18 + 8));
+      s75927662(*(undefined8 *)(local_18 + 8));
+      s1476774293(*(undefined8 *)(local_18 + 8));
+      s2172966575(*(undefined8 *)(local_18 + 8));
+```
+
+The functions above somehow made ***angr*** cost tons of memory to analyze, even though all they did was just doing some arithmetic and logic operations on input flag characters.
+
+**If you know why this happens, please leave a comment below!!**
+
+I was then frustrated, and turned to "side channel" for help.
+# Side channel with _Pin_
 
 ## References
 1. [https://research.kudelskisecurity.com/2016/08/08/angr-management-first-steps-and-limitations/](https://research.kudelskisecurity.com/2016/08/08/angr-management-first-steps-and-limitations/)
