@@ -6,7 +6,7 @@ tags: CTF reverse-engineering
 ---
 _As a beginner of reverse engineering, I spent three days in the spring break to work on a single CTF problem..._
 
-_When trying to solve this_ [CTF problem](https://ctf.sigpwny.com/challenges#Meetings/angry-417), _I learnt three new techniques, angr, Pin, and gdb Python API._
+_When trying to solve this_ [CTF problem](https://ctf.sigpwny.com/challenges#Meetings/angry-417), _I learnt three new techniques, angr, PinCTF, and gdb Python API._
 
 _I'd like to share the approaches I made to solve this CTF problem in this post, hopefully give you an idea of how to deal with some easy reverse engineering problems. This is_ **not** _a tutorial of tools, but a walkthrough of how to analyze the information we gained from these tools. Nevertheless, I will include_ **links to tutorials** _for each tool I used, so that you can easily learn it by yourself._
 
@@ -363,31 +363,41 @@ The functions above somehow made ***angr*** cost tons of memory to analyze, even
 **If you know why this happens, please leave a comment below!!**
 
 I was then frustrated, and turned to "side channel" for help.
-# Side channel with _Pin_
 
-## References
-1. [https://research.kudelskisecurity.com/2016/08/08/angr-management-first-steps-and-limitations/](https://research.kudelskisecurity.com/2016/08/08/angr-management-first-steps-and-limitations/)
-2. [https://book.hacktricks.xyz/reversing-and-exploiting/reversing-tools-basic-methods/angr/angr-examples](https://book.hacktricks.xyz/reversing-and-exploiting/reversing-tools-basic-methods/angr/angr-examples)
-3. [https://docs.angr.io/](https://docs.angr.io/)
-4. [https://sourceware.org/gdb/onlinedocs/gdb/Python-API.html](https://sourceware.org/gdb/onlinedocs/gdb/Python-API.html)
-5. [https://www.youtube.com/watch?v=xt9v5t4_zvE](https://www.youtube.com/watch?v=xt9v5t4_zvE)
+# Side channel with _PinCTF_
+---
+Useful Links:
+* [PinCTF on github](https://github.com/ChrisTheCoolHut/PinCTF)
 
+---
+What I tried to do with the second Python script in the previous ***angr*** section was to guess the flag characters one by one from the number of iterations in the for loop I could reach. The idea was essentially some sort of "side channel". A straightforward approach was to use **the number of instructions** during execution as a side channel. The more **for iteration** I reach, the more instructions I execute, which means larger instruction number should indicate more correctly guessed characters in the flag!
 
---- 
-# Drafts
+***PinCTF*** was a tool that uses instruction counting as an avenue for side channel analysis, I heard this tool from a sigpwny presentation. PinCTF is based on [Intel's Pin Tool](https://www.intel.com/content/www/us/en/developer/articles/tool/pin-a-dynamic-binary-instrumentation-tool.html), which is a tool to support dynamic analysis. 
 
-layout:
-	angr? 
-	basic template
-		official doc examples
-	problem description
-	how to solve it
-		length=5 if replace call with hook 
-	more angr techniques (2. reference, 1. for python debugging technique)
+PinCTF assumes that the more instructions it runs, the closer it is to the correct input, which perfectly meets this CTF problem.
 
+Following the documentation on PinCTF's github repo, I pulled the repo locally, installed the necessary packages, and feed it with the following command,
 
-## How to put multiple inputs received by scanf (should use registers!)
-https://book.hacktricks.xyz/reversing-and-exploiting/reversing-tools-basic-methods/angr/angr-examples#registry-values
+```
+python3 pinCTF.py -f <path to angry directory>/angry -a -l obj-intel64/ -sl 31
+```
+Would this work perfectly?
 
+![PinCTF](../images/posts/intro-to-re-tools-with-an-angry-example/pin.png)
 
+Sadly, no! :(
+
+As shown in the screenshot above, even though the PinCTF script figured out "si" for the first two characters, it somehow had a lot of "Multiple FavoredPaths"which made the exploration taking way too long than feasible (exponential time). 
+
+Again, I was not sure why ***PinCTF*** met so many "Multiple FavoredPaths", I guess it was because the number of instructions was too large with the inevitable **"blackbox"**, which made the counting went wrong occasionally. As the difference in number of instructions for success and failure for one character was **too small**, PinCTF might be confused accidentally and led to the failure as shown above. 
+
+I was so mad at that point, that I decided to do the for loop brute force manually ...
+
+# "Manually" brute force with _gdb Python API_
+---
+Useful Links:
+* [gdb Python API documentation](https://sourceware.org/gdb/onlinedocs/gdb/Python-API.html)
+* [An youtube video about using gdb with Python](https://www.youtube.com/watch?v=xt9v5t4_zvE)
+
+---
 
