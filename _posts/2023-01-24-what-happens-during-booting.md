@@ -10,11 +10,6 @@ _What happens after you switch on your computer? What is a bootloader? What is B
 _Don't worry, this post will answer all these annoying questions._
 
 ---
-
-***Table of Contents***
-* TOC
-{:toc}
-
 ### References
 Appendix A of [ULK(Understanding Linux Kernel), the 3rd Edition](https://www.amazon.com/Understanding-Linux-Kernel-Third-Daniel/dp/0596005652). 
 
