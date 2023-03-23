@@ -10,6 +10,10 @@ tags: security qemu paper
 *This is my first time reading & understanding (a decent portion of) an article related with computer security, so I'd like to write this review to briefly record what I learned from this article.*
 
 ---
+***Table of Contents***
+* TOC
+{:toc}
+
 # Introduction
 At HITB 2016, Xu Liu and Shengping Wang from Qihoo 360 have showcased a successful exploit on KVM/QEMU, by exploiting **two vulnerabilities** (CVE-2015-5165 and CVE-2015-7504) present in two different network card device emulator models. 
 
