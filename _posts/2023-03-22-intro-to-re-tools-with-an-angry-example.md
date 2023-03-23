@@ -13,10 +13,11 @@ _I'd like to share the approaches I made to solve this CTF problem in this post,
 
 **(#'O') Spoil Alert: I will introduce my solution to this CTF puzzle in the following post, if you want to figure it out by yourself, you have to stop reading RN :(**
 
+---
+***Table of Contents***
 * TOC
 {:toc}
 
----
 # Problem Description
 * Source: [https://ctf.sigpwny.com/challenges#Meetings/angry-417](https://ctf.sigpwny.com/challenges#Meetings/angry-417)
 * Difficulty: **hard**
