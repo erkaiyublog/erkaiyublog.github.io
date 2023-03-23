@@ -15,12 +15,7 @@ published: true
   </div>
 
   {% include disqus.html %}
-  
-  {% if page.comments_id %}
-  	{% include comments.html issue_id=page.comments_id %}
-  {% endif %}
-</article>
-<script>
+ <script>
 <button onclick="topFunction()" id="bttBtn" title="Go to top">Top</button>
 // Get the button:
 let mybutton = document.getElementById("bttBtn");
@@ -41,4 +36,9 @@ function topFunction() {
   document.body.scrollTop = 0; // For Safari
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
-</script>
+</script> 
+  {% if page.comments_id %}
+  	{% include comments.html issue_id=page.comments_id %}
+  {% endif %}
+</article>
+
