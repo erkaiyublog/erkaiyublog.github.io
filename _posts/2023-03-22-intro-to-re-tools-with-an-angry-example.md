@@ -231,7 +231,7 @@ Useful Links:
 ---
 Unlike **ghidra** which provides GUI to do reverse engineering by mouse clicks, **angr** is in fact a python module developed by people from [the Computer Security Lab at UC Santa Barbara](https://seclab.cs.ucsb.edu/) and [SEFCOM at Arizona State University](https://sefcom.asu.edu/). According to its own documentation on github, angr is "a platform-agnostic binary analysis framework". 
 
-**angr** provides a feature called **"symbolic execution"**, instead of assigning concrete values to variables during execution, angr can assign symbols to variables instead. Whenever the execution flow meets branches, angr will analyze all the possible paths by adding constraints on the corresponding symbols. One can manually add constraints to symbols (or even to part of a symbol). Such technique allows a much more efficient way of investigating control flows, and fits the situation of this CTF problem quite well. 
+**angr** provides a feature called **"symbolic execution"**, instead of assigning concrete values to variables during execution, angr can assign symbols to variables. Whenever the execution flow meets branches, angr will analyze all the possible paths by adding constraints on the corresponding symbols. One can manually add constraints to symbols (or even to part of a symbol). Such technique allows a much more efficient way of investigating control flows, and fits the situation of this CTF problem quite well. 
 
 A simple usage of angr is to assign a symbolic variable for input, and specify **the addresses we want to avoid**, together with **the addresses we want to reach**, then let angr to analyze the executable for us. 
 
