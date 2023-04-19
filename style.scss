@@ -295,6 +295,15 @@ nav {
   background-color: $lightGray;
 }
 
+.left-column{
+  position: fixed;
+  top: 60px;
+  left: 20px;
+  width: 50px;
+  padding: 15px;
+  background-color: #f1f1f1;
+}
+
 footer {
   padding: 20px 0;
   text-align: center;
