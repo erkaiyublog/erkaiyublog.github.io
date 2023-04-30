@@ -32,7 +32,7 @@ If you are only interested in the source codes I used to solve this CTF problem 
 # Start with _Ghidra_
 ---
 Useful Links:
-* [sigpwny presentation for ghidra installation](https://www.youtube.com/watch?v=n8W7ROpvx58)
+* [How to install ghidra](https://www.varonis.com/blog/how-to-use-ghidra)
 * [sigpwny presentation for ghidra basic usage](https://www.youtube.com/watch?v=vKuui7iCOB0)
 * [ghidra source code on Github](https://github.com/NationalSecurityAgency/ghidra)
 
