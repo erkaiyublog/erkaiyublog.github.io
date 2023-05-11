@@ -18,6 +18,8 @@ Most of the blogs written on this website will be highly related with my major, 
 ### What have I written so far?
 Before setting up this website, I've written several blogs on [this free website](https://silkrow3.wordpress.com/) hosted by wordpress, among the posts I created there, [the series of notes for CS161](https://silkrow3.wordpress.com/tag/cs161/) was my favourite, I self studied UCB's CS 161: Computer Security during the winter of 2022-2023, and wrote a whole series of blog for the lecture notes. 
 
+[UPDATE 2023.5.11: I have copied all the CS 161 notes to this website]
+
 ### Why should you read my blogs?
 ;) IDK, maybe for some magical reason you wanted to find out more about me. Or you just happened to click to one of my blogs because of some random advertisements. 
 
