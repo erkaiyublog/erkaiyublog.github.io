@@ -1,6 +1,7 @@
 ---
 published: true
 title: CS 161 Notes Series Introduction
+comments_id: 36
 tags: cs161 security
 ---
 This is a series of notes for course CS 161: Computer Security held by UCB. I watched the recordings of its Summer 2021 version during winter holiday, 2023. The course website can be found [here](https://su21.cs161.org/). After that, I took [ECE 422: Introduction to Computer Security](https://courses.grainger.illinois.edu/ece422/sp2023/) in UIUC during Spring 2023, the course structure was roughly the same as CS 161. 
