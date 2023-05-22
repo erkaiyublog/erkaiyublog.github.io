@@ -1,6 +1,6 @@
 ---
 published: true
-title: Executable %2d some basic stories
+title: Executable \-\- some basic stories
 tags: OS software-analysis
 ---
 ---
