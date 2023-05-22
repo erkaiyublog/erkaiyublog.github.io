@@ -1,6 +1,6 @@
 ---
 published: true
-title: Executable -- some basic stories
+title: Executable - Some Basic Concepts
 tags: OS software-analysis
 ---
 ---
