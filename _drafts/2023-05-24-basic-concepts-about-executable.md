@@ -33,7 +33,7 @@ int main() {
 }
 ``` 
 
-The first thing we did was to use ```#include <stdio.h>``` to include the ```stdio``` library, so that we could make use of ```printf``` function later.
+The first thing we did was to use ***#include <stdio.h>*** to include the ***stdio*** library, so that we could make use of ***printf*** function later.
 
 ## 1.2 How to tell if a program uses static or dynamic library?
 
