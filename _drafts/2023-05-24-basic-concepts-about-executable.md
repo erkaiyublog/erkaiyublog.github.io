@@ -17,7 +17,7 @@ questions:
 	6. What are some common tools to analyze a given executable file? 
 
 references:
-	1. https://wiki.osdev.org/Object_Files
+	1. https://www.geeksforgeeks.org/static-vs-dynamic-libraries/
 
 Instead of writing a well-structured article to cover everything, I will write this blog in the form of **Q&A**. Some of the questions have been there in my mind for a long time, some popped up when I was doing some search.
 
@@ -33,13 +33,13 @@ int main() {
 }
 ``` 
 
-The first thing we did was to use ***#include <stdio.h>*** to include the ***stdio*** library, so that we could make use of ***printf*** function later. What happens during compilation is that the compiler will do the job of including ***stdio*** library, either by 
+The first thing we did was to use ***#include <stdio.h>*** to include the ***stdio*** header, so that we could make use of ***printf*** function later. What happens during compilation is that the compiler will find the functions from C standard library that are included in ***stdio.h***, either by 
 
 1. copying the code of ***stdio*** library and replace ***#include <stdio.h>*** with the code; 
 
 *or* 2. leave some marks in the executable and expect the library to be found somewhere in the system. 
 
-The two different approaches result in the difference between static and dynamic libraries. **Static Library** 
+The two different approaches result in the difference between static and dynamic libraries. **Static library** (also known as *archive*) is a collection of precompiled *object files* that are bundled together into a single file, it contains the compiled code and symbols of various functions. As you may recall, one way of generating *object files* is to use gcc with command like ***gcc -c sample.c***. Later when compiler needs to generate executable, it will combine multiple object files into one single executable, such process of combining object files to obtain an executable is called *static linking*. **Dynamic library** (also known as *shared library*) is a collection of compiled functions, instead of being statically linked to produce executable, dynamic libraries are not added to the executable during compilation. During execution of the program (**runtime**), operating system itself will load the dynamic libraries to memory for the executable to use, such process is called *dynamic linking*.
 
 ## 1.2 How to tell if a program uses static or dynamic library?
-
+## 1.3 What are some typical static and dynamic library extensions?
