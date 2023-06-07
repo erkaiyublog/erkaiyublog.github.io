@@ -11,7 +11,7 @@ _Ever since I started learning operating system, I've been struggling with some 
 questions:
 	1. What is a static library, what is a dynamic library?
 	2. What is an ELF file?
-	3. What is a typical memory layout of an executable, who is deciding that?
+	3. What is the typical memory layout of an executable, who is deciding that?
 	4. What is system V?
 	5. What is the process of loading an executable? 
 	6. What are some common tools to analyze a given executable file? 
@@ -33,7 +33,13 @@ int main() {
 }
 ``` 
 
-The first thing we did was to use ***#include <stdio.h>*** to include the ***stdio*** library, so that we could make use of ***printf*** function later.
+The first thing we did was to use ***#include <stdio.h>*** to include the ***stdio*** library, so that we could make use of ***printf*** function later. What happens during compilation is that the compiler will do the job of including ***stdio*** library, either by 
+
+1. copying the code of ***stdio*** library and replace ***#include <stdio.h>*** with the code; 
+
+*or* 2. leave some marks in the executable and expect the library to be found somewhere in the system. 
+
+The two different approaches result in the difference between static and dynamic libraries. **Static Library** 
 
 ## 1.2 How to tell if a program uses static or dynamic library?
 
