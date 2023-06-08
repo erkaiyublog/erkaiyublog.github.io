@@ -41,5 +41,9 @@ The first thing we did was to use ***#include <stdio.h>*** to include the ***std
 
 The two different approaches result in the difference between static and dynamic libraries. **Static library** (also known as *archive*) is a collection of precompiled *object files* that are bundled together into a single file, it contains the compiled code and symbols of various functions. As you may recall, one way of generating *object files* is to use gcc with command like ***gcc -c sample.c***. Later when compiler needs to generate executable, it will combine multiple object files into one single executable, such process of combining object files to obtain an executable is called *static linking*. **Dynamic library** (also known as *shared library*) is a collection of compiled functions, instead of being statically linked to produce executable, dynamic libraries are not added to the executable during compilation. During execution of the program (**runtime**), operating system itself will load the dynamic libraries to memory for the executable to use, such process is called *dynamic linking*.
 
-## 1.2 How to tell if a program uses static or dynamic library?
-## 1.3 What are some typical static and dynamic library extensions?
+## 1.2 What are some typical static and dynamic library extensions?
+Static libraries: *.a* on Linux, *.lib* on Windows.
+Dynamic libraries: *.so* on Unix-like systems, *.dll* on Windows.
+
+## 1.3 How to tell if a program uses static or dynamic library?
+## 1.4 Is there a difference between the position where library codes will be loaded in memory between static and dynamic libraries?
