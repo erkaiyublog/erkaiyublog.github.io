@@ -46,6 +46,7 @@ The two different approaches result in the difference between static and dynamic
 
 ## 1.2 What are some typical static and dynamic library extensions?
 Static libraries: *.a* on Linux, *.lib* on Windows.
+
 Dynamic libraries: *.so* on Unix-like systems, *.dll* on Windows.
 
 ## 1.3 How to tell if a program uses static or dynamic library?
