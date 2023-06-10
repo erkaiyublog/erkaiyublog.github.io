@@ -74,7 +74,7 @@ To see if an executable contains **static library** is less straightforward, sin
 ## 1.4 Is there a difference between the position where library codes will be loaded in memory between static and dynamic libraries?
 Yes.
 
-Static libraries are loaded during compilation, so they have a fixed address relative to main code of the executable. Dynamic libraries are loaded during run time, it's possible that dynamic libraries are loaded to different memory addresses in different execution even though the executable is the same. 
+Static libraries are loaded during compilation, so they have a fixed address relative to main code of the executable. Dynamic libraries are loaded during runtime, it's possible that dynamic libraries are loaded to different memory addresses in different execution even though the executable is the same. 
 
 ## 1.5 Can I have some hands on experience of static and dynamic libraries?
 We can start with writing a C program in a file called ***hello.c***, 
@@ -135,26 +135,26 @@ $ nm sqr.o
 0000000000000000 T terriblesqr
 
 $ nm hello
-0000000000201010 B __bss_start
+0000000000201010 b __bss_start
 0000000000201010 b completed.7698
-                 w __cxa_finalize@@GLIBC_2.2.5
-0000000000201000 D __data_start
-0000000000201000 W data_start
+                 w __cxa_finalize@@glibc_2.2.5
+0000000000201000 d __data_start
+0000000000201000 w data_start
 0000000000000640 t deregister_tm_clones
 00000000000006d0 t __do_global_dtors_aux
 0000000000200db0 t __do_global_dtors_aux_fini_array_entry
-0000000000201008 D __dso_handle
-0000000000200db8 d _DYNAMIC
-0000000000201010 D _edata
-0000000000201018 B _end
-0000000000000824 T _fini
+0000000000201008 d __dso_handle
+0000000000200db8 d _dynamic
+0000000000201010 d _edata
+0000000000201018 b _end
+0000000000000824 t _fini
 0000000000000710 t frame_dummy
 0000000000200da8 t __frame_dummy_init_array_entry
-00000000000009ec r __FRAME_END__
-0000000000200fa8 d _GLOBAL_OFFSET_TABLE_
+00000000000009ec r __frame_end__
+0000000000200fa8 d _global_offset_table_
                  w __gmon_start__
-0000000000000880 r __GNU_EH_FRAME_HDR
-00000000000005a8 T _init
+0000000000000880 r __gnu_eh_frame_hdr
+00000000000005a8 t _init
 0000000000200db0 t __init_array_end
 0000000000200da8 t __init_array_start
 0000000000000830 R _IO_stdin_used
@@ -173,7 +173,7 @@ $ nm hello
 0000000000201010 D __TMC_END__
 ```
 
-We can see that ***hello*** contains a symbol called ***terriblesqr***, which corresponds to the static library function.
+We can see that ***hello*** contains a symbol called ***terriblesqr***, which corresponds to the static library function. Here "T" means the symbol is a text, "D" means the symbol is a data, "U" means the symbol is undefined.
 
 When running ***ldd*** command on ***hello***, we can see the following results,
 
@@ -186,7 +186,90 @@ libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007ff907111000)
 
 ***linux-vdso.so.1*** is a virtual dynamic shared object provided by the Linux kernel. It allows certain system calls to be executed within the context of the calling process without switching to kernel mode. It is not a physical library but rather a mechanism for optimized system call handling. ***libc.so.6*** is the so called "libc" on Linux. It contains the basic functions and definitions required by most programs, including standard input/output operations, string manipulation, memory allocation, and more. ***/lib64/ld-linux-x86-64.so.2*** is the dynamic linker/loader, responsible for dynamically linking the executable with the required libraries at runtime. It is necessary for the proper execution of dynamically linked executables.
 
+Now, back to the three files ***hello.c, sqr.c, sqr.h***, we try to generate an executable ***hello*** with ***sqr*** library dynamically linked. Start with generating *.o* file for ***hello.c*** using following command,
 
+```
+gcc -o hello.o -c hello.c
+```
 
+Then generate the dynamic library of ***sqr*** with the following command, note that naming of ***libsqr.so*** is forced,
 
- 
+```
+gcc -shared -o libsqr.so sqr.o
+```
+
+The ***-shared*** flag indicates shared library, ***libsqr.so*** follows the naming convention of ***lib<name>.so***. Next, we compile the executable with dynamic linkage,
+
+```
+gcc -o hello hello.o -lsqr -L .
+```
+
+Here ***-lsqr*** tells compiler to look for ***sqr*** dynamic library. ***-L*** tells the compiler where to find dynamic libraries, in our case, ***-L*** is followed by a dot to indicate the dynamic library (***libsqr.so***) should be found right here. Note that these flags are only used for compilation, not runtime.
+
+Now we have our executable with dynamic linkage, but running it directly will get an error message like this:
+
+```
+./hello: error while loading shared libraries: libsqr.so: cannot open shared object file: No such file or directory
+```
+
+That is because the OS doesn't know where to find ***libsqr.so*** when executing ***hello***. Also, if we run ***ldd*** command, we can see the dynamic library is missing,
+
+```
+ldd hello
+	linux-vdso.so.1 (0x00007ffc1c5e5000)
+	libsqr.so => not found
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f04dbdb1000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007f04dc3a4000)
+```
+
+One way to make things work is to explicitly tell the OS where to look for ***libsqr.so*** when executing ***hello***, 
+
+```
+LD_LIBRARY_PATH=. ./hello
+```
+
+Adding ***LD_LIBRARY_PATH=.*** tells the OS to look for dynamic libraries within the current directory, so that the ***hello*** executable can be run successfully.
+
+Similar to static library example, we run ***nm*** on the new ***hello*** executable, will get the following result,
+
+```
+$ nm hello
+0000000000201010 B __bss_start
+0000000000201010 b completed.7698
+                 w __cxa_finalize@@GLIBC_2.2.5
+0000000000201000 D __data_start
+0000000000201000 W data_start
+0000000000000750 t deregister_tm_clones
+00000000000007e0 t __do_global_dtors_aux
+0000000000200d98 t __do_global_dtors_aux_fini_array_entry
+0000000000201008 D __dso_handle
+0000000000200da0 d _DYNAMIC
+0000000000201010 D _edata
+0000000000201018 B _end
+0000000000000924 T _fini
+0000000000000820 t frame_dummy
+0000000000200d90 t __frame_dummy_init_array_entry
+0000000000000ac4 r __FRAME_END__
+0000000000200fa0 d _GLOBAL_OFFSET_TABLE_
+                 w __gmon_start__
+0000000000000980 r __GNU_EH_FRAME_HDR
+00000000000006a8 T _init
+0000000000200d98 t __init_array_end
+0000000000200d90 t __init_array_start
+0000000000000930 R _IO_stdin_used
+                 U __isoc99_scanf@@GLIBC_2.7
+                 w _ITM_deregisterTMCloneTable
+                 w _ITM_registerTMCloneTable
+0000000000000920 T __libc_csu_fini
+00000000000008b0 T __libc_csu_init
+                 U __libc_start_main@@GLIBC_2.2.5
+000000000000082a T main
+                 U printf@@GLIBC_2.2.5
+0000000000000790 t register_tm_clones
+                 U __stack_chk_fail@@GLIBC_2.4
+0000000000000720 T _start
+                 U terriblesqr
+0000000000201010 D __TMC_END__
+```
+
+Compared with the ***hello*** executable compiled with static linkage, the difference is that symbol ***terriblesqr*** here is of type "U" instead of "T", which means the dynamic library symbol is of undefined type.
