@@ -8,23 +8,6 @@ _Ever since I started learning operating system, I've been struggling with some 
 
 ---
 
-questions:
-
-	1. What is a static library, what is a dynamic library?
-	2. What is an ELF file?
-	3. What is the typical memory layout of an executable, who is deciding that?
-	4. What is system V?
-	5. What is the process of loading an executable? 
-	6. What are some common tools to analyze a given executable file? 
-
-references:
-
-	1. https://www.geeksforgeeks.org/static-vs-dynamic-libraries/
-	2. https://unix.stackexchange.com/questions/120015/how-to-find-out-the-dynamic-libraries-executables-loads-when-run
-	3. https://stackoverflow.com/questions/1124571/get-list-of-static-libraries-used-in-an-executable
-	4. https://amir.rachum.com/shared-libraries/
-	5. https://wiki.osdev.org/ELF
-
 Instead of writing a well-structured article to cover everything, I will write this blog in the form of **Q&A**. Some of the questions have been there in my mind for a long time, some popped up when I was doing some search.
 
 # 1. Static Library & Dynamic Library
@@ -315,11 +298,23 @@ Note that some of the components mentioned above may not neccessarily exist in e
 * ***.comment***: just comments.
 * ***.stab***: debugging symbols.
 
-## 2.3 What are some typical extensions for ELF?
+## 2.3 What are some typical extensions for ELF files?
 * ***.elf***: executable file
 * ***.exe***: executable file
 * ***.o***: object file
 * ***.obj***: similar to ***.o***, often used in Windows
 * ***.so***: shared library
 * ***.core***: generated as core dump when program crashes
+
+# 3. System V 
+# 4. Process of Loading Executable
+
+# References
+
+1. https://www.geeksforgeeks.org/static-vs-dynamic-libraries/
+2. https://unix.stackexchange.com/questions/120015/how-to-find-out-the-dynamic-libraries-executables-loads-when-run
+3. https://stackoverflow.com/questions/1124571/get-list-of-static-libraries-used-in-an-executable
+4. https://amir.rachum.com/shared-libraries/
+5. https://wiki.osdev.org/ELF
+
 
