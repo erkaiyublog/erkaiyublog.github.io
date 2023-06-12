@@ -39,9 +39,9 @@ int main() {
 }
 ``` 
 
-The first thing we did was to use ***#include <stdio.h>*** to include the ***stdio*** header, so that we could make use of ***printf*** function later. What happens during compilation is that the compiler will find the functions from C standard library that are included in ***stdio.h***, either by 
+The first thing we did was to include the ***stdio*** header, so that we could make use of ***printf*** function later. What happens during compilation is that the compiler will find the functions from C standard library that are included in ***stdio.h***, either by 
 
-1. copying the code of ***stdio*** library and replace ***#include <stdio.h>*** with the code; 
+1. copying the code of ***stdio*** library and replace ***#include*** macro with the code; 
 
 *or* 2. leave some marks in the executable and expect the library to be found somewhere in the system. 
 
@@ -204,7 +204,7 @@ Then generate the dynamic library of ***sqr*** with the following command, note 
 gcc -shared -o libsqr.so sqr.o
 ```
 
-The ***-shared*** flag indicates shared library, ***libsqr.so*** follows the naming convention of ***lib<name>.so***. 
+The ***-shared*** flag indicates shared library, ***libsqr.so*** follows the naming convention of ***lib[name].so***. 
 
 Next, we compile the **new** executable ***hello*** (replace the old one) with dynamic linkage,
 
@@ -292,4 +292,34 @@ Compared with the ***hello*** executable compiled with static linkage, the diffe
 
 # 2. ELF
 ## 2.1 What is ELF?
-ELF stands for "Executable and Linkable Format".
+ELF stands for "Executable and Linkable Format", it is a very versatile file format, designed by Unix System Laboratories while working with Sun Microsystems on SVR4. It is a format specified in System V ABI (What is System V??? I will mention that below).  
+
+In short, ELF is **a format for storing programs or fragments of programs on disk**. It contains:
+
+1. **ELF header**: includes identification fields (e.g. magic number, arch type), it also contains details like the entry point address and program header and section header table offsets.
+2. **Program header table**: contains a list of entries describing the various segments of the executable file (if this ELF is an executable). Each entry specifies the type of segment (e.g. code, data, dynamic linking info), its virtual memory address, and its size. Used by the system's runtime linker or loader when executing this file (or used as shared library).
+3. **Section header table**: contains entries that describe the sections present in the file, each section is a part of a segment. Section headers contain details about each section (e.g. type, offset, size, memory address). Mostly used during the compilation and linking process. 
+4. **Section data**: contains the actual data of each section, includes the machine instructions, data values, symbol tables, relocation information, etc.
+5. **Symbol table**: holds information about symbols defined or referenced in the file. 
+6. **String table**: holds the string data referenced by various components of the ELF file. 
+7. **Relocation table**: contains information necessary for adjusting addresses in the executable when it is loaded into memory.
+8. **Dynamic linking table**: provides information for runtime linking and dynamic loading of shared libraries. 
+
+Note that some of the components mentioned above may not neccessarily exist in every ELF file, it all depends on the actual purpose of the ELF. In ELF header, there is a "flag" specifying which components are present in this ELF file.
+
+## 2.2 What are some types of sections?
+* ***.text***: where code lives, can be shown by ***objdump -drS***.
+* ***.data***: where global tables, variables, ***objdump -s -j .data*** will hexdump it.
+* ***.bss***: where the uninitialized arrays and variables live.
+* ***.rodata***: where the strings live, ***objdump -s -j .rodata*** will hexdump it.
+* ***.comment***: just comments.
+* ***.stab***: debugging symbols.
+
+## 2.3 What are some typical extensions for ELF?
+* ***.elf***: executable file
+* ***.exe***: executable file
+* ***.o***: object file
+* ***.obj***: similar to ***.o***, often used in Windows
+* ***.so***: shared library
+* ***.core***: generated as core dump when program crashes
+
