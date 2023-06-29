@@ -10,6 +10,10 @@ _Ever since I started learning operating system, I've been struggling with some 
 
 Instead of writing a well-structured article to cover everything, I will write this blog in the form of **Q&A**. Some of the questions have been there in my mind for a long time, some popped up when I was doing some search.
 
+***Table of Contents***
+* TOC
+{:toc}
+
 # 1. Static Library & Dynamic Library
 ## 1.1 What are they?
 As we all know, ***library*** refers to precompiled code modules or functions that can be used to perform specific tasks or provide certain functionalities. For example, suppose we write a very basic "Hello World" program in C as shown below,
