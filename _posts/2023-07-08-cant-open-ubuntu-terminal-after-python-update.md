@@ -1,7 +1,7 @@
 ---
 published: true
 title: Failed to Open Ubuntu Terminal After Upgrading Python Version
-tags: Ubuntu 
+tags: Ubuntu Tips
 ---
 Failed to open the terminal on your ubuntu system after upgrading python3 version? Here's a way to potentially heal your pool command line!
 
