@@ -11,6 +11,10 @@ _In this post, I'd like to take down some notes of some common git operations fo
 
 ---
 
+***Table of Contents***
+* TOC
+{:toc}
+
 ## Create a Local Repository
 Suppose you have a folder called **My_Project** on your local operating system locating at "*~/My_Project*", to turn it into a git repository,
 
