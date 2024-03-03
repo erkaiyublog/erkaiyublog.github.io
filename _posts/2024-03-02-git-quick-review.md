@@ -15,12 +15,12 @@ _In this post, I'd like to take down some notes of some common git operations fo
 * TOC
 {:toc}
 
-## Create a Local Repository
+# Create a Local Repository
 Suppose you have a folder called **My_Project** on your local operating system locating at "*~/My_Project*", to turn it into a git repository,
 
     ~/My_Project# git init
 
-## Clone a Remote Repository
+# Clone a Remote Repository
 To clone a git repository, we need either its http link or its SSH link. For example, the source code of this blog website is placed on **github**, to clone it, you can use 
 
     ~# git clone https://github.com/erkaiyublog/erkaiyublog.github.io.git
@@ -33,7 +33,7 @@ To specify the branch to be cloned, and name the local folder differently,
 
     ~# git clone <http link/ssh link> -b <branch name> <local folder name>
 
-## Notation (IMPORTANT)
+# Notation (IMPORTANT)
 
 To make things clear, in the later sections, I will just assume that you are working on a Git repository called "**My_Project**" locating at "*~/My_Project*" on your system. I will add a little notation behind the path to specify the Git branch you're working on.
 
@@ -47,7 +47,7 @@ That means I ASSUME that your terminal looks like this. So when you are typing c
 
 Your real prompt probably looks different with my notation, but that doesn't matter. Just keep in mind that my notation is to help you understand where should you use the commands I provided.
 
-## Git Config
+# Git Config
 
 Git will force you to config before making the first commit.
 
@@ -61,7 +61,7 @@ Alternatively, you can add a ***--global*** flag to make the Git configuration "
     ~/My_Project(main)# git config --global user.email "<your email>"
     ~/My_Project(main)# git config --global user.name "<your name>"
 
-## Basic Operations on the Main Branch 
+# Basic Operations on a Single Main Branch 
 ### Git Status
 Git status shows the status of the Git repository. It lists the changes worth noticing in different sectinos. For example, 
 
@@ -139,6 +139,152 @@ If there are conflicts,
     ~/My_Project(main)# git commit -m "<comment about this merge>"
     ~/My_Project(main)# git push origin
 
-## Operations with Multiple Branches
+# Operations with Multiple Branches
+If you're working on a Git repository with multiple branches, then you should make sure that you've already understood all the operations mentioned in the "Operations on a Single Main Branch" section.
+
+### Git Branch
+Create a new local branch with 
+
+    ~/My_Project(main)# git branch <new-branch-name>
+
+After creating the branch, you aren't gonna be automatically switched to that branch, you need to use ***git checkout*** command to switch to the **new-branch** by yourself.
+
+If not given a name, ***git branch*** command simply lists the branch names that exist in this Git repository, with an asterisk symbol indicating where you are.
+
+    ~/My_Project(main)# git branch
+
+To delete a branch,
+
+    ~/My_Project(main)# git branch -d <branch-name>
+
+To delete a remote branch
+
+    ~/My_Project(main)# git push origin -d <branch-name>
+
+### Git Checkout
+It's a good idea to commit your changes before switching Git branches. Otherwise, Git will try to preserve them on the destination branch IF POSSIBLE. However, if there're conflicts, Git will not allow you to switch branches, in which case you need to either do a ***git commit*** or use ***git stash***.
+
+Switch to an existing Git branch,
+
+    ~/My_Project(main)# git checkout dev
+    ~/My_Project(dev)#
+
+Add a ***-b*** flag to create the branch before switching to it,
+    
+    ~/My_Project(main)# git checkout -b dev
+    ~/My_Project(dev)#
+
+On a certain branch, you can checkout an existing commit,
+
+    ~/My_Project(dev)# git checkout <the commit id>
+
+### Git Stash
+Stash the TRACKED changes TEMPORARILY, it CLEANS your work directory so that you're ready to switch to other branches,
+
+    ~/My_Project(main)# git stash
+    Saved working directory and index state WIP on main: 3e13d94 <last commit comments>
+
+To apply the changes stashed,
+
+    ~/My_Project(main)# git stash apply
+
+If there're multiple stashes,
+
+    ~/My_Project(main)# git stash apply stash@{n}
+
+***n*** is the index of the stash, you can use ***git stash list*** to find out the existing stashes.
+
+To remove the topmost stash,
+
+    ~/My_Project(main)# git stash drop
+
+To clear all stashes,
+    
+    ~/My_Project(main)# git stash clear
+
+By default, ***git stash*** only stashes the tracked changes, to include the untracked ones, add a ***-u*** flag,
+
+    ~/My_Project(main)# git stash -u
+
+### Git Fetch
+
+Suppose you're on the **main** branch after cloning a remote repository, to switch to the **dev** branch which EXISTS on the remote repository, use 
+
+    ~/My_Project(main)# git fetch origin
+    ~/My_Project(main)# git checkout dev
+    ~/My_Project(dev)# 
+
+The first "fetch origin" command fetches all the branches from the origin (remote) branch, so that your local Git knows the **dev** branch.
+
+If you've already done the "fetch origin" once and you're now on the **dev** branch, to fetch the remote updates for merging or rebasing, use 
+
+    ~/My_Project(dev)# git fetch origin dev
+
+### Git Merge
+If there're updates done on the remote **dev** branch, and you want to apply the updates to your local **dev** branch (which also contains updates), use ***git fetch*** command followed by ***git merge***,
+
+    ~/My_Project(dev)# git fetch origin dev
+    ~/My_Project(dev)# git merge origin/dev
+
+If there’re any conflicts, Git will specify them and notify you, just edit the conflicted files and then 
+
+    ~/My_Project(dev)# git add <conflicted_file1> <conflicted_file2> ... 
+    ~/My_Project(dev)# git commit -m "<comment about this merge>"
+
+Suppose there're some updates made in **dev**, and now you want to apply them into **main**. The correct way is to start by MERGING **main** into **dev**, solve all the conflicts, and THEN MERGE the **dev** back into **main**.
+
+    ~/My_Project(dev)# git add .
+    ~/My_Project(dev)# git commit -m "<comments for changes made on dev branch>"
+    ~/My_Project(dev)# git fetch origin dev
+    ~/My_Project(dev)# git merge origin/dev
+    --- resolve the conflicts if there're any, make a commit for that ---
+    ~/My_Project(dev)# git checkout main
+    ~/My_Project(main)# git fetch origin main
+    ~/My_Project(main)# git merge origin/main
+    --- resolve the conflicts if there're any, make a commit for that ---
+    ~/My_Project(main)# git checkout dev
+    ~/My_Project(dev)# git merge main
+    --- resolve the conflicts if there're any, make a commit for that ---
+    ~/My_Project(dev)# git checkout main
+    ~/My_Project(main)# git merge dev
+
+### Git Rebase
+Rewrites the commit history of a branch on top of the latest changes from another branch. When rebasing commmit A based on commit B, all the changes made to reach B starting from A and B's closest common ancester will be applied to A. 
+
+So, if there're updates on a remote **dev** branch, and you want to apply them locally, you can do
+
+    ~/My_Project(dev)# git fetch origin dev
+    ~/My_Project(dev)# git rebase origin/dev
+
+Suppose there're some updates made in **dev**, and now you want to apply them into **main**. Other than ***git merge***, you can also use ***git rebase*** to acheive this goal.
+
+    ~/My_Project(dev)# git add .
+    ~/My_Project(dev)# git commit -m "<comments for changes made on dev branch>"
+    ~/My_Project(dev)# git fetch origin dev
+    ~/My_Project(dev)# git rebase origin/dev
+    --- resolve the conflicts if there're any, run command `git rebase --continue` after resolving each conflict ---
+    ~/My_Project(dev)# git checkout main
+    ~/My_Project(main)# git fetch origin main
+    ~/My_Project(main)# git rebase origin/main
+    --- resolve the conflicts if there're any, run command `git rebase --continue` after resolving each conflict ---
+    ~/My_Project(main)# git checkout dev
+    ~/My_Project(dev)# git rebase main
+    --- resolve the conflicts if there're any, run command `git rebase --continue` after resolving each conflict ---
+    ~/My_Project(dev)# git checkout main
+    ~/My_Project(main)# git merge dev
+
+To do the Git rebase process interactively, use the ***-i*** flag,
+
+    ~/My_Project(dev)# git rebase -i origin/dev
+
+# Other Useful Operations 
+### Git Log
+Use ***git log*** command to view the commits made to reach the current **HEAD**,
+
+    ~/My_Project(main)# git log
+
+Some useful flags to make the log more user-friendly,
+
+    ~/My_Project(main)# git log --oneline --graph --author=<name> --decorate
 
 
