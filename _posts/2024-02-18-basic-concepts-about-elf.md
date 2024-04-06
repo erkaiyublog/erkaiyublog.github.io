@@ -1,19 +1,61 @@
 ---
-published: true
+published: false
 comments_id: 37
-title: Executable - Some Basic Concepts
+title: ELF - Some Basic Concepts
 tags: OS software-analysis
 ---
 ---
-_Ever since I started learning operating system, I've been struggling with some basic concepts involving executable files (e.g. what is the difference between static and dynamic libraries? how does the memory layout look like for an executable? how does an executable fit in different operating systems?). Having some vague answers to these questions in mind might be enough for me to write decent codes. However, since I've recently been working on a project related to software analysis, I decided to do some search to draw a clearer picture of these topics and write this blog to record what I've learned._
+_Ever since I started learning operating system, I've been struggling with some basic concepts involving executable files (e.g. what is the difference between static and dynamic libraries? how does the memory layout look like for an executable? how does an executable fit in different operating systems?)._
 
+_Lately, I've been reading a book called **Learning Linux Binary Analysis**, which explained the concept of ELF (Executable and Linkable Format) in details. So, I'd like to write this post as taking down some notes related to ELF._
+ 
 ---
-
-Instead of writing a well-structured article to cover everything, I will write this blog in the form of **Q&A**. Some of the questions have been there in my mind for a long time, some popped up when I was doing some search.
-
 ***Table of Contents***
 * TOC
 {:toc}
+
+# 1. What is ELF?
+ELF stands for Executable and Linkable Format, aside from executable file, there are many other types of files in the format of ELF, including shared library, object file, coredump file, and kernel core image file.
+
+## 1.1 What are some typical extensions for ELF files?
+* ***.exe*** / ***.out***: executable file
+* ***.o***: object file
+* ***.a***: archive file
+* ***.obj***: similar to ***.o***, often used in Windows
+* ***.so*** / ***.dll***: shared library
+* ***.core***: generated as core dump when program crashes
+
+## 1.2 What are some tools for ELF analysis?
+* ***objdump***: Object dump, a command-line tool to examine ELF files. It can disassemble executable and object files, showing the assembly language instructions in human-readable form. Given different flags, objdump can also display critical information about the ELF including symbol table, headers, sections, and so on.
+
+* ***objcopy***: Object copy, a command-line tool to modify ELF files.
+
+* ***readelf***: A command-line tool to display information of ELF files, similar with objdump.
+
+* ***IDA*** / ***Ghidra***: Powerful GUI tools to analyze binary files (such as executables and libraries). 
+
+# 2. ELF format
+Since ELF is a format capable of representing various types of files including executables, libraries, and so on, it's unnecessary to list out every single possible component that might exist in an ELF file. In other words, I don't want to understand ELF format in a "linear layout", instead I want to understand just the critical concepts of ELF format, since I can easily fetch them with the help of ELF analysis tools.
+
+Following are the critical concepts which I will explain in the later sections:
+
+* 2.1 ELF header
+* 2.2 Program header
+    * Segmentation
+* 2.3 Section header
+    * Section
+* 2.4 Symbols
+* 2.5 Relocation
+* 2.6 Dynamic linking
+
+## 2.1  
+
+
+
+
+
+
+
 
 # 1. Static Library & Dynamic Library
 ## 1.1 What are they?
