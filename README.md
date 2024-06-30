@@ -1,9 +1,9 @@
 2023.1.23: This repository is forked from https://github.com/barryclark/jekyll-now I use it as a website to hold my blogs.
-Access my blog website here: https://erkaiyublog.github.io/
+Visit my blog website here: https://erkaiyublog.github.io/
 
-Here're some useful links that I referred to when building my blog:
-* [To add comments base on github issues](https://www.aleksandrhovhannisyan.com/blog/jekyll-comment-system-github-issues/)
-* [To add the visualised statics map](https://www.revolvermaps.com/?target=gallery)
+Here are some useful links that I referred to when building my blog:
+* [To add comments based on github issues](https://www.aleksandrhovhannisyan.com/blog/jekyll-comment-system-github-issues/)
+* [To add the visualized statics map](https://www.revolvermaps.com/?target=gallery)
 * [Jekyll documents](http://jekyllrb.com/docs/)
 
 ---
