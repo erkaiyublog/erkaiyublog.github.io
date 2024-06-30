@@ -2,7 +2,7 @@
 Visit my blog website here: https://erkaiyublog.github.io/
 
 Here are some useful links that I referred to when building my blog:
-* [To add comments based on github issues](https://www.aleksandrhovhannisyan.com/blog/jekyll-comment-system-github-issues/)
+* [To add comments based on giscus](https://giscus.app/#repository)
 * [To add the visualized statics map](https://www.revolvermaps.com/?target=gallery)
 * [Jekyll documents](http://jekyllrb.com/docs/)
 
