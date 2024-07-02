@@ -1,0 +1,52 @@
+---
+layout: default
+title: "Books Timeline"
+---
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ page.title }}</title>
+  <style>
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .timeline-item {
+      margin: 20px 0;
+      padding: 10px 20px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .timeline-year {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 5px;
+    }
+    .timeline-content h2 {
+      margin: 0;
+      font-size: 1.5em;
+    }
+    .timeline-content p {
+      margin: 5px 0 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>{{ page.title }}</h1>
+  <div class="timeline">
+    {% assign books = site.data.books | sort: 'year' %}
+    {% for book in books %}
+      <div class="timeline-item">
+        <div class="timeline-year">{{ book.year }}</div>
+        <div class="timeline-content">
+          <h2>{{ book.title }}</h2>
+          <p>by {{ book.author }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

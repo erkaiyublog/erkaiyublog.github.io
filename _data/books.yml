@@ -1,0 +1,10 @@
+# _data/books.yml
+- title: "Book Title 1"
+  author: "Author 1"
+  year: 1995
+- title: "Book Title 2"
+  author: "Author 2"
+  year: 2000
+- title: "Book Title 3"
+  author: "Author 3"
+  year: 2010
