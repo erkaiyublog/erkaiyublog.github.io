@@ -122,6 +122,9 @@ title: "Books Timeline"
             <div class="timeline-year">{{ book.year }}</div>
             <h2>{{ book.title }}</h2>
             <p>by {{ book.author }}</p>
+            <p>Finished Reading on {{ book.endtime }} </p>
+            <p>Rate: {{ book.rate }}</p>
+            <p>Tags: {{ book.tags }}</p>
           </div>
         </li>
       {% endfor %}

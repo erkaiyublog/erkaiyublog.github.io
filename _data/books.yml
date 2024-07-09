@@ -1,10 +1,7 @@
 # _data/books.yml
-- title: "Book Title 1"
-  author: "Author 1"
+- title: "月亮与六便士"
+  author: "毛姆"
   year: 1995
-- title: "Book Title 2"
-  author: "Author 2"
-  year: 2000
-- title: "Book Title 3"
-  author: "Author 3"
-  year: 2010
+  endtime: 2024.7.3
+  tags: 现实主义
+  rate: 5
