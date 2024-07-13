@@ -1,7 +1,14 @@
 # _data/books.yml
 - title: "月亮与六便士"
   author: "毛姆"
-  year: 1995
+  year: 1919
   endtime: 2024.7.3
+  tags: 现实主义
+  rate: 5
+
+- title: "刀锋"
+  author: "毛姆"
+  year: 1944
+  endtime: 2024.7.13
   tags: 现实主义
   rate: 5
