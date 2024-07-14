@@ -12,3 +12,31 @@
   endtime: 2024.7.13
   tags: 现实主义
   rate: 5
+
+- title: "X的悲剧"
+  author: "奎因"
+  year: 1932
+  endtime: 2024.5.3
+  tags: 推理小说 本格
+  rate: 5
+
+- title: "Y的悲剧"
+  author: "奎因"
+  year: 1932
+  endtime: 2024.6.19
+  tags: 推理小说 本格
+  rate: 5
+
+- title: "漫长的告别"
+  author: "钱德勒"
+  year: 1953
+  endtime: 2024.6.10
+  tags: 推理小说 硬汉派
+  rate: 5
+
+- title: "希腊棺材之谜"
+  author: "奎因"
+  year: 1932
+  endtime: 2024.5.1
+  tags: 推理小说 本格
+  rate: 5
