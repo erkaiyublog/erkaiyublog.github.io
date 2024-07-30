@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }}</title>
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>{{ page.title }}</h1>
+        <nav>
+            <a href="{{ site.baseurl }}/">Back to Collection</a>
+        </nav>
+    </header>
+    <main>
+        <article>
+            <img src="{{ page.image }}" alt="{{ page.title }} Image">
+            <p>{{ page.description }}</p>
+        </article>
+    </main>
+    <footer>
+        <p>&copy; {{ site.time | date: '%Y' }} Your Name</p>
+    </footer>
+</body>
+</html>
+

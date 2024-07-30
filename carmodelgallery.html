@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Car Collection</title>
+    <link rel="stylesheet" href="{{ site.baseurl }}/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Model Car Collection</h1>
+    </header>
+    <main>
+        <section>
+            {% for model in site.carmodels.models %}
+            <article>
+                <img src="{{ model.image }}" alt="{{ model.title }} Image">
+                <h2><a href="{{ site.baseurl }}{{ model.url }}">{{ model.title }}</a></h2>
+                <p>{{ model.abstract }}</p>
+            </article>
+            {% endfor %}
+        </section>
+    </main>
+    <footer>
+        <p>&copy; {{ site.time | date: '%Y' }} Your Name</p>
+    </footer>
+</body>
+</html>
+
