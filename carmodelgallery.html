@@ -12,6 +12,7 @@
         <section>
             {% for model in site.carmodels.models %}
             <article>
+                <p>model i</p>
                 <img src="{{ model.image }}" alt="{{ model.title }} Image">
                 <h2><a href="{{ site.baseurl }}{{ model.url }}">{{ model.title }}</a></h2>
                 <p>{{ model.abstract }}</p>
@@ -19,8 +20,5 @@
             {% endfor %}
         </section>
     </main>
-    <footer>
-        <p>&copy; {{ site.time | date: '%Y' }} Your Name</p>
-    </footer>
 </body>
 
