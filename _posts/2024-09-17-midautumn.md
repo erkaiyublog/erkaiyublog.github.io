@@ -4,22 +4,23 @@ title: 中秋节快乐！
 tags: CN
 ---
 
-千里共婵娟。
+<span style="color: yellow;">千里共婵娟。</span>
 
 厦门：
-![correct](../images/posts/midautumn2024/xiamen.jpeg)
+<img src="../images/posts/midautumn2024/xiamen.jpeg" style="height: 300px;"/>
 
 上海：
-![correct](../images/posts/midautumn2024/shanghai.jpeg)
+<img src="../images/posts/midautumn2024/shanghai.jpeg" style="height: 300px;"/>
 
 深圳：
-![correct](../images/posts/midautumn2024/shenzhen.jpeg)
+<img src="../images/posts/midautumn2024/shenzhen.jpeg" style="height: 300px;"/>
 
 杭州（吉吉去了灵隐）：
-![correct](../images/posts/midautumn2024/hangzhou.jpeg)
+<img src="../images/posts/midautumn2024/hangzhou.jpeg" style="height: 300px;"/>
 
 加州：
-![correct](../images/posts/midautumn2024/california.jpeg)
+<img src="../images/posts/midautumn2024/california.jpeg" style="height: 300px;"/>
 
 香港：
-![correct](../images/posts/midautumn2024/hongkong.jpeg)
+<img src="../images/posts/midautumn2024/hongkong.jpeg" style="height: 300px;"/>
+
