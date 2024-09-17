@@ -4,7 +4,7 @@ title: 中秋节快乐！
 tags: CN
 ---
 
-<span style="color: #FDF5E6;">千里共婵娟。</span>
+<span style="color: #E5D934">千里共婵娟。</span>
 
 厦门：
 <img src="../images/posts/midautumn2024/xiamen.jpeg" style="height: 300px;"/>
