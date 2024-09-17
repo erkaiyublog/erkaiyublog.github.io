@@ -1,5 +1,5 @@
 ---
-published: true
+published: false
 title: Building a Chess Engine from Scratch
 tags: chess-engine chess 
 ---
