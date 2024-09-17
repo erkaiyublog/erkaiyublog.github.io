@@ -18,7 +18,7 @@ tags: CN
 杭州（吉吉去了灵隐）：
 <img src="../images/posts/midautumn2024/hangzhou.jpeg" style="height: 300px;"/>
 
-苏黎世：
+洛桑&#x1F437;：
 <img src="../images/posts/midautumn2024/zurich.jpeg" style="height: 300px;"/>
 
 加州：
