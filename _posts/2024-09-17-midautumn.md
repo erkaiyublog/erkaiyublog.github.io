@@ -30,3 +30,6 @@ tags: CN
 伊利诺伊州：
 <img src="../images/posts/midautumn2024/illinois.jpeg" style="height: 300px;"/>
 
+北卡罗那莱州&#x1F476;：
+<img src="../images/posts/midautumn2024/north.jpeg" style="height: 300px;"/>
+
