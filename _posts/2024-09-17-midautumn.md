@@ -27,3 +27,6 @@ tags: CN
 香港：
 <img src="../images/posts/midautumn2024/hongkong.jpeg" style="height: 300px;"/>
 
+伊利诺伊州：
+<img src="../images/posts/midautumn2024/illinois.jpeg" style="height: 300px;"/>
+
