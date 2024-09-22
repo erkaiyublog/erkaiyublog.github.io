@@ -27,4 +27,4 @@ Adding watermarks in LLM-generated texts can be methodologically categorized int
 # Use Cases
 
 # Reference
-[1]: [The Science of Detecting LLM-Generated Texts](https://arxiv.org/pdf/2303.07205)
+[1]: https://arxiv.org/pdf/2303.07205
