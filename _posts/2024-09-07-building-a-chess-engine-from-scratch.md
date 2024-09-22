@@ -14,6 +14,17 @@ In this blog, I'm recording the process of me developing my own chess engine, [s
 # Motivation
 If you are not interested in chess, you are probably not gonna be interested in building a chess engine. Even if you enjoy playing chess, creating your own machine for this game may still make little sense to you, since we already got all those fancy AI chess engines out there with unreachable ratings not only for humans but also for your homemade chess engines. So, why spending the time building your own chess engine?? &#x1F9D0;
 
-I think for most of the readers, their reasons of reading this blog are due to some silly homeworks from some ML introduction courses which require them to build a chess engine using the classical game tree searching algorithms. Similarly, I started my journey of building a chess engine after finishing a machine problem from a ML course which required me to build a tic-tac-toe engine. During the process of building the tic-tac-toe engine, I read this insightful paper called [Programming a Computer for Playing Chess](https://vision.unipv.it/IA1/ProgrammingaComputerforPlayingChess.pdf) from the course materials, to my surprise, the key ideas introduced in this paper by our dear friend Claude E. Shannon have not much difference from the ones I used to create a tic-tac-toe engine, then I started to realize that building my own chess engine might not be such a difficult task. As a chess lover myself, I couldn't help wondering whether it would be possible to create a chess engine following my own understanding of chess to beat myself. It felt like teaching a student and see it gradually become stronger than myself, how exciting! So, I created a new folder, copied the code from my tic-tac-toe engine, and started the journey of creating my own chess engine. 
+Well, my answer to this question is, for fun! The thought of building an engine like the one created by the tech giant IBM around 30 years ago just appeared to be so cool to me. When I took a ML course as a senior undergrad, one of the assignments we got was to implement a tic-tac-toe engine using what we've learned, it was at that time I encountered this insightful paper called [Programming a Computer for Playing Chess](https://vision.unipv.it/IA1/ProgrammingaComputerforPlayingChess.pdf) and realized that a chess engine has not much difference from the toy tic-tac-toe engine I just built! So, I created a new folder, copied the code from my tic-tac-toe engine, and started the journey of creating my own chess engine. 
+
+# Silkfish 1.0
+Silkfish 1.0 is deployed on a server with Intel(R) Xeon(R) CPU E5-2698 v4 @ 2.20GHz CPU, 2 cores (1 thread each). It has a rating of **1700** in both rapid and classical time control on lichess. In terms of game strategy, silkfish 1.0 has the following features implemented.  
+
+1. Minimax search
+2. Alpha-Beta Pruning
+3. Quiescence search
+4. Piece-Square Tables
+5. Multithreading
+
+## 
 
 
