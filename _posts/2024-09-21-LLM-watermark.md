@@ -31,7 +31,7 @@ The idea is quite straight-forward, hence somewhat "naive". A motivation for stu
 
 The advantage of this method is its high preservation of semantics. The disadvantage is that such method is less robust against watermark detection and removal attacks.
 
-A representative work using this method is \[[3]\].
+A representative work using this method is *Robust Multi-bit Natural Language Watermarking through Invariant Features*\[[3]\] published in 2023. The authors used two phases to generate watermarks under a blackbox setting. Given a segment of text (which they called cover text), their Phase 1 is to find words that are 'invariant' to corruption, which means attackers need to change a significant portion of the text to alter this word. Their Phase 2 is to use a pre-trained infill model to generate replacements of the chosen words in Phase 1. The experiment was done with IMDB, Wikitext, and two English novels, they considered a insertion/deletion/substitution of words on 2.5% - 5% of the text (in every each N words) as a corruption.
 ## Inference-time Watermarking
 
 ## Neural-based Watermarking
