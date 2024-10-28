@@ -1,0 +1,111 @@
+---
+layout: default
+title: "Running Personal Bests"
+---
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ page.title }}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .record-table-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 6px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #FF9F55;
+      color: #fff;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    @media screen and (max-width: 768px) {
+      .record-table-container {
+        width: 90%;
+      }
+
+      th, td {
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>{{ page.title }}</h1>
+  <div class="record-table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Distance</th>
+          <th>Time</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1K</td>
+          <td>{{ site.data.running_pbs.one_k.time }}</td>
+          <td>{{ site.data.running_pbs.one_k.date }}</td>
+        </tr>
+        <tr>
+          <td>5K</td>
+          <td>{{ site.data.running_pbs.five_k.time }}</td>
+          <td>{{ site.data.running_pbs.five_k.date }}</td>
+        </tr>
+        <!-- <tr>
+          <td>10K</td>
+          <td>{{ site.data.running_pbs.ten_k.time }}</td>
+          <td>{{ site.data.running_pbs.ten_k.date }}</td>
+        </tr>
+        <tr>
+          <td>15K</td>
+          <td>{{ site.data.running_pbs.fifteen_k.time }}</td>
+          <td>{{ site.data.running_pbs.fifteen_k.date }}</td>
+        </tr>
+        <tr>
+          <td>Half Marathon</td>
+          <td>{{ site.data.running_pbs.half_marathon.time }}</td>
+          <td>{{ site.data.running_pbs.half_marathon.date }}</td>
+        </tr>
+        <tr>
+          <td>Marathon</td>
+          <td>{{ site.data.running_pbs.marathon.time }}</td>
+          <td>{{ site.data.running_pbs.marathon.date }}</td>
+        </tr> -->
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
