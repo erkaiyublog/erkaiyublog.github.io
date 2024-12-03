@@ -6,6 +6,18 @@ Here are some useful links that I referred to when building my blog:
 * [To add the visualized statics map](https://www.revolvermaps.com/?target=gallery)
 * [Jekyll documents](http://jekyllrb.com/docs/)
 
+
+2024.12.3:
+To run locally
+
+    ruby -v
+
+    gem install bundler
+
+    gem install github-pages
+
+    jekyll serve
+
 ---
 > March, 2016: If you're on an old version of Jekyll Now and run into a) build warnings or b) syntax highlighting issues caused by [Jekyll 3 and GitHub Pages updates](https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0), just :sparkles:[update your _config.yml](https://github.com/barryclark/jekyll-now/pull/445/files):sparkles: and you'll be set!
 
