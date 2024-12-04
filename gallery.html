@@ -1,0 +1,22 @@
+---
+layout: gallery
+title: Gallery
+permalink: /Gallery/
+---
+
+<div id="gallery-content">
+  <ul class="results">
+    <link rel="stylesheet" href="{{ '/gallery.css' | relative_url }}">
+    
+    {% assign images = site.static_files | where_exp:"file","file.path contains '/sketches'" %}
+    
+    {% for image in images %}
+      
+      <li class="result">
+        <a href="#"><img src="{{ image.path | relative_url }}" width="500" height="500" alt=""></a>
+      </li>
+
+    {% endfor %}
+
+  </ul>
+</div>
