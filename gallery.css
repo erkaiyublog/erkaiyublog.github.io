@@ -9,11 +9,13 @@
   }
   
   #gallery-content ul {
+
     display: flex;
-    width: calc(80% - 2rem);
+    width: calc(100% - 2rem);
     padding: 0;
     margin: 0;
     list-style-type: none;
+    justify-content: center;  /* Horizontally center the list items */
   }
   
   #gallery-content li {
