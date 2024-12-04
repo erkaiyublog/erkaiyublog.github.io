@@ -11,7 +11,7 @@
   #gallery-content ul {
 
     display: flex;
-    width: calc(100% - 2rem);
+    width: calc(100%);
     padding: 0;
     margin: 0;
     list-style-type: none;
@@ -35,7 +35,7 @@
   }
   
   :root {
-    --lerp-0: 1;
+    --lerp-0: 0.6;
     --lerp-1: 0.5787037;
     --lerp-2: 0.2962963;
     --lerp-3: 0.125;
@@ -43,6 +43,7 @@
     --lerp-5: 0.0046296;
     --lerp-6: 0;
   }
+
   
   #gallery-content a {
     outline-offset: 4px;
