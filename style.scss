@@ -19,7 +19,7 @@ html {
 
 body {
 	background: $white;
-  font: 18px/1.4 $helvetica;
+  font: 18px/1.4 -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;;
 
   // font: 20px/1.4 $georgia;
   color: $darkGray;
@@ -33,7 +33,7 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: $helvetica;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   color: $darkerGray;
   font-weight: bold;
 
@@ -101,7 +101,7 @@ ul ul, ol ul {
 }
 
 em, i {
-  font-style: italic;
+  font-style: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
 }
 
 strong, b {
@@ -122,7 +122,7 @@ img {
 }
 
 .date {
-  font-style: italic;
+  font-style: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   color: $gray;
 }
 
@@ -211,7 +211,7 @@ img {
   margin: 0;
   color: $darkGray;
   cursor: pointer;
-  font-family: $georgia;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   font-weight: 300;
   font-size: 28px;
   letter-spacing: 1px;
@@ -229,22 +229,22 @@ img {
 
 nav {
   float: right;
-  margin-top: 23px; // @TODO: Vertically middle align
-  font-family: $georgia;
-  font-size: 18px;
+  margin-top: 22px; // @TODO: Vertically middle align
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  font-size: 15px;
 
   @include mobile {
     float: none;
     margin-top: 9px;
     display: block;
-    font-size: 16px;
+    font-size: 13px;
   }
 
   a {
-    margin-left: 20px;
+    margin-left: 10px;
     color: $darkGray;
     text-align: right;
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: 1px;
 
     @include mobile {
@@ -259,8 +259,9 @@ nav {
 //
 
 .posts > .post {
-  padding-bottom: 2em;
-  border-bottom: 1px solid $lightGray;
+  padding-bottom: 0.5em;
+  border-bottom: 3px solid $black;
+  box-shadow: 0 5px 0 #ADD8E6; 
 }
 
 .posts > .post:last-child {
@@ -275,7 +276,7 @@ nav {
     padding: 0.1em 1em;
     color: $gray;
     font-size: 22px;
-    font-style: italic;
+    font-style: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   }
 
   .comments {
