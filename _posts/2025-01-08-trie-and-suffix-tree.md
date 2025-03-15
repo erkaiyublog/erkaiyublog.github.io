@@ -1,5 +1,5 @@
 ---
-published: true
+published: false
 title: Trie and Suffix Tree
 tags: data-structure algorithm
 ---
