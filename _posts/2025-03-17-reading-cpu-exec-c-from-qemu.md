@@ -224,6 +224,7 @@ The ```tb_lookup_cmp``` function looks like:
 Reason for that is quite straight-forward, function ```tb_lookup_cmp``` is called as a function pointer in the following line,
 
     qht_lookup_custom(&tb_ctx.htable, &desc, h, tb_lookup_cmp);
+    
 The ```qht_lookup_custom``` function performs hash table lookups, and requires the subjects to be ```void``` typed for flexibility.
 
 ## Function Name Glueing
