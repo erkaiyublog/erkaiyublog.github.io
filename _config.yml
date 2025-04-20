@@ -91,3 +91,10 @@ exclude:
 
 issues_repo: erkaiyublog/erkaiyublog.github.io
 
+collections:
+  paper_notes:
+    output: true
+    permalink: /paper_notes/:name/
+
+include:
+  - _paper_notes
