@@ -25,7 +25,7 @@ footer-links:
   email: si1krow@outlook.com
   facebook:
   flickr:
-  github: silkrow
+  github: erkaii
   instagram:
   linkedin: erkai-yu-620358250
   pinterest:
@@ -90,3 +90,7 @@ exclude:
   - CNAME
 
 issues_repo: erkaiyublog/erkaiyublog.github.io
+
+collections:
+  paper_notes:
+    output: true
