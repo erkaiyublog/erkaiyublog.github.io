@@ -1,6 +1,6 @@
 ---
 title: example
-layout: default
+layout: post
 ---
 
 hey!
