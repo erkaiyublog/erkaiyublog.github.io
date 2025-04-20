@@ -91,6 +91,3 @@ exclude:
 
 issues_repo: erkaiyublog/erkaiyublog.github.io
 
-collections:
-  paper_notes:
-    output: true

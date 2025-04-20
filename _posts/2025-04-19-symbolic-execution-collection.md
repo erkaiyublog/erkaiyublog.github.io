@@ -12,4 +12,4 @@ I collected the related papers by refering to the following surveys/summaries:
 1. *A Survey of Symbolic Execution Techniques*, Baldoni et al. [[link](https://arxiv.org/pdf/1610.00502)]
 2. *Symbolic execution for software testing: Three decades later*, Cadar et al. [[link](https://people.eecs.berkeley.edu/~ksen/papers/cacm13.pdf)]
 
-Example: [example](/paper_notes/some_example.md)
+Example: [example](/paper_notes/some_example.html)
