@@ -13,6 +13,8 @@ Article No.: 50, Pages 1 - 39
 
 https://doi.org/10.1145/3182657
 
+---
+
 After skimming the survey *A Survey of Symbolic Execution Techniques*, I summarized the topics related to symbolic execution as the diagram below.
 
 ![Topics Related to Symbolic Execution](/images/posts/symbolic_execution_index/symbolic_exec.drawio.png)
