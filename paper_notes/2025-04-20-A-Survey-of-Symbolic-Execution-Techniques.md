@@ -15,6 +15,8 @@ https://doi.org/10.1145/3182657
 
 ---
 
+See also: [KLEE](/paper_notes/2025-04-22-KLEE-unassisted-and-automatic-generation-of-high-coverage-tests%20for-complex-systems-programs), [EXE](/paper_notes/2025-04-21-EXE-Automatically-Generating-Inputs-of-Death).
+
 After skimming the survey *A Survey of Symbolic Execution Techniques*, I summarized the topics related to symbolic execution as the diagram below.
 
 ![Topics Related to Symbolic Execution](/images/posts/symbolic_execution_index/symbolic_exec.drawio.png)

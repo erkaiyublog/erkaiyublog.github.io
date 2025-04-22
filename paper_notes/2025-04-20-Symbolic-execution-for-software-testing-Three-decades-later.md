@@ -9,11 +9,14 @@ Cristian Cadar, Koushik Sen
 * Published: 01 Feb 2013
 
 Communications of the ACM, Volume 56, Issue 2 Pages 82 - 90
+
 https://doi.org/10.1145/2408776.2408795
 
 ---
 
-Apparently the author Cristian Cadar is actively working in the area of symbolic execution, he is also one of the authors of [EXE: Automatically Generating Inputs of Death](/paper_notes/2025-04-21-EXE-Automatically-Generating-Inputs-of-Death).
+See also: [KLEE](/paper_notes/2025-04-22-KLEE-unassisted-and-automatic-generation-of-high-coverage-tests%20for-complex-systems-programs), [EXE](/paper_notes/2025-04-21-EXE-Automatically-Generating-Inputs-of-Death).
+
+Apparently the author ***Cristian Cadar*** is actively working in the area of symbolic execution, he is also one of the authors of [EXE: Automatically Generating Inputs of Death](/paper_notes/2025-04-21-EXE-Automatically-Generating-Inputs-of-Death).
 
 Compared to this survey, [A Survey of Symbolic Execution Techniques](/paper_notes/2025-04-20-A-Survey-of-Symbolic-Execution-Techniques) might be a more detailed one to read. 
 

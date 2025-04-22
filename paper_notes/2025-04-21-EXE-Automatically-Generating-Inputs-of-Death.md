@@ -6,13 +6,16 @@ layout: post
 Cristian Cadar, Vijay Ganesh, Peter M. Pawlowski, David L. Dill, Dawson R. Engler
 
 * Read: 21 Apr 2025
-* Published: 01 Dec 2008
+* Published: 30 Oct 2006
 
-ACM Transactions on Information and System Security (TISSEC), Volume 12, Issue 2
-Article No.: 10, Pages 1 - 38
-https://doi.org/10.1145/1455518.1455522
+CCS '06: Proceedings of the 13th ACM conference on Computer and communications security, Pages 322 - 335
+
+https://doi.org/10.1145/1180405.118044
 
 ---
+
+See also: [KLEE](/paper_notes/2025-04-22-KLEE-unassisted-and-automatic-generation-of-high-coverage-tests%20for-complex-systems-programs).
+
 # Q&A ([link](https://cseweb.ucsd.edu/~wgg/CSE210/howtoread.html))
 
 **What are the motivations for this work?** 
@@ -25,9 +28,9 @@ https://doi.org/10.1145/1455518.1455522
 **What is the proposed solution?**
 
 * See Introduction, Section 3. 
-* Runs code on symbolic input, forks execution when branching.
-* Designed constraint solver STP. STP accurately models memory for C program, but it ***doesn't handle*** floating point).
-* Use STP to generate a test case for a terminated path (or bug).
+* A Symbolic execution tool named EXE. It runs code on symbolic input, forks execution when branching.
+* A constraint solver STP used by EXE. STP accurately models memory for C program, but it ***doesn't handle*** floating point).
+* Uses STP to generate a test case whenever a path terminates (normally or due to a bug, the so called "death").
 
 **What is the work's evaluation of the proposed solution?**
 
