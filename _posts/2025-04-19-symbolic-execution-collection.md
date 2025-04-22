@@ -13,7 +13,9 @@ I collected the related papers by refering to the following surveys/summaries:
 2. *Symbolic execution for software testing: Three decades later*, Cadar et al. [[link](https://people.eecs.berkeley.edu/~ksen/papers/cacm13.pdf)]
 
 # List of Paper Notes
-1. [EXE: Automatically Generating Inputs of Death](/paper_notes/2025-04-21-exe)(2008)
+1. [A Survey of Symbolic Execution Techniques](/paper_notes/2025-04-20-A%20Survey%20of%20Symbolic%20Execution%20Techniques)(2018)
+2. [Symbolic execution for software testing: Three decades later](/paper_notes/2025-04-20-Symbolic%20execution%20for%20software%20testing%3A%20Three%20decades%20later.md)(2020)
+3. [EXE: Automatically Generating Inputs of Death](/paper_notes/2025-04-21-EXE%3A%20Automatically%20Generating%20Inputs%20of%20Death.md)(2008)
 
 # High-Level View
 
