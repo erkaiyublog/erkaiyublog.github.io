@@ -13,9 +13,9 @@ I collected the related papers by refering to the following surveys/summaries:
 2. *Symbolic execution for software testing: Three decades later*, Cadar et al. [[link](https://people.eecs.berkeley.edu/~ksen/papers/cacm13.pdf)]
 
 # List of Paper Notes
-1. [A Survey of Symbolic Execution Techniques](/paper_notes/2025-04-20-A%20Survey%20of%20Symbolic%20Execution%20Techniques)(2018)
-2. [Symbolic execution for software testing: Three decades later](/paper_notes/2025-04-20-Symbolic%20execution%20for%20software%20testing%3A%20Three%20decades%20later.md)(2020)
-3. [EXE: Automatically Generating Inputs of Death](/paper_notes/2025-04-21-EXE%3A%20Automatically%20Generating%20Inputs%20of%20Death.md)(2008)
+1. [A Survey of Symbolic Execution Techniques](/paper_notes/2025-04-20-A-Survey-of-Symbolic-Execution-Techniques)(2018)
+2. [Symbolic execution for software testing: Three decades later](/paper_notes/2025-04-20-Symbolic-execution-for-software-testing-Three-decades-later.md)(2013)
+3. [EXE: Automatically Generating Inputs of Death](/paper_notes/2025-04-21-EXE-Automatically-Generating-Inputs-of-Death.md)(2008)
 
 # High-Level View
 
@@ -23,7 +23,7 @@ After skimming the survey *A Survey of Symbolic Execution Techniques*, I summari
 
 ![Topics Related to Symbolic Execution](../images/posts/symbolic_execution_index/symbolic_exec.drawio.png)
 
-# Symbolic Execution Tools Overview in 2020 Survey
+# Symbolic Execution Tools Overview in 2013 Survey
 When skimming the survey *Symbolic execution for software testing: Three decades later* I came accross a section named "Tools" which listed many symbolic execution tools with a brief introduction. I summarized them as below:
 
 1. **DART**: The first concolic testing tool that combines dynamic test generation with random testing and model checking techniques with the goal of systematically executing as many as possible execution paths of a program. DART was first implemented at Bell Labs for **testing C programs**, and has inspired many other extensions and tools since.
