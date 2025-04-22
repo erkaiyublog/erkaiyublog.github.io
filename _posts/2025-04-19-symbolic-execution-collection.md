@@ -12,17 +12,14 @@ I collected the related papers by refering to the following surveys/summaries:
 1. *A Survey of Symbolic Execution Techniques*, Baldoni et al. [[link](https://arxiv.org/pdf/1610.00502)]
 2. *Symbolic execution for software testing: Three decades later*, Cadar et al. [[link](https://people.eecs.berkeley.edu/~ksen/papers/cacm13.pdf)]
 
+# List of Paper Notes
+1. [EXE: Automatically Generating Inputs of Death](/paper_notes/2025-04-21-exe)(2008)
+
 # High-Level View
 
 After skimming the survey *A Survey of Symbolic Execution Techniques*, I summarized the topics related to symbolic execution as the diagram below.
 
 ![Topics Related to Symbolic Execution](../images/posts/symbolic_execution_index/symbolic_exec.drawio.png)
-
-# Paper List
-
-I picked some of the symbolic execution tools mentioned in the surveys, read the related papers, and wrote notes about them:
-
-1. [EXE: Automatically Generating Inputs of Death](/paper_notes/2025-04-21-exe)(2008)
 
 # Symbolic Execution Tools Overview in 2020 Survey
 When skimming the survey *Symbolic execution for software testing: Three decades later* I came accross a section named "Tools" which listed many symbolic execution tools with a brief introduction. I summarized them as below:
