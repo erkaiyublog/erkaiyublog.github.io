@@ -18,11 +18,13 @@ After skimming the survey *A Survey of Symbolic Execution Techniques*, I summari
 
 ![Topics Related to Symbolic Execution](../images/posts/symbolic_execution_index/symbolic_exec.drawio.png)
 
-I picked some of the symbolic execution tools mentioned in the diagram above, read the related papers, and wrote notes about them:
+# Paper List
 
-1. [EXE: Automatically Generating Inputs of Death](/paper_notes/exe)
+I picked some of the symbolic execution tools mentioned in the surveys, read the related papers, and wrote notes about them:
 
-# Symbolic Execution Tools Overview in 2020
+1. [EXE: Automatically Generating Inputs of Death](/paper_notes/2025-04-21-exe)(2008)
+
+# Symbolic Execution Tools Overview in 2020 Survey
 When skimming the survey *Symbolic execution for software testing: Three decades later* I came accross a section named "Tools" which listed many symbolic execution tools with a brief introduction. I summarized them as below:
 
 1. **DART**: The first concolic testing tool that combines dynamic test generation with random testing and model checking techniques with the goal of systematically executing as many as possible execution paths of a program. DART was first implemented at Bell Labs for **testing C programs**, and has inspired many other extensions and tools since.
@@ -32,7 +34,7 @@ When skimming the survey *Symbolic execution for software testing: Three decades
 5. **KLEE**: A redesign of EXE, built **on top of the LLVM-compiler infrastructure**. It performs concolic execution, models memory with bit-level accuracy, employs a variety of solving optimizations, and uses search heuristics to get high code coverage. one of the key improvements of KLEE over EXE is its ability to store a much larger number of concurrent states, by exploiting sharing among states at the object-level rahter than at the page-level. KLEE also has better environment interaction than EXE. 
 6. **SAGE**: A dynamic symbolic execution tool developed by Microsoft for x86 binaries.
 
-# Advanced Directions in 2018
+# Advanced Directions by 2018 Survey
 *A Survey of Symbolic Execution Techniques* was published in 2018. In the survey, some further directions for symbolic execution were listed. Below is a summarized version.
 
 1. **Separation Logic**: SL extends Hoare logic to facilitate reasoning about programs that maniputlate pointer data structures, and allows expressing compplex invariants of heap configurations in a succinct manner.
