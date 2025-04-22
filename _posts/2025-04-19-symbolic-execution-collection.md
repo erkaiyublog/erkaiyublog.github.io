@@ -18,9 +18,9 @@ After skimming the survey *A Survey of Symbolic Execution Techniques*, I summari
 
 ![Topics Related to Symbolic Execution](../images/posts/symbolic_execution_index/symbolic_exec.drawio.png)
 
-I picked some of the symbolic execution tools mentioned in the diagram above, and wrote notes about them:
+I picked some of the symbolic execution tools mentioned in the diagram above, read the related papers, and wrote notes about them:
 
-* IN PROGRESS
+1. [EXE: Automatically Generating Inputs of Death](/paper_notes/exe)
 
 # Symbolic Execution Tools Overview in 2020
 When skimming the survey *Symbolic execution for software testing: Three decades later* I came accross a section named "Tools" which listed many symbolic execution tools with a brief introduction. I summarized them as below:
