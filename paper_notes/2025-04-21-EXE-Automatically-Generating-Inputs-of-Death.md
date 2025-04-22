@@ -55,7 +55,7 @@ NONE
 
 **What is your take-away message from this paper?**
 
-* See Section
+NONE
 
 # GPT-generated Keynotes
 
