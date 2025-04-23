@@ -57,7 +57,7 @@ The way they model the environment as simple C codes returning legal read result
 
 * See Section 6.
 * The authors have a long-term goal to be able to take an arbitrary program and routinely get 90%+ code coverage. 
-* GPT provided two related tools that might have achieved this goal: ***Coyote C++***, ***SmartUnit***.
+* GPT suggests [Coyote C++](https://codemind.io/) a related tool that claims to have achieved 90%+ code coverage on arbitrary program, I read the related paper [Coyote C++](/paper_notes/2025-04-22-Coyote-C-An-Industrial-Strength-Fully-Automated-Unit-Testing-Tool) and I don't think it provides many insights.
 
 **What questions are you left with?**
 

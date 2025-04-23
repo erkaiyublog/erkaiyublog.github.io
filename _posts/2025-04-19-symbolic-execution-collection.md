@@ -17,6 +17,7 @@ I collected the related papers by refering to the following surveys/summaries:
 2. [Symbolic execution for software testing: Three decades later](/paper_notes/2025-04-20-Symbolic-execution-for-software-testing-Three-decades-later)(2013)
 3. [EXE: Automatically Generating Inputs of Death](/paper_notes/2025-04-21-EXE-Automatically-Generating-Inputs-of-Death)(2006)
 4. [KLEE: Unassisted and Automatic Generation of High-Coverage Tests for Complex Systems Programs](/paper_notes/2025-04-22-KLEE-unassisted-and-automatic-generation-of-high-coverage-tests%20for-complex-systems-programs)(2008)
+5. [Coyote C++: An Industrial-Strength Fully Automated Unit Testing Tool](/paper_notes/2025-04-22-Coyote-C-An-Industrial-Strength-Fully-Automated-Unit-Testing-Tool)(2023)
 
 # High-Level View
 
