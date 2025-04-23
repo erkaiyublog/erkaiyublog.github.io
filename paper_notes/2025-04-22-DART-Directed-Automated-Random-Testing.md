@@ -27,7 +27,7 @@ https://doi.org/10.1145/1064978.1065036
 
 * See Abstract, Section 2, Section 3. 
 * 3 main techniques are combined: 1. automated extraction of the interface of a program with its external environment using static source-code parsing; 2. automatic generation of a test driver for this interface that performs random testing to simulate the most general environment the program can operate in; 3. dynamic analysis of how the program behaves undr random testing and automatic generation of new test inputs to direct systematically the execution along alternative program paths.
-* DART uses lp_solve constraint solver, which can only solve ***linear constraints***.
+* DART uses ***lp_solve*** constraint solver, which can only solve ***linear constraints***.
 
 **What is the work's evaluation of the proposed solution?**
 
