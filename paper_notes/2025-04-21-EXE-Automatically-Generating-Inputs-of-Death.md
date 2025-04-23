@@ -14,7 +14,7 @@ https://doi.org/10.1145/1180405.118044
 
 ---
 
-See also: [KLEE](/paper_notes/2025-04-22-KLEE-unassisted-and-automatic-generation-of-high-coverage-tests%20for-complex-systems-programs).
+See also: [KLEE](/paper_notes/2025-04-22-KLEE-unassisted-and-automatic-generation-of-high-coverage-tests-for-complex-systems-programs).
 
 # Q&A ([link](https://cseweb.ucsd.edu/~wgg/CSE210/howtoread.html))
 

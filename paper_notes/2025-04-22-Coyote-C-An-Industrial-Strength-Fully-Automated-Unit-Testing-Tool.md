@@ -29,7 +29,7 @@ https://doi.org/10.48550/arXiv.2310.14500
 * See Introduction, Section III.
 * Coyote C++ can be divided into 2 parts. The first part builds executable test files based on harness generation. The second part handles generating test cases through concolic execution.
 * "A fundamental design decision made in Coyote C++ is using
-LLVM IR as its symbolic execution target." (However, [KLEE](/paper_notes/2025-04-22-KLEE-unassisted-and-automatic-generation-of-high-coverage-tests%20for-complex-systems-programs) made use of LLVM IR about 15 years earlier than this paper).
+LLVM IR as its symbolic execution target." (However, [KLEE](/paper_notes/2025-04-22-KLEE-unassisted-and-automatic-generation-of-high-coverage-tests-for-complex-systems-programs) made use of LLVM IR about 15 years earlier than this paper).
 * Implemented offline testing.
 * Path search optimization: Adopted a hybrid approach that combines CCS (Code Coverage Search) and DFS to search for candidate paths for exploration.
 * Memory model: Similar to MAYHEM, the approach implemented in Coyote C++ reads values from memory symbolically but writes values to concrete memory addresses. 
