@@ -1,20 +1,22 @@
 ---
-title: "DART: Directed Automated Random Testing"
+title: "QSYM: A practical concolic execution engine tailored for hybrid fuzzing"
 layout: post
 ---
 
-Patrice Godefroid, Nils Klarlund, Koushik Sen
+Insu Yun, Sangho Lee, Meng Xu, Yeongjin Jang, Taesoo Kim
 
-* Read: 22 Apr 2025
-* Published: 12 Jun 2005
+* Read: 23 Apr 2025
+* Published: 15 Aug 2018
 
-ACM SIGPLAN Notices, Volume 40, Issue 6, Pages 213 - 223
+SEC'18: Proceedings of the 27th USENIX Conference on Security Symposium Pages 745 - 761
 
-https://doi.org/10.1145/1064978.1065036
+https://dl.acm.org/doi/10.5555/3277203.3277260
 
 ---
 
-See also: [CUTE](/paper_notes/2025-04-22-CUTE-A-Concolic-Unit-Testing-Engine-for-C).
+Distinguished Paper Award Winner, USENIX Security 18.
+
+The presentation for QSYM in USENIX Security 18: [link](https://www.youtube.com/watch?v=cXr1ZXp40jA)
 
 # Q&A ([link](https://cseweb.ucsd.edu/~wgg/CSE210/howtoread.html))
 
