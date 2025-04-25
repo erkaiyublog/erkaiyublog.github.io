@@ -24,7 +24,7 @@ I collected the related papers by refering to the following surveys/summaries:
 4. [KLEE: Unassisted and Automatic Generation of High-Coverage Tests for Complex Systems Programs](/paper_notes/2025-04-22-KLEE-unassisted-and-automatic-generation-of-high-coverage-tests-for-complex-systems-programs)(2008)
 
 ## Modern Ones
-1. [QSYM: a practical concolic execution engine tailored for hybrid fuzzing](/paper_notes/2025-04-23-QSYM-A-practical-concolic-execution-engine-tailored-for-hybrid-fuzzing)
+1. [QSYM: a practical concolic execution engine tailored for hybrid fuzzing](/paper_notes/2025-04-23-QSYM-A-practical-concolic-execution-engine-tailored-for-hybrid-fuzzing)(2018)
 1. [Coyote C++: An Industrial-Strength Fully Automated Unit Testing Tool](/paper_notes/2025-04-22-Coyote-C-An-Industrial-Strength-Fully-Automated-Unit-Testing-Tool)(2023)
 
 # High-Level View
