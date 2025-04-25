@@ -16,11 +16,13 @@ I collected the related papers by refering to the following surveys/summaries:
 ## Surveys
 1. [Symbolic execution for software testing: Three decades later](/paper_notes/2025-04-20-Symbolic-execution-for-software-testing-Three-decades-later)(2013)
 1. [A Survey of Symbolic Execution Techniques](/paper_notes/2025-04-20-A-Survey-of-Symbolic-Execution-Techniques)(2018)
+
 ## Classical Ones
 1. [DART: directed automated random testing](/paper_notes/2025-04-22-DART-Directed-Automated-Random-Testing)(2005)
 1. [CUTE: A Concolic Unit Testing Engine for C](/paper_notes/2025-04-22-CUTE-A-Concolic-Unit-Testing-Engine-for-C)(2005)
 3. [EXE: Automatically Generating Inputs of Death](/paper_notes/2025-04-21-EXE-Automatically-Generating-Inputs-of-Death)(2006)
 4. [KLEE: Unassisted and Automatic Generation of High-Coverage Tests for Complex Systems Programs](/paper_notes/2025-04-22-KLEE-unassisted-and-automatic-generation-of-high-coverage-tests-for-complex-systems-programs)(2008)
+
 ## Modern Ones
 1. [QSYM: a practical concolic execution engine tailored for hybrid fuzzing](/paper_notes/2025-04-23-QSYM-A-practical-concolic-execution-engine-tailored-for-hybrid-fuzzing)
 1. [Coyote C++: An Industrial-Strength Fully Automated Unit Testing Tool](/paper_notes/2025-04-22-Coyote-C-An-Industrial-Strength-Fully-Automated-Unit-Testing-Tool)(2023)
