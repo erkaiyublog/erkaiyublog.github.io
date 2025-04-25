@@ -16,7 +16,7 @@ https://dl.acm.org/doi/10.5555/3277203.3277260
 
 Distinguished Paper Award Winner, USENIX Security 18.
 
-The presentation for QSYM in USENIX Security 18: [link](https://www.youtube.com/watch?v=cXr1ZXp40jA)
+The presentation for QSYM in USENIX Security 18: [link](https://www.youtube.com/watch?v=cXr1ZXp40jA) [slides](https://www.usenix.org/sites/default/files/conference/protected-files/usesec18_slides_yun.pdf).
 
 # Q&A ([link](https://cseweb.ucsd.edu/~wgg/CSE210/howtoread.html))
 
