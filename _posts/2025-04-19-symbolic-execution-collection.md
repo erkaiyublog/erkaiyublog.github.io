@@ -25,7 +25,7 @@ I collected the related papers by refering to the following surveys/summaries:
 
 ## Modern Ones
 1. [QSYM: a practical concolic execution engine tailored for hybrid fuzzing](/paper_notes/2025-04-23-QSYM-A-practical-concolic-execution-engine-tailored-for-hybrid-fuzzing)(2018)
-1. [Symbolic execution with SymCC: Don’t interpret, compile!](/paper_notes/2025-04-23-Symbolic-execution-with-SYMCC-dont-interpret-compile)
+1. [Symbolic execution with SymCC: Don’t interpret, compile!](/paper_notes/2025-04-23-Symbolic-execution-with-SYMCC-dont-interpret-compile)(2020)
 1. [Coyote C++: An Industrial-Strength Fully Automated Unit Testing Tool](/paper_notes/2025-04-22-Coyote-C-An-Industrial-Strength-Fully-Automated-Unit-Testing-Tool)(2023)
 
 # High-Level View
