@@ -52,3 +52,7 @@ When skimming the survey *Symbolic execution for software testing: Three decades
 3. **Function Summaries**: Calysto static checker is an example of using the call graph to construct a symbolic representation of effects on each function.
 4. **Program Analysis and Optimization**: The developments in programming languages realm could be beneficial to symbolic execution. Some examples are loop coalescing, loop unfolding, program synthesis.
 5. **Symbolic Computation**: Only Z3 and SMT-RAT can reason about non-linear real and integer arithmetic. The developments in symbolic computation can be used to help SMT solvers. SC^2 is an interesting project aiming to bridge the gap between symbolic computation and satisfiability checking.
+
+# Notes
+
+For a graduate-level course I took in Spring 2025 at UIUC, I wrote a very preliminary review of some papers on this topic. I include that paper review here for future reference. [pdf](/pdfs/erkaiyu2.pdf)
