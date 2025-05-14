@@ -4,32 +4,44 @@ title: Gallery
 ---
 
 <style>
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
-  padding: 20px;
-  list-style: none;
-}
-
-.gallery-grid li {
-  border: 5px solid #ccc;
-  padding: 10px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
-}
-
-.gallery-grid li:hover {
-  transform: scale(1.02);
-}
-
-.gallery-grid img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-</style>
+  .gallery-wrapper {
+    padding: 40px;
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    list-style: none;
+  }
+  
+  .gallery-grid li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    border: 5px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+  
+    height: 250px;
+  }
+  
+  .gallery-grid li:hover {
+    transform: scale(1.02);
+  }
+  
+  .gallery-grid img {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
+    display: block;
+  }
+  </style>
+  
 
 <ul class="gallery-grid">
   {% assign images = site.static_files | where_exp:"file","file.path contains '/sketches'" %}
