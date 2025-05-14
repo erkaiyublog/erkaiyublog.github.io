@@ -12,4 +12,4 @@ Thomas Petazzoni
 
 ---
 
-A 40 min Youtube video explaining core concepts of ARM architecture.
+A 40 min Youtube video explaining core concepts of ARM architecture. [[slides]](https://bootlin.com/pub/conferences/2017/lca/petazzoni-arm-introduction/petazzoni-arm-introduction.pdf)
