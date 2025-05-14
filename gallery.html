@@ -3,28 +3,41 @@ layout: gallery
 title: Gallery
 ---
 
-<div id="gallery-content">
-  
-    <ul class="results">
-    
-    {% assign images = site.static_files | where_exp:"file","file.path contains '/sketches'" %}
-    {% assign counter = 0 %}
+<style>
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  padding: 20px;
+  list-style: none;
+}
 
+.gallery-grid li {
+  border: 5px solid #ccc;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
 
-    {% for image in images %}
-      <li class="result">
-        <a href="#"><img src="{{ image.path | relative_url }}"  width="500" height="500" alt=""></a>
-      </li>
-      {% assign counter = counter | plus: 1 %}
+.gallery-grid li:hover {
+  transform: scale(1.02);
+}
 
-      {% if counter == 6 %}
-    </ul>
-    <ul class="results">
-        {% assign counter = 0 %}
-      {% endif %}
+.gallery-grid img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+</style>
 
-    {% endfor %}
-
-  </ul>
-
-</div>
+<ul class="gallery-grid">
+  {% assign images = site.static_files | where_exp:"file","file.path contains '/sketches'" %}
+  {% for image in images %}
+    <li>
+      <a href="{{ image.path | relative_url }}">
+        <img src="{{ image.path | relative_url }}" alt="Artwork">
+      </a>
+    </li>
+  {% endfor %}
+</ul>
