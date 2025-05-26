@@ -49,3 +49,6 @@ When using the Linux command line and related tools, there are many useful trick
 
 # Echo
 * ```echo $?``` displays the return value of the most recently run program.
+
+# Set
+* When writing a shell script, use ```set -e``` at the beginning to specify that the script should exit immediately if any command exits with a non-zero status.
