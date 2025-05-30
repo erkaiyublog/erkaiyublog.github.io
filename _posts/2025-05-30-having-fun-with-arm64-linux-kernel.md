@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: Having Fun with ARM64 Linux Kernel
 tags: OS qemu arm
 ---
@@ -181,7 +181,7 @@ ffff800080010d7c:       00000000        udf     #0
 ffff800080010d80:       14000003        b       ffff800080010d8c <vectors+0x58c>
 ```
 
-These ```udf``` instructions are used as paddings and never got executed.
+These ```udf``` instructions are used as paddings and never got executed. In general, ```udf``` instructions are in the form of ```udf #imm16```, meaning ```0x00000009``` could also be a ```udf``` instruction intrepreted as ```udf #9```.
 
 So, another natural question is: *How does the ```objdump``` program decides if a ```0x00000000``` is translated to ```.word 00000000``` or ```udf #0```?*
 ## How Are ```.word``` and ```udf``` Recognized?
