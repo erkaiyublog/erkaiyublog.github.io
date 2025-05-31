@@ -117,7 +117,7 @@ ffff800080000048:	00000000 	.word	0x00000000
 ...                                                     || _EFI_PE_HEADER
 ```
 
-So, the .word directives coming after the first two instructions are representing data or instructions used by booting and kernel initial setup process.
+So, the ```.word``` directives coming after the first two instructions are representing data or instructions used by booting and kernel initial setup process.
 
 ## MMU Enabling
 When recording the entire booting process of ARM64 Linux kernel, I noticed that the start of the booting process was **not captured** by my tool when using virtual addresses. This happens because the MMU (Memory Management Unit) is not enabled at the very beginning of kernel initialization.
@@ -156,6 +156,8 @@ With this, I can conclude the following take away:
 > 1. When ARM64 Linux kernel boots, the bootloader runs at the beginning of the entire process. Then, the execution flow starts in kernel image from its beginning, where ```primary_entry``` function is the first one to be called. The kernel image reserves a section of .word at the beginning which contains data for booting and kernel initialization (e.g. ARM ELF magic number, kernel image size).
 > 2. ```primary_entry``` function can be found in ```linux/arch/arm64/kernel/head.S```, at the end of this function there is a function call to ```__cpu_setup```, where the MMU is set up and you get virtual addresses mapped to physical ones.
 
+## How Does QEMU Emulate Kernel Booting?
+
 # ```.word``` Directives and ```udf``` Instructions 
 In ARM64 kernel image objdump, one can observe many instances of ```.word``` directives, examples can be found in the [Some Booting Process Introduction](#some-booting-process-introduction) section above. These ```.word``` entries contain data rather than executable code.
 
@@ -187,7 +189,7 @@ So, another natural question is: *How does the ```objdump``` program decides if 
 ## How Are ```.word``` and ```udf``` Recognized?
 I did a tiny experiment with the following example as ```example.s```:
 
-```asm
+```
     .section .text
     .global _start
 _start:
@@ -224,6 +226,72 @@ Now, take a look at how the actual binary looks like in ```example```:
 
 Well, it appears that within the ```.text``` section the raw bytes for ```0xd2800020``` and ```0x00000000``` pairs are indistinguishable!
 
-So, the take aways is 
+So, the take away is 
 > In ELF files there are **debug info** (like DWARF) and other **symbol info** (like function boundaries, labels, or assembler-generated metadata) that helps ```objdump``` program to recognize ```.word``` and ```udf``` entries in ```.text``` section, the raw bytes themselves don't really reflect such differences.
 
+# Runtime Patching
+An interesting instance caught my attention when I was analyzing the execution trace of the ARM64 Linux kernel with QEMU. 
+
+In the objdump of the kernel image, there is the following snippet containing an NOP instruction at ```0xffff800080018800```:
+
+```
+ffff8000800187b0 <copy_thread>:
+ffff8000800187b0:	d503233f 	paciasp
+ffff8000800187b4:	a9bb7bfd 	stp	x29, x30, [sp, #-80]!
+...
+ffff8000800187e4:	f9401275 	ldr	x21, [x19, #32]
+ffff8000800187e8:	f9401a96 	ldr	x22, [x20, #48]
+ffff8000800187ec:	f9402298 	ldr	x24, [x20, #64]
+ffff8000800187f0:	9441b294 	bl	ffff800081085240 <__memset>
+ffff8000800187f4:	aa1303e0 	mov	x0, x19
+ffff8000800187f8:	97fffa41 	bl	ffff8000800170fc <fpsimd_flush_task_state>
+ffff8000800187fc:	1400002c 	b	ffff8000800188ac <copy_thread+0xfc>
+ffff800080018800:	d503201f 	nop
+ffff800080018804:	f9403280 	ldr	x0, [x20, #96]
+ffff800080018808:	d287d604 	mov	x4, #0x3eb0                	// #16048
+ffff80008001880c:	8b0402b9 	add	x25, x21, x4
+ffff800080018810:	b5000700 	cbnz	x0, ffff8000800188f0 <copy_thread+0x140>
+ffff800080018814:	914012b5 	add	x21, x21, #0x4, lsl #12
+```
+
+However, in the actually emulation by QEMU, I found that the NOP got **swapped** with the branch instruction before it!
+
+![qemu1](/images/posts/have_fun_arm/qemu1.png)
+
+That's saying, in objdump of kernel image we observe 
+
+```
+ffff8000800187fc:	1400002c 	b	ffff8000800188ac <copy_thread+0xfc>
+ffff800080018800:	d503201f 	nop
+```
+while in QEMU emulation there was
+```
+ffff8000800187fc:	d503201f 	nop
+ffff800080018800:	1400002c 	b	ffff8000800188ac <copy_thread+0xfc>
+```
+
+I started the investigation by reading the source code of this ```copy_thread``` function in ```linux/arch/arm64/kernel/process.c```:
+```
+int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
+{
+	unsigned long clone_flags = args->flags;
+	unsigned long stack_start = args->stack;
+	unsigned long tls = args->tls;
+	struct pt_regs *childregs = task_pt_regs(p);
+
+	memset(&p->thread.cpu_context, 0, sizeof(struct cpu_context));
+
+	/*
+	 * In case p was allocated the same task_struct pointer as some
+	 * other recently-exited task, make sure p is disassociated from
+	 * any cpu that may have run that now-exited task recently.
+	 * Otherwise we could erroneously skip reloading the FPSIMD
+	 * registers for p.
+	 */
+	fpsimd_flush_task_state(p);
+
+	ptrauth_thread_init_kernel(p);
+
+```
+
+Combining with the objdump snippet, I realized that the instruction ```b	ffff8000800188ac <copy_thread+0xfc>``` was probably branching to the inlined function ```ptrauth_thread_init_kernel```, a ```bl``` and a ```b``` instruction were used in the assembly since both ```fpsimd_flush_task_state``` and ```ptrauth_thread_init_kernel``` share the same argument.
