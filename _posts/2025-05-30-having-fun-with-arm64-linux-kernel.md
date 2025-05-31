@@ -15,7 +15,7 @@ Since I'm working with an x86-64 server, performing an object dump on ARM64 ELF 
 
 The command I used to objdump an ARM64 kernel image is:
 
-```bash
+```
 aarch64-linux-gnu-objdump -d -z vmlinux
 ```
 
@@ -151,7 +151,7 @@ Following to the comment, I found the ```__cpu_setup``` function in ```linux/arc
  */
 ```
 
-With this, I can conclude the following take away:
+With this, I can conclude the following takeaway:
 
 > 1. When ARM64 Linux kernel boots, the bootloader runs at the beginning of the entire process. Then, the execution flow starts in kernel image from its beginning, where ```primary_entry``` function is the first one to be called. The kernel image reserves a section of .word at the beginning which contains data for booting and kernel initialization (e.g. ARM ELF magic number, kernel image size).
 > 2. ```primary_entry``` function can be found in ```linux/arch/arm64/kernel/head.S```, at the end of this function there is a function call to ```__cpu_setup```, where the MMU is set up and you get virtual addresses mapped to physical ones.
@@ -226,7 +226,7 @@ Now, take a look at how the actual binary looks like in ```example```:
 
 Well, it appears that within the ```.text``` section the raw bytes for ```0xd2800020``` and ```0x00000000``` pairs are indistinguishable!
 
-So, the take away is 
+So, the takeaway is:
 > In ELF files there are **debug info** (like DWARF) and other **symbol info** (like function boundaries, labels, or assembler-generated metadata) that helps ```objdump``` program to recognize ```.word``` and ```udf``` entries in ```.text``` section, the raw bytes themselves don't really reflect such differences.
 
 # Runtime Patching
@@ -270,28 +270,31 @@ ffff8000800187fc:	d503201f 	nop
 ffff800080018800:	1400002c 	b	ffff8000800188ac <copy_thread+0xfc>
 ```
 
-I started the investigation by reading the source code of this ```copy_thread``` function in ```linux/arch/arm64/kernel/process.c```:
-```
-int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
-{
-	unsigned long clone_flags = args->flags;
-	unsigned long stack_start = args->stack;
-	unsigned long tls = args->tls;
-	struct pt_regs *childregs = task_pt_regs(p);
+To double-check that in QEMU emulation the instructions really **got swappped**, I used the ```gdb-multiarch``` program to inspect runtime memory:
+![runtime](/images/posts/have_fun_arm/runtime.png)
 
-	memset(&p->thread.cpu_context, 0, sizeof(struct cpu_context));
+Turned out that the instructions truely got swapped during runtime. So I started the investigation by reading the source code of this ```copy_thread``` function in ```linux/arch/arm64/kernel/process.c```. After comparing the source code with the objdump snippet, I came up with a rough matching between them:
 
-	/*
-	 * In case p was allocated the same task_struct pointer as some
-	 * other recently-exited task, make sure p is disassociated from
-	 * any cpu that may have run that now-exited task recently.
-	 * Otherwise we could erroneously skip reloading the FPSIMD
-	 * registers for p.
-	 */
-	fpsimd_flush_task_state(p);
+![asm_c](/images/posts/have_fun_arm/asm_c.png)
 
-	ptrauth_thread_init_kernel(p);
+Apparently, function ```ptrauth_thread_init_kernel``` looked pretty suspicious. In ```linux/arch/arm64/include/asm/pointer_auth.h```, this function was defined by a call to ```ptrauth_keys_init_kernel```:
 
 ```
+#ifdef CONFIG_ARM64_PTR_AUTH_KERNEL
+#define ptrauth_thread_init_kernel(tsk)					\
+	ptrauth_keys_init_kernel(&(tsk)->thread.keys_kernel)
+#define ptrauth_thread_switch_kernel(tsk)				\
+	ptrauth_keys_switch_kernel(&(tsk)->thread.keys_kernel)
+#else
+#define ptrauth_thread_init_kernel(tsk)
+#define ptrauth_thread_switch_kernel(tsk)
+#endif /* CONFIG_ARM64_PTR_AUTH_KERNEL */
+```
 
-Combining with the objdump snippet, I realized that the instruction ```b	ffff8000800188ac <copy_thread+0xfc>``` was probably branching to the inlined function ```ptrauth_thread_init_kernel```, a ```bl``` and a ```b``` instruction were used in the assembly since both ```fpsimd_flush_task_state``` and ```ptrauth_thread_init_kernel``` share the same argument.
+At this point, I concluded that the unusual swapping behavior was caused by runtime patching, which was triggered by the ```#ifdef``` macro.
+
+I didn't further investigate why would such runtime patching be desired :)
+
+So, a takeaways for this section:
+> 1. The ARM Linux kernel may exhibit runtime patching, which modifies some of the instructions loaded into memory. A blog discussing this behavior can be found at: https://blogs.oracle.com/linux/post/exploring-arm64-runtime-patching-alternatives.
+> 2. QEMU faithfully emulates this runtime patching behavior.
