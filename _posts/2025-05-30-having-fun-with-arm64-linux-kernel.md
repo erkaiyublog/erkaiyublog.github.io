@@ -157,6 +157,14 @@ With this, I can conclude the following takeaway:
 > 2. ```primary_entry``` function can be found in ```linux/arch/arm64/kernel/head.S```, at the end of this function there is a function call to ```__cpu_setup```, where the MMU is set up and you get virtual addresses mapped to physical ones.
 
 ## How Does QEMU Emulate Kernel Booting?
+There are two options to load a kernel in QEMU:
+1. Boot via UEFI firmware.
+2. Direct Linux kernel boot.
+
+When booting via UEFI firmware, pass in command-line arguments like ```-bios QEMU_EFI.fd``` when launching QEMU, and QEMU loads a UEFI firmware binary into memory, which runs like it would on real hardware. 
+
+When booting directly as Linux kernel, pass in command-line arguments like ```-kernel Image```, QEMU will load the kernel into guest RAM, then it will load the device tree and set up CPU registers, after which it will transfer control to the kernel.
+
 
 # ```.word``` Directives and ```udf``` Instructions 
 In ARM64 kernel image objdump, one can observe many instances of ```.word``` directives, examples can be found in the [Some Booting Process Introduction](#some-booting-process-introduction) section above. These ```.word``` entries contain data rather than executable code.
@@ -296,7 +304,7 @@ At this point, I concluded that the unusual swapping behavior was caused by runt
 I didn't further investigate why would such runtime patching be desired :)
 
 So, a takeaways for this section:
-> 1. The ARM Linux kernel may exhibit runtime patching, which modifies some of the instructions loaded into memory. A blog discussing this behavior can be found at: https://blogs.oracle.com/linux/post/exploring-arm64-runtime-patching-alternatives.
+> 1. The ARM Linux kernel may exhibit runtime patching, which modifies some of the instructions loaded into memory. A blog discussing this behavior can be found at: https://blogs.oracle.com/linux/post/exploring-arm64-runtime-patching-alternatives, the blog mentioned that such runtime patching is done during **boot time**.
 > 2. QEMU faithfully emulates this runtime patching behavior.
 
 ## Follow Up: Could This Be Disabled?
@@ -306,3 +314,5 @@ Taking the same example from above, when I tried to use the same kernel image bu
 ![disabling](/images/posts/have_fun_arm/disable.png)
 
 This time, the branch instruction at ```0xffff8000800187fc``` got replaced by a NOP instruction, while the original NOP didn't get replaced. So, no matter how you try to disable the runtime patching behavior, your CPU (or the configuration for your QEMU emulation) will make the necessary patches to happen. 
+
+Source code related to ARM64 runtime patching can be found in file ```linux/arch/arm64/kernel/alternative.c```.
