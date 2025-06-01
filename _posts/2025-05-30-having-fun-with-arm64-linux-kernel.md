@@ -298,3 +298,11 @@ I didn't further investigate why would such runtime patching be desired :)
 So, a takeaways for this section:
 > 1. The ARM Linux kernel may exhibit runtime patching, which modifies some of the instructions loaded into memory. A blog discussing this behavior can be found at: https://blogs.oracle.com/linux/post/exploring-arm64-runtime-patching-alternatives.
 > 2. QEMU faithfully emulates this runtime patching behavior.
+
+## Follow Up: Could This Be Disabled?
+As far as I know, there is no way to **entirely disable** runtime patching.
+
+Taking the same example from above, when I tried to use the same kernel image but added the```-append arm64.nopauth``` command-line argument while launching QEMU, it produced the following runtime memory:
+![disabling](/images/posts/have_fun_arm/disable.png)
+
+This time, the branch instruction at ```0xffff8000800187fc``` got replaced by a NOP instruction, while the original NOP didn't get replaced. So, no matter how you try to disable the runtime patching behavior, your CPU (or the configuration for your QEMU emulation) will make the necessary patches to happen. 
