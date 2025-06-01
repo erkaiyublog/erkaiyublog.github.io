@@ -315,4 +315,4 @@ Taking the same example from above, when I tried to use the same kernel image bu
 
 This time, the branch instruction at ```0xffff8000800187fc``` got replaced by a NOP instruction, while the original NOP didn't get replaced. So, no matter how you try to disable the runtime patching behavior, your CPU (or the configuration for your QEMU emulation) will make the necessary patches to happen. 
 
-Source code related to ARM64 runtime patching can be found in file ```linux/arch/arm64/kernel/alternative.c```.
+For future reference: source code related to ARM64 runtime patching can be found in file ```linux/arch/arm64/kernel/alternative.c```.
