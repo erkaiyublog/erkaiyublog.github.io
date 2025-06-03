@@ -316,15 +316,5 @@ Taking the same example from above, when I tried to use the same kernel image bu
 This time, the branch instruction at ```0xffff8000800187fc``` got replaced by a NOP instruction, while the original NOP didn't get replaced. So, no matter how you try to disable the runtime patching behavior, your CPU (or the configuration for your QEMU emulation) will make the necessary patches to happen. 
 
 For future reference: source code related to ARM64 runtime patching can be found in file ```linux/arch/arm64/kernel/alternative.c```.
-<!-- 
-## Dump Kernel Memory with QEMU
-I launched QEMU with ```-S``` flag to pause the emulation at the beginning.
 
-In QEMU, I ran the following command to save the kernel memory as raw binaries:
-
-```
-(qemu) memsave 0x80000000 0x1d00000 raw.mem 
-```
-
-First address being the physical address for virtual address ```0xffff800080000000```, second number was the range of the kernel memory. -->
 
