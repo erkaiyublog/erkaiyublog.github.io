@@ -301,7 +301,37 @@ Apparently, function ```ptrauth_thread_init_kernel``` looked pretty suspicious. 
 
 At this point, I concluded that the unusual swapping behavior was caused by runtime patching, which was triggered by the ```#ifdef``` macro.
 
-I didn't further investigate why would such runtime patching be desired :)
+I came across a blog post talking about runtime patching of Linux kernel: https://blogs.oracle.com/linux/post/exploring-arm64-runtime-patching-alternatives. The blog mentioned that the source code related to ARM64 runtime patching can be found in file ```linux/arch/arm64/kernel/alternative.c```.
+
+Specifically, the ```patch_alternative``` function ([source code](https://elixir.bootlin.com/linux/v6.11.7/source/arch/arm64/kernel/alternative.c#L104)) appeared to be highly related:
+
+![alternative](/images/posts/have_fun_arm/alternative.png)
+
+With gdb, I inserted a breakpoint at ```patch_alternative``` to find out when does such runtime patching take place.
+
+![breakpoint](/images/posts/have_fun_arm/bp.png)
+
+One can manually press enter over one thousand times to find out how many times this function got triggered. Or, store the following gdb script as ```instr.txt``` and use it when launching gdb:
+
+```
+set architecture aarch64
+target remote :1234
+b patch_alternative
+set $i = 0
+while ($i < 10000)
+  continue
+  set $i = $i + 1
+end
+```
+
+Launch gdb with the following command, and all breakpoint hits will be printed to the screen.
+
+```
+gdb-multiarch -x instr.txt vmlinux
+```
+
+
+
 
 So, a takeaways for this section:
 > 1. The ARM Linux kernel may exhibit runtime patching, which modifies some of the instructions loaded into memory. A blog discussing this behavior can be found at: https://blogs.oracle.com/linux/post/exploring-arm64-runtime-patching-alternatives, the blog mentioned that such runtime patching is done during **boot time**.
@@ -314,7 +344,3 @@ Taking the same example from above, when I tried to use the same kernel image bu
 ![disabling](/images/posts/have_fun_arm/disable.png)
 
 This time, the branch instruction at ```0xffff8000800187fc``` got replaced by a NOP instruction, while the original NOP didn't get replaced. So, no matter how you try to disable the runtime patching behavior, your CPU (or the configuration for your QEMU emulation) will make the necessary patches to happen. 
-
-For future reference: source code related to ARM64 runtime patching can be found in file ```linux/arch/arm64/kernel/alternative.c```.
-
-
