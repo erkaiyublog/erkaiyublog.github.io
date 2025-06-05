@@ -1,20 +1,19 @@
 ---
-title: "ARMore: Pushing Love Back Into Binaries"
+title: "From hack to elaborate technique - A survey on binary rewriting"
 layout: post
 ---
 
-Luca Di Bartolomeo, Hossein Moghaddas, Mathias Payer
+Matthias Wenzl, Georg Merzdovnik, Johanna Ullrich, Edgar Weippl
 
-* Read: 04 Jun 2025
-* Published: 09 Aug 2023
+* Read: 05 Jun 2025
+* Published: 18 Jun 2019
 
-SEC '23: Proceedings of the 32nd USENIX Conference on Security Symposium Article No.: 353, Pages 6311 - 632
 
-https://dl.acm.org/doi/10.5555/3620237.3620590
+ACM Computing Surveys (CSUR), Volume 52, Issue 3 Article No.: 49, Pages 1 - 37
+
+https://doi.org/10.1145/3316415
 
 ---
-
-See also: [A survey on binary rewriting](/paper_notes/2025-06-05-From-hack-to-elaborate-technique-A-survey-on-binary-rewriting).
 
 # Q&A ([link](https://cseweb.ucsd.edu/~wgg/CSE210/howtoread.html))
 
@@ -33,9 +32,8 @@ See also: [A survey on binary rewriting](/paper_notes/2025-06-05-From-hack-to-el
 
 **What is the work's evaluation of the proposed solution?**
 
-See Introduction, Section 5.
+See Introduction.
 * Rewrote binaries from 239 Debian packages (including C++ and Go binaries), and ran the relevant testsuite of each package, passed 97.5% tests.
-
 
 **What is your analysis of the identified problem, idea and evaluation?**
 
@@ -62,4 +60,3 @@ NONE
 
 * See Section 2.
 * Three popular techniques for static rewriting are briefly introduced in Section 2: Trampoline, Direct, Lifting.
-* ARM pointer construction involving ```ldr, adrp``` are introduced in Section 2. It's difficult to recover these pointer addresses after compiler optimization. Mainstream ARM64 static rewriters exclusively rely on data flow to recover pointers, which is inherently imprecise and cannot cover all edge cases of real-world binaries.

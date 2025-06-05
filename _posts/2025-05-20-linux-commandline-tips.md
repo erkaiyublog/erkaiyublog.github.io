@@ -26,6 +26,9 @@ When using the Linux command line and related tools, there are many useful trick
 # Echo
 * ```echo $?``` displays the return value of the most recently run program.
 
+# Hexdump
+* ```hexdump -C <filename>``` dumps a binary file in canonical hex+ASCII format.
+
 # Git
 ## Branch
 * In case of ambiguity between file names and branch names (e.g. when both a file and a branch are named as ```object```).
