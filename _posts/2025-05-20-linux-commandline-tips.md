@@ -36,6 +36,7 @@ When using the Linux command line and related tools, there are many useful trick
     * ```git checkout -- object``` to checkout file.
 
 # Gdb
+* See https://sourceware.org/gdb/current/onlinedocs/gdb.html/ for a super detailed doc.
 * ```-x <filename>``` takes the gdb script and runs it in gdb.
 * ```l``` lists 10 lines of source code around the current program counter.
     * ```l <n>``` lists 10 lines of source code around line n in the current source file.
@@ -52,7 +53,9 @@ When using the Linux command line and related tools, there are many useful trick
 # Grep
 * ```-n``` displays line numbers.
 * ```-c``` displays **just** the total number of matching lines.
-* ```-E``` for extended-regex pattern. FOr example, ```grep -E 'dsb|dmb|isb'```. 
+* ```-E``` for extended-regex pattern. For example, ```grep -E 'dsb|dmb|isb'```. 
+* ```-v``` excludes matched lines.
+* ```--exclude=".."``` excludes certain filenames.   
 
 # Objdump
 * ```-z``` shows all symbols (to include those with zero values).
