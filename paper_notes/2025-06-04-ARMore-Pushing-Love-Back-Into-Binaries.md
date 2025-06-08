@@ -5,7 +5,7 @@ layout: post
 
 Luca Di Bartolomeo, Hossein Moghaddas, Mathias Payer
 
-* Read: 04 Jun 2025
+* Read: 07 Jun 2025
 * Published: 09 Aug 2023
 
 SEC '23: Proceedings of the 32nd USENIX Conference on Security Symposium Article No.: 353, Pages 6311 - 632

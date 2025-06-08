@@ -26,6 +26,9 @@ When using the Linux command line and related tools, there are many useful trick
 # Echo
 * ```echo $?``` displays the return value of the most recently run program.
 
+# Expand
+* ```expand -t 4 <filename>``` outputs the file with tabs expanded as 4 spaces.
+
 # Hexdump
 * ```hexdump -C <filename>``` dumps a binary file in canonical hex+ASCII format.
 
