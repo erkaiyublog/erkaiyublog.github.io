@@ -344,3 +344,6 @@ Taking the same example from above, when I tried to use the same kernel image bu
 ![disabling](/images/posts/have_fun_arm/disable.png)
 
 This time, the branch instruction at ```0xffff8000800187fc``` got replaced by a NOP instruction, while the original NOP didn't get replaced. So, no matter how you try to disable the runtime patching behavior, your CPU (or the configuration for your QEMU emulation) will make the necessary patches to happen. 
+
+## Update:
+Another blog about kernel patch alternative ([link](https://grsecurity.net/linux_kernel_alternatives)), it introduces a related IDA plugin.
