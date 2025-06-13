@@ -1,159 +1,87 @@
 .highlight {
-  background-color: #0d1117;
-  padding: 7px 7px 7px 10px;
-  border: 1px solid #ddd;
-  -moz-box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
-  box-shadow: 3px 3px rgba(0, 0, 0, 0.1);
-  margin: 20px 0 20px 0;
-  overflow: scroll;
-  color: #c9d1d9;
+  background-color: #282a36;
+  padding: 12px 15px;
+  border-radius: 6px;
+  border-left: 4px solid #bd93f9;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  overflow-x: auto;
+}
 
-  code {
-    font-family: 'Bitstream Vera Sans Mono', 'Courier', monospace;
-    padding: 3px 5px;
-  }
+code {
+  font-family: 'Fira Code', 'Courier New', Courier, monospace;
+  background-color: #44475a;
+  color: #f8f8f2;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 0.95em;
+}
 
-  .c,      // Comment
-  .hljs-comment,
-  .hljs-code,
-  .hljs-formula {
-    color: #8b949e;
-  }
+.highlight .c,
+.highlight .cm,
+.highlight .c1,
+.highlight .cs { color: #6272a4; } // comments
 
-  .err,
-  .g,      // Generic
-  .l,      // Literal
-  .n,      // Name
-  .p,      // Punctuation
-  .ld,     // Literal.Date
-  .na,     // Name.Attribute
-  .nl,     // Name.Label
-  .nn,     // Name.Namespace
-  .py,     // Name.Property
-  .w,      // Whitespace
-  .sd,     // Literal.String.Doc
-  .sh,     // Literal.String.Heredoc
-  .hljs-meta,
-  .hljs-literal,
-  .hljs-output,
-  .hljs-prompt,
-  .hljs-traceback {
-    color: #93a1a1;
-  }
+.highlight .err { color: #ff5555; }
 
-  .k,      // Keyword
-  .o,      // Operator
-  .cp,     // Comment.Preproc
-  .kn,     // Keyword.Namespace
-  .kp,     // Keyword.Pseudo
-  .ow {    // Operator.Word
-    color: #ff7b72;
-  }
+.highlight .k,
+.highlight .kd,
+.highlight .kr,
+.highlight .kt,
+.highlight .kn { color: #ff79c6; } // keywords
 
-  .kd,     // Keyword.Declaration
-  .kr,     // Keyword.Reserved
-  .hljs-keyword {
-    color: #ff7b72;
-  }
+.highlight .s,
+.highlight .sb,
+.highlight .sc,
+.highlight .s1,
+.highlight .s2,
+.highlight .sa,
+.highlight .se,
+.highlight .sh,
+.highlight .si,
+.highlight .sx { color: #f1fa8c; } // strings
 
-  .kt,     // Keyword.Type
-  .nf,     // Name.Function
-  .nc,     // Name.Class
-  .nd,     // Name.Decorator
-  .bp,     // Name.Builtin.Pseudo
-  .nv,     // Name.Variable
-  .vc,     // Name.Variable.Class
-  .vg {    // Name.Variable.Global
-    color: #d2a8ff;
-  }
+.highlight .m,
+.highlight .mi,
+.highlight .mf { color: #bd93f9; } // numbers
 
-  .s,      // Literal.String
-  .hljs-string,
-  .hljs-regexp,
-  .sc,     // Literal.String.Char
-  .s2,     // Literal.String.Double
-  .si,     // Literal.String.Interpol
-  .sx,     // Literal.String.Other
-  .s1,     // Literal.String.Single
-  .ss,     // Literal.String.Symbol
-  .se {    // Literal.String.Escape
-    color: #a5d6ff;
-  }
+.highlight .o,
+.highlight .ow { color: #ff79c6; } // operators
 
-  .m,      // Literal.Number
-  .mf,     // Literal.Number.Float
-  .mh,     // Literal.Number.Hex
-  .mi,     // Literal.Number.Integer
-  .mo,     // Literal.Number.Oct
-  .il {    // Literal.Number.Integer.Long
-    color: #79c0ff;
-  }
+.highlight .p { color: #f8f8f2; } // punctuation
 
-  .gd,     // Generic.Deleted
-  .hljs-deletion {
-    color: #ffdcd7;
-    background-color: #67060c;
-  }
+.highlight .n,
+.highlight .nb,
+.highlight .nc,
+.highlight .no,
+.highlight .nd,
+.highlight .ni,
+.highlight .ne,
+.highlight .nf,
+.highlight .nl,
+.highlight .nn,
+.highlight .nt,
+.highlight .nv,
+.highlight .nx,
+.highlight .py { color: #50fa7b; } // identifiers
 
-  .gi,     // Generic.Inserted
-  .hljs-addition {
-    color: #aff5b4;
-    background-color: #033a16;
-  }
+.highlight .gd { color: #ff5555; }
+.highlight .gi { color: #50fa7b; }
 
-  .gr,     // Generic.Error
-  .hljs-error {
-    color: #dc322f;
-  }
+.highlight .w { color: #f8f8f2; }
 
-  .gh,     // Generic.Heading
-  .gu {    // Generic.Subheading
-    color: #cb4b16;
-  }
+.meta-avatar {
+  width: 50px;
+  height: auto;
+  padding: 4px;
+  background-color: #50fa7b;
+}
 
-  .nt,     // Name.Tag
-  .hljs-section {
-    color: #1f6feb;
-    font-weight: bold;
-  }
+.meta-date-posted {
+  font-size: 10px;
+  color: #bd93f9;
+}
 
-  .bp,     // Name.Builtin.Pseudo
-  .hljs-built_in,
-  .hljs-symbol {
-    color: #ffa657;
-  }
-
-  .nx {    // Name.Other
-    color: #555;
-  }
-
-  .em,     // Emphasis
-  .hljs-emphasis {
-    color: #c9d1d9;
-    font-style: italic;
-  }
-
-  .strong,
-  .hljs-strong {
-    color: #c9d1d9;
-    font-weight: bold;
-  }
-
-  /* You can keep these meta and comment styles as is */
-  .meta-avatar {
-    width: 50px;
-    height: auto;
-    padding: 4px;
-    background-color: #00aa00;
-  }
-
-  .meta-date-posted {
-    font-size: 10px;
-  }
-
-  .comment {
-    background-color: #fefefe;
-    border: 2px solid #ddd;
-  }
+.comment {
+  background-color: #44475a;
+  border: 2px solid #6272a4;
 }
