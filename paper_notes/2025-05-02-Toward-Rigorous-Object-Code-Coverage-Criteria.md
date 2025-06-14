@@ -10,7 +10,7 @@ Taejoon Byun, Vaibhav Sharma, Sanjai Rayadurgam, Stephen McCamant, Mats P. E. He
 
 2017 IEEE 28th International Symposium on Software Reliability Engineering (ISSRE)
 
-https://doi.org/10.1109/ISSRE.2017.33
+[https://doi.org/10.1109/ISSRE.2017.33](https://doi.org/10.1109/ISSRE.2017.33)
 
 ---
 

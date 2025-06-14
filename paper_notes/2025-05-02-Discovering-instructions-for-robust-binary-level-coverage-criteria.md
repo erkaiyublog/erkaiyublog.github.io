@@ -10,7 +10,7 @@ Vaibhav Sharma, Taejoon Byun, Stephen McCamant, Sanjai Rayadurgam, Mats P. E. He
 
 TECPS 2017: Proceedings of the 1st ACM SIGSOFT International Workshop on Testing Embedded and Cyber-Physical Systems, Pages 1 - 4
 
-https://doi.org/10.1145/3107091.3107092
+[https://doi.org/10.1145/3107091.3107092](https://doi.org/10.1145/3107091.3107092)
 
 ---
 

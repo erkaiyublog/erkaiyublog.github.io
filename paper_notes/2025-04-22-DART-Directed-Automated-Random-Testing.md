@@ -10,7 +10,7 @@ Patrice Godefroid, Nils Klarlund, Koushik Sen
 
 ACM SIGPLAN Notices, Volume 40, Issue 6, Pages 213 - 223
 
-https://doi.org/10.1145/1064978.1065036
+[https://doi.org/10.1145/1064978.1065036](https://doi.org/10.1145/1064978.1065036)
 
 ---
 

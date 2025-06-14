@@ -10,7 +10,7 @@ Cristian Cadar, Koushik Sen
 
 Communications of the ACM, Volume 56, Issue 2 Pages 82 - 90
 
-https://doi.org/10.1145/2408776.2408795
+[https://doi.org/10.1145/2408776.2408795](https://doi.org/10.1145/2408776.2408795)
 
 ---
 

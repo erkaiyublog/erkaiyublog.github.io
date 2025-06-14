@@ -10,7 +10,7 @@ Cristian Cadar, Daniel Dunbar, Dawson Engler
 
 OSDI'08: Proceedings of the 8th USENIX conference on Operating systems design and implementation, Pages 209 - 224
 
-https://dl.acm.org/doi/10.5555/1855741.1855756
+[https://dl.acm.org/doi/10.5555/1855741.1855756](https://dl.acm.org/doi/10.5555/1855741.1855756)
 
 ---
 

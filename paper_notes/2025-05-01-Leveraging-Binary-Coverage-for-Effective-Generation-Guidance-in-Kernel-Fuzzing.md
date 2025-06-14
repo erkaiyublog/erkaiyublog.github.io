@@ -10,7 +10,7 @@ Jianzhong Liu, Yuheng Shen, Yiru Xu, Yu Jiang
 
 CCS '24: Proceedings of the 2024 on ACM SIGSAC Conference on Computer and Communications Security, Pages 3763 - 3777
 
-https://doi.org/10.1145/3658644.3690232
+[https://doi.org/10.1145/3658644.3690232](https://doi.org/10.1145/3658644.3690232)
 
 ---
 

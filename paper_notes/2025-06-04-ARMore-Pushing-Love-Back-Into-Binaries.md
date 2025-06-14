@@ -10,7 +10,7 @@ Luca Di Bartolomeo, Hossein Moghaddas, Mathias Payer
 
 SEC '23: Proceedings of the 32nd USENIX Conference on Security Symposium Article No.: 353, Pages 6311 - 632
 
-https://dl.acm.org/doi/10.5555/3620237.3620590
+[https://dl.acm.org/doi/10.5555/3620237.3620590](https://dl.acm.org/doi/10.5555/3620237.3620590)
 
 ---
 

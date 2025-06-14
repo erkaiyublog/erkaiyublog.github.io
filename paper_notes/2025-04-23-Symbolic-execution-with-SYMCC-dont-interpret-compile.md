@@ -10,7 +10,7 @@ Sebastian Poeplau, Aurélien Francillon
 
 SEC'20: Proceedings of the 29th USENIX Conference on Security Symposium, Article No.: 11, Pages 181 - 198
 
-https://dl.acm.org/doi/10.5555/3489212.3489223
+[https://dl.acm.org/doi/10.5555/3489212.3489223](https://dl.acm.org/doi/10.5555/3489212.3489223)
 
 ---
 

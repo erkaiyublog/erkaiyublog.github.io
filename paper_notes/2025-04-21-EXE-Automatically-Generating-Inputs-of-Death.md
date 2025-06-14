@@ -10,7 +10,7 @@ Cristian Cadar, Vijay Ganesh, Peter M. Pawlowski, David L. Dill, Dawson R. Engle
 
 CCS '06: Proceedings of the 13th ACM conference on Computer and communications security, Pages 322 - 335
 
-https://doi.org/10.1145/1180405.118044
+[https://doi.org/10.1145/1180405.118044](https://doi.org/10.1145/1180405.118044)
 
 ---
 

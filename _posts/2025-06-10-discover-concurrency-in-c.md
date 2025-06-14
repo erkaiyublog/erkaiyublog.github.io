@@ -1,6 +1,6 @@
 ---
 published: true
-title: Discover Concurrency in C Program
+title: Discover Concurrency in C Programs
 tags: C Tips
 ---
 

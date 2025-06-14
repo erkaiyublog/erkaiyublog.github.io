@@ -10,7 +10,7 @@ Insu Yun, Sangho Lee, Meng Xu, Yeongjin Jang, Taesoo Kim
 
 SEC'18: Proceedings of the 27th USENIX Conference on Security Symposium Pages 745 - 761
 
-https://dl.acm.org/doi/10.5555/3277203.3277260
+[https://dl.acm.org/doi/10.5555/3277203.3277260](https://dl.acm.org/doi/10.5555/3277203.3277260)
 
 ---
 

@@ -11,7 +11,7 @@ Wenqiang Li, Jiameng Shi, Fengjun Li, Jingqiang Lin, Wei Wang, Le Guan
 
 ICSE '22: Proceedings of the 44th International Conference on Software Engineering, Pages 1 - 12
 
-https://doi.org/10.1145/3510003.3510208
+[https://doi.org/10.1145/3510003.3510208](https://doi.org/10.1145/3510003.3510208)
 
 ---
 

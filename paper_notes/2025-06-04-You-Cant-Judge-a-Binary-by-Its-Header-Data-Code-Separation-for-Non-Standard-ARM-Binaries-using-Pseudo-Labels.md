@@ -10,7 +10,7 @@ Hadjer Benkraouda, Nirav Diwan, Gang Wang
 
 2025 IEEE Symposium on Security and Privacy (SP)
 
-https://www.computer.org/csdl/proceedings-article/sp/2025/223600a036/21B7QpveAHC
+[https://www.computer.org/csdl/proceedings-article/sp/2025/223600a036/21B7QpveAHC](https://www.computer.org/csdl/proceedings-article/sp/2025/223600a036/21B7QpveAHC)
 
 ---
 

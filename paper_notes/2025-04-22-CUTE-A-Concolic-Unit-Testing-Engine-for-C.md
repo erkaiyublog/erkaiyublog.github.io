@@ -10,7 +10,7 @@ Koushik Sen, Darko Marinov, Gul Agha
 
 ACM SIGSOFT Software Engineering Notes, Volume 30, Issue 5, Pages 263 - 272
 
-https://doi.org/10.1145/1095430.1081750
+[https://doi.org/10.1145/1095430.1081750](https://doi.org/10.1145/1095430.1081750)
 
 ---
 
