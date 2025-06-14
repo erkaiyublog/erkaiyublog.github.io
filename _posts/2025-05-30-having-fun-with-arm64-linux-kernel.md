@@ -21,7 +21,7 @@ aarch64-linux-gnu-objdump -d -z vmlinux
 
 Note that the ```-z``` flag in the command above ensures that the full object dump is shown, preventing zeroed lines from being collapsed into ellipses (...).
 
-# Some Booting Process Introduction
+# Booting Process - A Brief Introduction
 The beginning of ARM64 kernel image objdump looks like:
 
 ```
@@ -54,7 +54,7 @@ ffff800080000048:	00000000 	.word	0x00000000
 
 The first two lines are instructions executed when the kernel is entered from the bootloader. ```primary_entry``` function can be found in ```linux/arch/arm64/kernel/head.S``` source file. Let's take a look at the corresponding snippet:
 
-```
+```asm
 /*
  * Kernel startup entry point.
  * ---------------------------
@@ -197,7 +197,7 @@ So, another natural question is: *How does the ```objdump``` program decides if 
 ## How Are ```.word``` and ```udf``` Recognized?
 I did a tiny experiment with the following example as ```example.s```:
 
-```
+```asm
     .section .text
     .global _start
 _start:
@@ -212,7 +212,7 @@ _start:
 
 On a x86 machine, I assembled and loaded it for ARM64.
 
-```
+```bash
 aarch64-linux-gnu-as example.s -o example.o
 aarch64-linux-gnu-ld example.o -o example
 ```
@@ -238,6 +238,8 @@ So, the takeaway is:
 > In ELF files there are **debug info** (like DWARF) and other **symbol info** (like function boundaries, labels, or assembler-generated metadata) that helps ```objdump``` program to recognize ```.word``` and ```udf``` entries in ```.text``` section, the raw bytes themselves don't really reflect such differences.
 
 # Runtime Patching
+
+## Prologue
 An interesting instance caught my attention when I was analyzing the execution trace of the ARM64 Linux kernel with QEMU. 
 
 In the objdump of the kernel image, there is the following snippet containing an NOP instruction at ```0xffff800080018800```:
@@ -281,37 +283,63 @@ ffff800080018800:	1400002c 	b	ffff8000800188ac <copy_thread+0xfc>
 To double-check that in QEMU emulation the instructions really **got swappped**, I used the ```gdb-multiarch``` program to inspect runtime memory:
 ![runtime](/images/posts/have_fun_arm/runtime.png)
 
-Turned out that the instructions truely got swapped during runtime. So I started the investigation by reading the source code of this ```copy_thread``` function in ```linux/arch/arm64/kernel/process.c```. After comparing the source code with the objdump snippet, I came up with a rough matching between them:
+Turned out that the instructions truely got swapped during runtime. 
 
-![asm_c](/images/posts/have_fun_arm/asm_c.png)
+## Runtime Patching Analysis
 
-Apparently, function ```ptrauth_thread_init_kernel``` looked pretty suspicious. In ```linux/arch/arm64/include/asm/pointer_auth.h```, this function was defined by a call to ```ptrauth_keys_init_kernel```:
+There are many instances of instructions differing at runtime in a static kernel image. 
 
+Runtime code patching in the Linux kernel can occur due to three main mechanisms:
+
+1. **Alternatives** (a.k.a. patch alternatives):
+A compile-time mechanism that can patch instructions **at boot** based on CPU features. It is applied once early during boot, not dynamically at runtime.
+
+2. **Static keys** (a.k.a. jump labels):
+A dynamic runtime patching mechanism used to enable/disable code paths efficiently. Static keys modify code in place at runtime to enable fast conditional execution.
+
+3. **Live Patching**:
+A mechanism that allows runtime replacement of functions or code in the kernel to fix bugs or security issues without rebooting the system.
+
+
+### 1. Alternatives
+There is a [blog](https://blogs.oracle.com/linux/post/exploring-arm64-runtime-patching-alternatives) by Oracle that introduces Arm64 runtime patching alternatives. **I primarily refer to this resource in the content below**.
+
+The Linux Alternatives Framework is a set of macros that kernel developers can use to prepare their code for boot time patching. It is available for multiple CPU architectures, including X86, ARM64, S390, and PA-RISC. The alternative macro stores the default original code in the ```.text 0``` section and the replacement code in the ```.text 1``` section.
+
+![oracle](/images/posts/have_fun_arm/alternative_oracle.png)
+
+The macro also creates an ```alt_instr``` structure containing the offset locations, instruction length, and the CPU feature bit. The structure is stored in the ```.alternative``` section. At boot time, the Linux kernel will walk through the ```.alternative``` section and compare each ```alt_instr``` structure with the running CPU's features. If the machine does not have the specific feature, the default code remains unchanged. Otherwise, the kernel will replace the default code with the replacement code using the information available in the ```alt_instr``` structure.
+
+```c
+struct alt_instr {
+    s32 orig_offset; /* offset to original instruction          */
+    s32 alt_offset;  /* offset to replacement instruction       */
+    u16 cpufeature;  /* cpufeature bit set for replacement      */
+    u8 orig_len;     /* size of original instruction(s)         */
+    u8 alt_len;      /* size of new instruction(s), <= orig_len */
+};
 ```
-#ifdef CONFIG_ARM64_PTR_AUTH_KERNEL
-#define ptrauth_thread_init_kernel(tsk)					\
-	ptrauth_keys_init_kernel(&(tsk)->thread.keys_kernel)
-#define ptrauth_thread_switch_kernel(tsk)				\
-	ptrauth_keys_switch_kernel(&(tsk)->thread.keys_kernel)
-#else
-#define ptrauth_thread_init_kernel(tsk)
-#define ptrauth_thread_switch_kernel(tsk)
-#endif /* CONFIG_ARM64_PTR_AUTH_KERNEL */
+
+For each code snippet that can have alternative, there is a pair of macros applied. An example is
+
+```c
+SYM_FUNC_START(crc32_le)           /* start of the function                                    */
+alternative_if_not ARM64_HAS_CRC32 /* assuming the runtime machine has no hardware CRC feature */
+    b crc32_le_base                /* default branch to software CRC routine                   */
+alternative_else_nop_endif         /* patch with nop if machine has hardware CRC feature       */
+    __crc32                        /* a macro which uses hardware CRC instructions             */
+SYM_FUNC_END(crc32_le) 
 ```
 
-At this point, I concluded that the unusual swapping behavior was caused by runtime patching, which was triggered by the ```#ifdef``` macro.
+Please see the Oracle [blog](https://blogs.oracle.com/linux/post/exploring-arm64-runtime-patching-alternatives#syntax-of-the-frameworks-macro) for a detailed analysis of the example above, in which they expanded the macros and illustrated how the assembly code creates the ```alt_instr``` structure and stores the replacement code in a separate section.
 
-I came across a blog post talking about runtime patching of Linux kernel: https://blogs.oracle.com/linux/post/exploring-arm64-runtime-patching-alternatives. The blog mentioned that the source code related to ARM64 runtime patching can be found in file ```linux/arch/arm64/kernel/alternative.c```.
+The source code related to ARM64 runtime patching can be found in file ```linux/arch/arm64/kernel/alternative.c```.
 
 Specifically, the ```patch_alternative``` function ([source code](https://elixir.bootlin.com/linux/v6.11.7/source/arch/arm64/kernel/alternative.c#L104)) appeared to be highly related:
 
 ![alternative](/images/posts/have_fun_arm/alternative.png)
 
-With gdb, I inserted a breakpoint at ```patch_alternative``` to find out when does such runtime patching take place.
-
-![breakpoint](/images/posts/have_fun_arm/bp.png)
-
-One can manually press enter over one thousand times to find out how many times this function got triggered. Or, store the following gdb script as ```instr.txt``` and use it when launching gdb:
+I did a lot of analysis with QEMU and gdb, trying to capture all the memory changes done by this ```patch_alternative```. I set breakpoint to this function, with scripts that can be fed to gdb by commands like ```gdb -x script.txt <target_file>```, an example of such ```script.txt``` I used is: 
 
 ```
 set architecture aarch64
@@ -324,26 +352,54 @@ while ($i < 10000)
 end
 ```
 
-Launch gdb with the following command, and all breakpoint hits will be printed to the screen.
+At breakpoints, I used gdb command to dump runtime memory as binaries, an example of dumping the ```.text``` section looks like:
 
 ```
-gdb-multiarch -x instr.txt vmlinux
+(gdb) dump binary memory text.bin 0xffff800080010000 0xffff8000810d5000
 ```
 
+I also extracted the ```.text``` section from the ```vmlinux``` image I built, with the help of ```dd``` program, and I wrote a helper C program to compare this static result with the ```text.bin``` I dumped with gdb to count the different bytes. The results appeared to be interesting and I did observe a lot of expected (and unexpected) changes happening in the runtime ```.text``` section.
 
+**HOWEVER**, it wasn't until I later carefully read the Oracle [blog](https://blogs.oracle.com/linux/post/exploring-arm64-runtime-patching-alternatives#examining-the-code-with-qemu-and-gdb) that I realized they also have a similar analysis done with QEMU and gdb, where they used this funny looking ```hbreak``` rather than ```break``` to set breakpoints.
 
+![gdb oracle](/images/posts/have_fun_arm/gdb_oracle.png)
 
-So, a takeaways for this section:
-> 1. The ARM Linux kernel may exhibit runtime patching, which modifies some of the instructions loaded into memory. A blog discussing this behavior can be found at: https://blogs.oracle.com/linux/post/exploring-arm64-runtime-patching-alternatives, the blog mentioned that such runtime patching is done during **boot time**.
-> 2. QEMU faithfully emulates this runtime patching behavior.
+It turned out that the ```hbreak``` are **hardware breakpoints** that use the CPU's hardware debug registers and should be used in:
+1. Debugging read-only memory (e.g., ROM or flash).
+2. Debugging code in shared libraries or other regions where inserting software breakpoints might be unsafe or unsupported.
+3. Debugging low-level system code (like kernels or embedded systems) where instruction modification isn’t possible or desirable. 👀
 
-## Follow Up: Could This Be Disabled?
-As far as I know, there is no way to **entirely disable** runtime patching.
+Hmmmmmm, **sounds like ```hbreak``` is the breakpoint we need!!** No wonder I kept encountering mysterious random bytes being changed in runtime memory, even though I ran all my gdb experiments with the same QEMU and kernel settings.  What a valuable lesson! It's a reminder of how important it is to read tech blogs (though maybe don't apply that tip to *every* tech blog like this one ;P ).
 
-Taking the same example from above, when I tried to use the same kernel image but added the```-append arm64.nopauth``` command-line argument while launching QEMU, it produced the following runtime memory:
-![disabling](/images/posts/have_fun_arm/disable.png)
+An important follow up question: Is there a way to fully disable patch alternatives? Sadly, according to what I found on the Internet, there is no configuration availble when building Linux kernel to disable ALL the patch alternatives.
 
-This time, the branch instruction at ```0xffff8000800187fc``` got replaced by a NOP instruction, while the original NOP didn't get replaced. So, no matter how you try to disable the runtime patching behavior, your CPU (or the configuration for your QEMU emulation) will make the necessary patches to happen. 
+### 2. Static Keys
+Related documentation can be found at [this link](https://docs.kernel.org/staging/static-keys.html).
 
-## Update:
-Another blog about kernel patch alternative ([link](https://grsecurity.net/linux_kernel_alternatives)), it introduces a related IDA plugin.
+Static keys allows the inclusion of seldom used features in performance-sensitive fast-path kernel code, via a GCC feature and a code patching technique. 
+
+A quick example:
+
+```c
+DEFINE_STATIC_KEY_FALSE(key);
+
+...
+
+if (static_branch_unlikely(&key))
+        do unlikely code
+else
+        do likely code
+
+...
+static_branch_enable(&key);
+...
+static_branch_disable(&key);
+...
+```
+
+The ```static_branch_unlikely()``` branch will be generated into the code with as little impact to the likely code path as possible.
+
+I didn't dive too deep into this topic since I found that setting ```CONFIG_JUMP_LABEL=n``` in the kernel configuration can fully disable these static keys.
+
+### 3. Live Patching
+Related documentation can be found at [this link](https://docs.kernel.org/livepatch/livepatch.html).
