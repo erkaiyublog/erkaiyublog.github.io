@@ -54,7 +54,7 @@ ffff800080000048:	00000000 	.word	0x00000000
 
 The first two lines are instructions executed when the kernel is entered from the bootloader. ```primary_entry``` function can be found in ```linux/arch/arm64/kernel/head.S``` source file. Let's take a look at the corresponding snippet:
 
-```asm
+```
 /*
  * Kernel startup entry point.
  * ---------------------------
