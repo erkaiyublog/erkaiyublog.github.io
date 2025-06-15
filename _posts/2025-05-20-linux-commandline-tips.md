@@ -23,6 +23,10 @@ When using the Linux command line and related tools, there are many useful trick
 * ```ctrl-Y``` yanks the last cut text.
 * ```!!``` runs the previous command.
 
+# Cut
+* ```-c11-``` removes the first 11 chars of each line.
+* ```-f2 -d':'``` extracts the second element of each line using ':' as the delimiter.
+
 # Echo
 * ```echo $?``` displays the return value of the most recently run program.
 
