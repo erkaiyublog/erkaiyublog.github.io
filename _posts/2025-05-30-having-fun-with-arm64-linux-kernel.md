@@ -339,39 +339,24 @@ Specifically, the ```patch_alternative``` function ([source code](https://elixir
 
 ![alternative](/images/posts/have_fun_arm/alternative.png)
 
-I did a lot of analysis with QEMU and gdb, trying to capture all the memory changes done by this ```patch_alternative```. I set breakpoint to this function, with scripts that can be fed to gdb by commands like ```gdb -x script.txt <target_file>```, an example of such ```script.txt``` I used is: 
-
-```
-set architecture aarch64
-target remote :1234
-b patch_alternative
-set $i = 0
-while ($i < 10000)
-  continue
-  set $i = $i + 1
-end
-```
-
-At breakpoints, I used gdb command to dump runtime memory as binaries, an example of dumping the ```.text``` section looks like:
+To capture all the runtime memory changes done by patch alternatives, I set a breakpoint at the function ```apply_alternatives_all```. At the breakpoint, I used gdb command to dump runtime memory as binaries, an example of dumping the ```.text``` section looks like:
 
 ```
 (gdb) dump binary memory text.bin 0xffff800080010000 0xffff8000810d5000
 ```
 
-I also extracted the ```.text``` section from the ```vmlinux``` image I built, with the help of ```dd``` program, and I wrote a helper C program to compare this static result with the ```text.bin``` I dumped with gdb to count the different bytes. The results appeared to be interesting and I did observe a lot of expected (and unexpected) changes happening in the runtime ```.text``` section.
+I also extracted the ```.text``` section from the ```vmlinux``` image I built, with the help of ```dd``` program, and I wrote a helper C program to compare this static result with the ```text.bin``` I dumped with gdb to count the different bytes. 
 
-**HOWEVER**, it wasn't until I later carefully read the Oracle [blog](https://blogs.oracle.com/linux/post/exploring-arm64-runtime-patching-alternatives#examining-the-code-with-qemu-and-gdb) that I realized they also have a similar analysis done with QEMU and gdb, where they used this funny looking ```hbreak``` rather than ```break``` to set breakpoints.
+It's worth noticing that in the Oracle [blog](https://blogs.oracle.com/linux/post/exploring-arm64-runtime-patching-alternatives#examining-the-code-with-qemu-and-gdb) they used ```hbreak``` rather than ```break``` to set breakpoints.
 
 ![gdb oracle](/images/posts/have_fun_arm/gdb_oracle.png)
 
-It turned out that the ```hbreak``` are **hardware breakpoints** that use the CPU's hardware debug registers and should be used in:
+It turns out that the ```hbreak``` are **hardware breakpoints** that use the CPU's hardware debug registers and should be used in:
 1. Debugging read-only memory (e.g., ROM or flash).
 2. Debugging code in shared libraries or other regions where inserting software breakpoints might be unsafe or unsupported.
 3. Debugging low-level system code (like kernels or embedded systems) where instruction modification isn’t possible or desirable. 👀
 
-Hmmmmmm, **sounds like ```hbreak``` is the breakpoint we need!!** No wonder I kept encountering mysterious random bytes being changed in runtime memory, even though I ran all my gdb experiments with the same QEMU and kernel settings.  What a valuable lesson! It's a reminder of how important it is to read tech blogs (though maybe don't apply that tip to *every* tech blog like this one ;P ).
-
-*Followup: it turned out that ```hbreak``` with QEMU can be turned into software breakpoints silently :(*
+However, I'm not pretty sure if QEMU actually treats ```hbreak``` as hardware breakpoint or not.
 
 An important follow up question: Is there a way to fully disable patch alternatives? Sadly, according to what I found on the Internet, there is no configuration availble when building Linux kernel to disable ALL the patch alternatives.
 
