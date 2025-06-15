@@ -438,5 +438,21 @@ apply_alternatives_all  changed:          17324
 kernel_power_off
 ```
 
-```apply_boot_alternatives``` and ```apply_alternatives_all``` are two main sources of runtime code rewrite, they are both related to the Linux patch alternative framework.
+```apply_boot_alternatives``` and ```apply_alternatives_all``` are two main sources of runtime code rewriting. Both are part of the Linux patch alternative framework.
 
+See [source code](https://elixir.bootlin.com/linux/v6.11.7/source/arch/arm64/kvm/va_layout.c#L89) for the ```kvm_apply_hyp_relocations``` function. The function is responsible for relocating certain symbols used by the KVM hypervisor code (HYP mode) during the early initialization of KVM.
+
+See [source code](https://elixir.bootlin.com/linux/v6.11.7/source/fs/dcache.c#L3211) for the ```vfs_caches_init_early``` function. The function is called early during the kernel boot process to prepare basic data structures used by the VFS.
+
+## A Useful QEMU Plugin
+When investigating the runtime patch behavior, I implemented a QEMU plugin called ```runtime_patch_monitor``` at my QEMU plugin fork. Please see [this link](https://github.com/erkaii/qemu-plugins/blob/runtime-patch-monitor/contrib/plugins/runtime_patch_monitor.c) for source code.
+
+The plugin makes use of the ```qemu_plugin_register_vcpu_mem_cb``` to detect all instructions involving memory writes, and further filter by store instruciton and target address, and find **all writes** to the physical address range of ```.text``` section during QEMU emulation. The plugin dumps all the addresses together with the updated 32-bit data as binaries, and this dump can be later parsed to analyze all the runtime memory writes performed to the ```.text``` section.
+
+To get the updated data I used ```qemu_plugin_read_memory_vaddr```, this API function came in QEMU v10.0, so the plugin has to be used with at least this version of QEMU.
+
+Two minor issues I observed when using this plugin:
+1. On very rare occasions, some memory rewrites are performed using instructions like ```ldrsw	x5, [x21, #16]```, which extend a 32-bit value into 64-bit. This means two addresses are rewritten, but the plugin only captures the lower address, since the write appears to affect only that one.
+2. The plugin faithfully records all memory writes. However, a small number of them (fewer than 50 in my experiments) turned out to be writing the same content that was already there. These are benign false positives to keep in mind.
+
+Aside from these two issues, the plugin worked extremely well in detecting runtime patches. I manually verified **all the abnormal entries** (about 40 in total) it generated against gdb runtime memory dumps, and concluded that the plugin is capable of capturing **ALL RUNTIME CODE PATCHES**.
