@@ -453,7 +453,6 @@ void __init vfs_caches_init_early(void)
 		INIT_HLIST_BL_HEAD(&in_lookup_hashtable[i]);
 
 	dcache_init_early();            //   static void __init dcache_init_early(void)
-                                    //
                                     // 	{
                                     // 		/* If hashes are distributed across NUMA nodes, defer
                                     // 		* hash allocation until vmalloc space is available.
