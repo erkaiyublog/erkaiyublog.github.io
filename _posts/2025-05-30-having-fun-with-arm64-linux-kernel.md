@@ -345,7 +345,9 @@ To capture all the runtime memory changes done by patch alternatives, I set brea
 (gdb) dump binary memory text.bin 0xffff800080010000 0xffff8000810d5000
 ```
 
-Compare the memory dump **before** ```apply_boot_alternatives``` and **after** ```apply_alternatives_all``` will give all the changes caused by patch alternatives. 
+Compare the memory dump **before and after** ```apply_boot_alternatives``` and ```apply_alternatives_all``` (meaning you need to dump **four times** in total) will give all the changes caused by patch alternatives. 
+
+The reason why one cannot simply observe the result memory after ```apply_alternatives_all``` for all changes related to patch alternatives is that there are changes to the ```.text``` section made **in between** the two patch alternative functions.
 
 I also extracted the ```.text``` section from the ```vmlinux``` image I built. It turned out that four addresses were modified before ```apply_boot_alternatives``` was called, and the changes were actually applied even before ```__primary_switched```. The four modified addresses appear as follows in the static kernel image.
 
@@ -407,3 +409,34 @@ There are multiple mechanisms in the Linux kernel that are directly related to r
 * Livepatching typically needs to redirect the code at the very beginning of the function entry before the function parameters or the stack are in any way modified.
 
 All three approaches need to modify the existing code at runtime. Therefore they need to be aware of each other and not step over each other’s toes. Most of these problems are solved by using the dynamic ftrace framework as a base.
+
+## Runtime Patching Conclusion
+After disabling Static Keys (a.k.a. jump label) with ```CONFIG_JUMP_LABEL=n``` in kernel compilation, the main contribution to runtime code modification in kernel ```.text``` section is the patch alternative mechanism.
+
+With gdb and QEMU, I collected a simple boot-shutdown emulation of an arm64 Linux kernel, I dumped the runtime memory ```.text``` section at various breakpoints and compare them with the previous one, to collect the following statistics for future reference:
+
+```
+Static Kernel Image 
+        |
+        |               diff from image:      4
+apply_boot_alternatives changed:            372
+        |               diff from image:    376
+        |                     ||		              		
+        |               diff from image:    376
+vfs_caches_init_early   changed:             20
+        |               diff from image:    396
+        |                     ||                     
+        |               diff from image:    396
+kvm_apply_hyp_relocations  changed:           4
+        |               diff from image:    396
+        |                     ||
+        |               diff from image:    396
+apply_alternatives_all  changed:          17324
+        |               diff from image:  17718
+        |                     ||                     
+        |               diff from image:  17718
+kernel_power_off
+```
+
+```apply_boot_alternatives``` and ```apply_alternatives_all``` are two main sources of runtime code rewrite, they are both related to the Linux patch alternative framework.
+
