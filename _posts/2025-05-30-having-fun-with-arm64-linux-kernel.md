@@ -442,7 +442,45 @@ kernel_power_off
 
 See [source code](https://elixir.bootlin.com/linux/v6.11.7/source/arch/arm64/kvm/va_layout.c#L89) for the ```kvm_apply_hyp_relocations``` function. The function is responsible for relocating certain symbols used by the KVM hypervisor code (HYP mode) during the early initialization of KVM.
 
-See [source code](https://elixir.bootlin.com/linux/v6.11.7/source/fs/dcache.c#L3211) for the ```vfs_caches_init_early``` function. The function is called early during the kernel boot process to prepare basic data structures used by the VFS.
+See [source code](https://elixir.bootlin.com/linux/v6.11.7/source/fs/dcache.c#L3211) for the ```vfs_caches_init_early``` function. The function is called early during the kernel boot process to prepare basic data structures used by the VFS. Further looking at the source code, I annotated the place where rewrite happens:
+
+```c
+void __init vfs_caches_init_early(void)
+{
+	int i;
+
+	for (i = 0; i < ARRAY_SIZE(in_lookup_hashtable); i++)
+		INIT_HLIST_BL_HEAD(&in_lookup_hashtable[i]);
+
+	dcache_init_early();            //   static void __init dcache_init_early(void)
+									// 	{
+									// 		/* If hashes are distributed across NUMA nodes, defer
+									// 		* hash allocation until vmalloc space is available.
+									// 		*/
+									// 		if (hashdist)
+									// 			return;
+
+									// 		dentry_hashtable =
+									// 			alloc_large_system_hash("Dentry cache",
+									// 						sizeof(struct hlist_bl_head),
+									// 						dhash_entries,
+									// 						13,
+									// 						HASH_EARLY | HASH_ZERO,
+									// 						&d_hash_shift,
+									// 						NULL,
+									// 						0,
+									// 						0);
+									// 		d_hash_shift = 32 - d_hash_shift;
+
+									// 		runtime_const_init(shift, d_hash_shift);       <- rewrite happens!
+									// 		runtime_const_init(ptr, dentry_hashtable);     <- rewrite happens!
+									// 	}
+	inode_init_early();
+}
+```
+
+
+
 
 ## A Useful QEMU Plugin
 When investigating the runtime patch behavior, I implemented a QEMU plugin called ```runtime_patch_monitor``` at my QEMU plugin fork. Please see [this link](https://github.com/erkaii/qemu-plugins/blob/runtime-patch-monitor/contrib/plugins/runtime_patch_monitor.c) for source code.
