@@ -339,13 +339,23 @@ Specifically, the ```patch_alternative``` function ([source code](https://elixir
 
 ![alternative](/images/posts/have_fun_arm/alternative.png)
 
-To capture all the runtime memory changes done by patch alternatives, I set a breakpoint at the function ```apply_alternatives_all```. At the breakpoint, I used gdb command to dump runtime memory as binaries, an example of dumping the ```.text``` section looks like:
+To capture all the runtime memory changes done by patch alternatives, I set breakpoints at functions ```apply_boot_alternatives``` and ```apply_alternatives_all```. At the breakpoints, I used gdb command to dump runtime memory as binaries, an example of dumping the ```.text``` section looks like:
 
 ```
 (gdb) dump binary memory text.bin 0xffff800080010000 0xffff8000810d5000
 ```
 
-I also extracted the ```.text``` section from the ```vmlinux``` image I built, with the help of ```dd``` program, and I wrote a helper C program to compare this static result with the ```text.bin``` I dumped with gdb to count the different bytes. 
+Compare the memory dump **before** ```apply_boot_alternatives``` and **after** ```apply_alternatives_all``` will give all the changes caused by patch alternatives. 
+
+I also extracted the ```.text``` section from the ```vmlinux``` image I built. It turned out that four addresses were modified before ```apply_boot_alternatives``` was called, and the changes were actually applied even before ```__primary_switched```. The four modified addresses appear as follows in the static kernel image.
+
+```
+ffff8000810c2e78 <__kvm_nvhe_$d>:
+ffff8000810c2e78:	00000000 	udf	#0
+ffff8000810c2e7c:	00000000 	udf	#0
+ffff8000810c2e80:	00000000 	udf	#0
+ffff8000810c2e84:	00000000 	udf	#0
+```
 
 It's worth noticing that in the Oracle [blog](https://blogs.oracle.com/linux/post/exploring-arm64-runtime-patching-alternatives#examining-the-code-with-qemu-and-gdb) they used ```hbreak``` rather than ```break``` to set breakpoints.
 
