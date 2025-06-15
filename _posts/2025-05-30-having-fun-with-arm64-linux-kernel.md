@@ -371,6 +371,8 @@ It turned out that the ```hbreak``` are **hardware breakpoints** that use the CP
 
 Hmmmmmm, **sounds like ```hbreak``` is the breakpoint we need!!** No wonder I kept encountering mysterious random bytes being changed in runtime memory, even though I ran all my gdb experiments with the same QEMU and kernel settings.  What a valuable lesson! It's a reminder of how important it is to read tech blogs (though maybe don't apply that tip to *every* tech blog like this one ;P ).
 
+*Followup: it turned out that ```hbreak``` with QEMU can be turned into software breakpoints silently :(*
+
 An important follow up question: Is there a way to fully disable patch alternatives? Sadly, according to what I found on the Internet, there is no configuration availble when building Linux kernel to disable ALL the patch alternatives.
 
 ### 2. Static Keys
