@@ -479,9 +479,6 @@ void __init vfs_caches_init_early(void)
 }
 ```
 
-
-
-
 ## A Useful QEMU Plugin
 When investigating the runtime patch behavior, I implemented a QEMU plugin called ```runtime_patch_monitor``` at my QEMU plugin fork. Please see [this link](https://github.com/erkaii/qemu-plugins/blob/runtime-patch-monitor/contrib/plugins/runtime_patch_monitor.c) for source code.
 
