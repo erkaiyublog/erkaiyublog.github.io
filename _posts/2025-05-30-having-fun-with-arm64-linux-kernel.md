@@ -453,28 +453,29 @@ void __init vfs_caches_init_early(void)
 		INIT_HLIST_BL_HEAD(&in_lookup_hashtable[i]);
 
 	dcache_init_early();            //   static void __init dcache_init_early(void)
-									// 	{
-									// 		/* If hashes are distributed across NUMA nodes, defer
-									// 		* hash allocation until vmalloc space is available.
-									// 		*/
-									// 		if (hashdist)
-									// 			return;
+                                    //
+                                    // 	{
+                                    // 		/* If hashes are distributed across NUMA nodes, defer
+                                    // 		* hash allocation until vmalloc space is available.
+                                    // 		*/
+                                    // 		if (hashdist)
+                                    // 			return;
 
-									// 		dentry_hashtable =
-									// 			alloc_large_system_hash("Dentry cache",
-									// 						sizeof(struct hlist_bl_head),
-									// 						dhash_entries,
-									// 						13,
-									// 						HASH_EARLY | HASH_ZERO,
-									// 						&d_hash_shift,
-									// 						NULL,
-									// 						0,
-									// 						0);
-									// 		d_hash_shift = 32 - d_hash_shift;
+                                    // 		dentry_hashtable =
+                                    // 			alloc_large_system_hash("Dentry cache",
+                                    // 						sizeof(struct hlist_bl_head),
+                                    // 						dhash_entries,
+                                    // 						13,
+                                    // 						HASH_EARLY | HASH_ZERO,
+                                    // 						&d_hash_shift,
+                                    // 						NULL,
+                                    // 						0,
+                                    // 						0);
+                                    // 		d_hash_shift = 32 - d_hash_shift;
 
-									// 		runtime_const_init(shift, d_hash_shift);       <- rewrite happens!
-									// 		runtime_const_init(ptr, dentry_hashtable);     <- rewrite happens!
-									// 	}
+                                    // 		runtime_const_init(shift, d_hash_shift);       <- rewrite happens!
+                                    // 		runtime_const_init(ptr, dentry_hashtable);     <- rewrite happens!
+                                    // 	}
 	inode_init_early();
 }
 ```
