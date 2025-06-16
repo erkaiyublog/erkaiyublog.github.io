@@ -62,6 +62,7 @@ When using the Linux command line and related tools, there are many useful trick
 * ```-c``` displays **just** the total number of matching lines.
 * ```-E``` for extended-regex pattern. For example, ```grep -E 'dsb|dmb|isb'```. 
 * ```-v``` excludes matched lines.
+* ```-m <n>``` shows the first ```n``` matching lines.  
 * ```--exclude=".."``` excludes certain filenames.   
 
 # Objdump
