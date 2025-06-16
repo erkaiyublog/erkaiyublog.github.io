@@ -368,7 +368,7 @@ It turns out that the ```hbreak``` are **hardware breakpoints** that use the CPU
 2. Debugging code in shared libraries or other regions where inserting software breakpoints might be unsafe or unsupported.
 3. Debugging low-level system code (like kernels or embedded systems) where instruction modification isn’t possible or desirable. 👀
 
-However, I'm not pretty sure if QEMU actually treats ```hbreak``` as hardware breakpoint or not.
+According to the [QEMU document](https://www.qemu.org/docs/master/system/gdb.html#breakpoint-and-watchpoint-support) and my observation, it treats ```breakpoint``` as hardware breakpoints in TCG mode.
 
 An important follow up question: Is there a way to fully disable patch alternatives? Sadly, according to what I found on the Internet, there is no configuration availble when building Linux kernel to disable ALL the patch alternatives.
 
