@@ -472,3 +472,6 @@ Two minor issues I observed when using this plugin:
 2. The plugin faithfully records all memory writes. However, a small number of them (fewer than 50 in my experiments) turned out to be writing the same content that was already there. These are benign false positives to keep in mind.
 
 Aside from these two issues, the plugin worked extremely well in detecting runtime patches. I manually verified **all the abnormal entries** (about 40 in total) it generated against gdb runtime memory dumps, and concluded that the plugin is capable of capturing **ALL RUNTIME CODE PATCHES**.
+
+## A IDA Pro Plugin
+See [this link](https://grsecurity.net/linux_kernel_alternatives) for a related IDA Pro plugin for analyzing patch alternatives in kernel image.
