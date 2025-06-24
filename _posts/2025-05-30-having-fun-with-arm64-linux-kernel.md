@@ -415,28 +415,7 @@ After disabling Static Keys (a.k.a. jump label) with ```CONFIG_JUMP_LABEL=n``` i
 
 With gdb and QEMU, I collected a simple boot-shutdown emulation of an arm64 Linux kernel, I dumped the runtime memory ```.text``` section at various breakpoints and compare them with the previous one, to collect the following statistics for future reference:
 
-```
-Static Kernel Image 
-        |
-        |               diff from image:      4
-apply_boot_alternatives changed:            372
-        |               diff from image:    376
-        |                     ||		              		
-        |               diff from image:    376
-vfs_caches_init_early   changed:             20
-        |               diff from image:    396
-        |                     ||                     
-        |               diff from image:    396
-kvm_apply_hyp_relocations  changed:           4
-        |               diff from image:    396
-        |                     ||
-        |               diff from image:    396
-apply_alternatives_all  changed:          17324
-        |               diff from image:  17718
-        |                     ||                     
-        |               diff from image:  17718
-kernel_power_off
-```
+![gdb-nice-graph](/images/posts/have_fun_arm/gdb_nice.png)
 
 ```apply_boot_alternatives``` and ```apply_alternatives_all``` are two main sources of runtime code rewriting. Both are part of the Linux patch alternative framework.
 
@@ -478,6 +457,8 @@ void __init vfs_caches_init_early(void)
 	inode_init_early();
 }
 ```
+
+Note that the "Relocate Kernel" breakpoint in the nice graph above is actually referring to ```relocate_kernel``` function, see [source code](https://elixir.bootlin.com/linux/v6.11.7/source/arch/arm64/kernel/pi/relocate.c#L15). But in GDB you **cannot** simply set breakpoint at this function name, since this function is copied to a low kernel address when executed at the very early stage of booting. In the assembly this function is named as ```__pi_relocate_kernel```, the suffix ```pi``` stands for position-independent, these functions are particularly in relation to the kernel KASLR (Kernel Address Space Layout Randomization) support on ARM64. With KASLR, the kernel is loaded at a randomized virtual address. To support this, some parts of the kernel code are built as position-independent, and internally, the kernel uses relocation and runtime fixups.
 
 ## A Useful QEMU Plugin
 When investigating the runtime patch behavior, I implemented a QEMU plugin called ```runtime_patch_monitor``` at my QEMU plugin fork. Please see [this link](https://github.com/erkaii/qemu-plugins/blob/runtime-patch-monitor/contrib/plugins/runtime_patch_monitor.c) for source code.
