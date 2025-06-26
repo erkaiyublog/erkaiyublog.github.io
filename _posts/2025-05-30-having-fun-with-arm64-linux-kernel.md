@@ -419,7 +419,7 @@ With gdb and QEMU, I collected a simple boot-shutdown emulation of an arm64 Linu
 
 ```apply_boot_alternatives``` and ```apply_alternatives_all``` are two main sources of runtime code rewriting. Both are part of the Linux patch alternative framework.
 
-See [source code](https://elixir.bootlin.com/linux/v6.11.7/source/arch/arm64/kvm/va_layout.c#L89) for the ```kvm_apply_hyp_relocations``` function. The function is responsible for relocating certain symbols used by the KVM hypervisor code (HYP mode) during the early initialization of KVM.
+See [source code](https://elixir.bootlin.com/linux/v6.11.7/source/arch/arm64/kvm/va_layout.c#L89) for the ```kvm_apply_hyp_relocations``` function. The function is responsible for relocating certain symbols used by the KVM hypervisor code (HYP mode) during the early initialization of KVM. 
 
 See [source code](https://elixir.bootlin.com/linux/v6.11.7/source/fs/dcache.c#L3211) for the ```vfs_caches_init_early``` function. The function is called early during the kernel boot process to prepare basic data structures used by the VFS. Further looking at the source code, I annotated the place where rewrite happens:
 
@@ -459,6 +459,8 @@ void __init vfs_caches_init_early(void)
 ```
 
 Note that the "Relocate Kernel" breakpoint in the nice graph above is actually referring to ```relocate_kernel``` function, see [source code](https://elixir.bootlin.com/linux/v6.11.7/source/arch/arm64/kernel/pi/relocate.c#L15). But in GDB you **cannot** simply set breakpoint at this function name, since this function is copied to a low kernel address when executed at the very early stage of booting. In the assembly this function is named as ```__pi_relocate_kernel```, the suffix ```pi``` stands for position-independent, these functions are particularly in relation to the kernel KASLR (Kernel Address Space Layout Randomization) support on ARM64. With KASLR, the kernel is loaded at a randomized virtual address. To support this, some parts of the kernel code are built as position-independent, and internally, the kernel uses relocation and runtime fixups.
+
+**2025 Jun 25 Note:** Simply disable KVM with ```CONFIG_KVM=n``` in kernel compilation can remove all the rewrites related to KVM (including both "Relocate Kernel" and "KVM Apply hyp Relocation").
 
 ## A Useful QEMU Plugin
 When investigating the runtime patch behavior, I implemented a QEMU plugin called ```runtime_patch_monitor``` at my QEMU plugin fork. Please see [this link](https://github.com/erkaii/qemu-plugins/blob/runtime-patch-monitor/contrib/plugins/runtime_patch_monitor.c) for source code.

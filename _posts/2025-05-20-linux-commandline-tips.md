@@ -80,6 +80,9 @@ When using the Linux command line and related tools, there are many useful trick
     * ```w``` shows wide output (to include the entire command line).
     * ```f``` shows processes in a tree format.
 
+# Readelf
+* ```-x``` dumps bytes in a section in hexadecimal format. For example ```readelf -x .hyp.reloc vmlinux```.
+
 # Set
 * When writing a shell script, use ```set -e``` at the beginning to specify that the script should exit immediately if any command exits with a non-zero status.
 
