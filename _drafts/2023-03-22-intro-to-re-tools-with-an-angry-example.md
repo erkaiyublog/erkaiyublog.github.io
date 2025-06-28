@@ -23,7 +23,7 @@ _I'd like to share the approaches I made to solve this CTF problem in this post,
 ![ctf problem](../images/posts/intro-to-re-tools-with-an-angry-example/ctf-pro.png)
 
 
-If you are only interested in the source codes I used to solve this CTF problem checkout my [repo](https://github.com/silkrow/CTF_sigpwny). 
+If you are only interested in the source codes I used to solve this CTF problem checkout my [repo](https://github.com/erkaii/CTF_sigpwny). 
 # Start with _Ghidra_
 ---
 Useful Links:
