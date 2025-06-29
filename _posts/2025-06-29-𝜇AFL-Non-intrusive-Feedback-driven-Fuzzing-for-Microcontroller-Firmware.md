@@ -25,7 +25,7 @@ Following [*How to Read an Engineering Research Paper*](https://cseweb.ucsd.edu/
 
 ## What are the motivations for this work?
 
-See Introduction, Section 2.
+See Introduction, Section 2, Section 3.
 ### Limitation of Existing Works
 There are limitations in the existing firmware security testing approaches when applied to embedded firmware testing:
 ![table1](/images/posts/microafl/table1.png)
@@ -45,6 +45,28 @@ Use ARM ETM (Embedded Trace Macrocell) for non-intrusive feedback collection.
 ETM is a hardware instruction trace feature for ARM. The design of ETM is: A dedicated hardware component emits a stream of control flow packets, a decoder reconstructs a unique execution path by matching the control flow data to the disassembled machine code.
 ### Trace Collection
 For trace collection, in the documentation of ETM there were two different ways. However, the authors found that ETB (Embedded Trace Buffer) is **rarely supported on real chips**. They instead use a physical parallel port called [Cortex Debug+ETM connector](https://documentation-service.arm.com/static/5fce6c49e167456a35b36af1) to stream the trace data to an external debugger.
+### Control Flow Packets
+ETM emits packets that contain information for: conditional branches, indrect branches, asynchronous events, and optionally direct branches. Exception entries and returns can be properly paired using the packets.
+### Trace Filtering
+Trace generation can be controlled in three ways:
+1. Event-based.
+2. A code region can be included or excluded from tracing. (By setting a pair of address comparators)
+3. By the trace start/stop block.
+The authors found that **only the last method** is supported by ARM MCUs.
+### Design Overview
+An online trace collector + an offline trace analyzer, interact with AFL.
+![overview](/images/posts/microafl/overview.png)
+### Lovel-level Device Control and Fuzzing Scheduling
+Use the JTAG or SWD interface for low-level control of the target device, which enables the dbug dongle to directly access the processor registers and the device memory.
+
+Use the SEGGER RTT protocol for high-speed transmission of the testcases. Transmit the subsequent testcase in the background while the target is running against the current testcase.
+### Trace Collection and Filtering
+Address-based filter and event-based filter can be implemented in the online trace collector using DWT, but with limitations.
+
+"Instruction trigger" is a type of event-based filter that treats the execution of an instruction in a particular memory range as an event. Using this trigger, the authors managed to set the trace filter to filter out the trace for device booting process.
+![instruction trigger](/images/posts/microafl/instructiontrigger.png)
+
+"Data trigger" is a type of event-based filter that treats R/W a particular value from/to a particular address as an event. Using this trigger and the fact that in the RTOS environment each task has its task control block (TCB) in a fixed location, the authors managed to filter out the execution trace of uninterested tasks and the OS kernel, such as interrupt handlers and scheduling.
 
 ## What is the work's evaluation of the proposed solution?
 
@@ -70,7 +92,7 @@ To be added
 
 ## What questions are you left with?
 
-To be added
+For multi-tasked MCU firmware (briefly mentioned in Section 3.3), will the execution trace be correctly annotated? How is this achieved?
 
 ## What is your take-away message from this paper?
 
