@@ -15,7 +15,7 @@ Published: 05 July 2022
 
 ICSE '22: Proceedings of the 44th International Conference on Software Engineering, Pages 1 - 12
 ```
-A presentation given by one of the authors can be found at [this link](https://www.youtube.com/watch?v=hGIrsQqHXDg). Unfortunately, I failed to find the slides in this talk, so I had to include them as screenshots in this blog.
+A presentation given by one of the authors can be found at [this link](https://www.youtube.com/watch?v=hGIrsQqHXDg). 
 
 ***Table of Contents***
 * TOC
@@ -53,6 +53,7 @@ Trace generation can be controlled in three ways:
 2. A code region can be included or excluded from tracing. (By setting a pair of address comparators)
 3. By the trace start/stop block.
 The authors found that **only the last method** is supported by ARM MCUs.
+
 ### Design Overview
 An online trace collector + an offline trace analyzer, interact with AFL.
 ![overview](/images/posts/microafl/overview.png)
