@@ -17,30 +17,34 @@ ICSE '22: Proceedings of the 44th International Conference on Software Engineeri
 ```
 A presentation given by one of the authors can be found at [this link](https://www.youtube.com/watch?v=hGIrsQqHXDg). Unfortunately, I failed to find the slides in this talk, so I had to include them as screenshots in this blog.
 
+***Table of Contents***
+* TOC
+{:toc}
 
 Following [*How to Read an Engineering Research Paper*](https://cseweb.ucsd.edu/~wgg/CSE210/howtoread.html), I tried to summarize this paper by answering the questions below.
 
 ## What are the motivations for this work?
 
-* See Introduction, Section 2.
+See Introduction, Section 2.
 ### Limitation of Existing Works
-* There are limitations in the existing firmware security testing approaches when applied to embedded firmware testing:
+There are limitations in the existing firmware security testing approaches when applied to embedded firmware testing:
 ![table1](/images/posts/microafl/table1.png)
-* Specifically, in the Introduction section, the authors categorized the existing firmware security testing approaches as:
-    * **Emulation-based rehosting technique** (extensively studied recently): the main challenge is to accurately model the behavior of diverse peripherals. Some attempted to learn an approximate peripheral model using symbolic execution, access-pattern matching, and machine learning techniques, but they are inaccurate in general.
-    * **Porting based on HAL**: leverage the HAL available in MCU firmware to avoid modeling peripherals. Limited to peripheral drivers that are available in HAL.
-    * **Hardware in the loop**: QEMU + peripheral I/O fowarding. Require frequent and expensive switching (and syncing) between QEMU and hardware.
+Specifically, in the Introduction section, the authors categorized the existing firmware security testing approaches as:
+* **Emulation-based rehosting technique** (extensively studied recently): the main challenge is to accurately model the behavior of diverse peripherals. Some attempted to learn an approximate peripheral model using symbolic execution, access-pattern matching, and machine learning techniques, but they are inaccurate in general.
+* **Porting based on HAL**: leverage the HAL available in MCU firmware to avoid modeling peripherals. Limited to peripheral drivers that are available in HAL.
+* **Hardware in the loop**: QEMU + peripheral I/O fowarding. Require frequent and expensive switching (and syncing) between QEMU and hardware.
+
 ### Difficulty with MCU
-* In Section 2, the authors introduced the difficulty in dynamic analysis of MCU firmware. Unlike traditional software which assumes an OS layer that provides an abstract view of hardware, MCU firmware **runs on bare metal** or only includes an OS library (e.g. RTOS) for simple multi-task management. Therefore, it compiles the driver code of peripherals and the application code **together to form a single-address-space program**. The peripheral I/O operation is performed by accessing the memory-mapped registers.
+In Section 2, the authors introduced the difficulty in dynamic analysis of MCU firmware. Unlike traditional software which assumes an OS layer that provides an abstract view of hardware, MCU firmware **runs on bare metal** or only includes an OS library (e.g. RTOS) for simple multi-task management. Therefore, it compiles the driver code of peripherals and the application code **together to form a single-address-space program**. The peripheral I/O operation is performed by accessing the memory-mapped registers.
 
 ## What is the proposed solution?
-
-* See Introduction, Section 2.
+See Introduction, Section 2.
 ### Hardware
-* Use ARM ETM (Embedded Trace Macrocell) for non-intrusive feedback collection.
-* ETM is a hardware instruction trace feature for ARM. The design of ETM is: A dedicated hardware component emits a stream of control flow packets, a decoder reconstructs a unique execution path by matching the control flow data to the disassembled machine code.
+Use ARM ETM (Embedded Trace Macrocell) for non-intrusive feedback collection.
+
+ETM is a hardware instruction trace feature for ARM. The design of ETM is: A dedicated hardware component emits a stream of control flow packets, a decoder reconstructs a unique execution path by matching the control flow data to the disassembled machine code.
 ### Trace Collection
-* For trace collection, in the documentation of ETM there were two different ways. However, the authors found that ETB (Embedded Trace Buffer) is **rarely supported on real chips**. They instead use a physical parallel port called [Cortex Debug+ETM connector](https://documentation-service.arm.com/static/5fce6c49e167456a35b36af1) to stream the trace data to an external debugger.
+For trace collection, in the documentation of ETM there were two different ways. However, the authors found that ETB (Embedded Trace Buffer) is **rarely supported on real chips**. They instead use a physical parallel port called [Cortex Debug+ETM connector](https://documentation-service.arm.com/static/5fce6c49e167456a35b36af1) to stream the trace data to an external debugger.
 
 ## What is the work's evaluation of the proposed solution?
 
