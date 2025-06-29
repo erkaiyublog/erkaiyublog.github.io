@@ -18,7 +18,7 @@ ICSE '22: Proceedings of the 44th International Conference on Software Engineeri
 A presentation given by one of the authors can be found at [this link](https://www.youtube.com/watch?v=hGIrsQqHXDg). Unfortunately, I failed to find the slides in this talk, so I had to include them as screenshots in this blog.
 
 
-Following *[How to Read an Engineering Research Paper](https://cseweb.ucsd.edu/~wgg/CSE210/howtoread.html)*, I tried to summarize this paper by answering the questions below.
+Following [*How to Read an Engineering Research Paper*](https://cseweb.ucsd.edu/~wgg/CSE210/howtoread.html), I tried to summarize this paper by answering the questions below.
 
 ## What are the motivations for this work?
 
