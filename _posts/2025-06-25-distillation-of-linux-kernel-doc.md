@@ -54,7 +54,7 @@ Since statics key is based on jump labels, one can disable static keys entirely 
 # [Livepatch](https://www.kernel.org/doc/html/v6.11/livepatch/livepatch.html)
 Livepatching allows users to redirect function calls so that patches can be applied to critical functions without rebooting the system.
 
-There are multiple mechanisms in the Linux kernel that are directly related to **redirection of code execution**; namely: **kernel probes**, **function tracing**, and **livepatching**. All three approaches need to modify the existing code at runtime. Therefore they need to be aware of each other and not step over each other’s toes. See [this section](https://www.kernel.org/doc/html/v6.11/livepatch/livepatch.html#id4) for more details.
+There are multiple mechanisms in the Linux kernel that are directly related to **redirection of code execution**; namely: **kernel probes**, **function tracing**, and **livepatching**. All three approaches need to **modify the existing code at runtime**. Therefore they need to be aware of each other and not step over each other’s toes. See [this section](https://www.kernel.org/doc/html/v6.11/livepatch/livepatch.html#id4) for more details.
 
 A diagram demonstrating a naive understanding of livepatch:
 
