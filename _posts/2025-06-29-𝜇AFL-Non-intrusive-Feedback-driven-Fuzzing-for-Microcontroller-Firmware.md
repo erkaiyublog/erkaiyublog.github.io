@@ -25,6 +25,10 @@ Following [*How to Read an Engineering Research Paper*](https://cseweb.ucsd.edu/
 * See Introduction.
 * There are limitations in the existing firmware security testing approaches when applied to embedded firmware testing:
 ![table1](/images/posts/microafl/table1.png)
+* Specifically, in the Introduction section, the authors categorized the existing firmware security testing approaches as:*
+    * **Emulation-based rehosting technique** (extensively studied recently): the main challenge is to accurately model the behavior of diverse peripherals. Some attempted to learn an approximate peripheral model using symbolic execution, access-pattern matching, and machine learning techniques, but they are inaccurate in general.
+    * **Porting based on HAL**: leverage the HAL available in MCU firmware to avoid modeling peripherals. Limited to peripheral drivers that are available in HAL.
+    * **Hardware in the loop**: QEMU + peripheral I/O fowarding. Require frequent and expensive switching (and syncing) between QEMU and hardware.
 
 ## What is the proposed solution?
 
