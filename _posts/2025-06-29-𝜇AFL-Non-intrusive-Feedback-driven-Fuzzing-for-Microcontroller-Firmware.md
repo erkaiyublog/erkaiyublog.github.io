@@ -109,20 +109,34 @@ Compared with Capstone to demonstrate how using LCSAJ_BB-based approach can redu
 A figure presents the overhead breakdown.
 ![overhead](/images/posts/microafl/overhead_break.png)
 
+### Overall Performance
+Noticeably, when the generated trace is very large (e.g., over 200 MB), the debug dongle became insuf- ficiently reliable. The buffer inside the debug dongle might be de- pleted and this led to overflow and trace loss.
+
+Comparison with existing works:
+![comparison](/images/posts/microafl/comparison.png)
+Avatar emulates the firmware in QEMU but forwards peripheral operations to the real development board. While the other two are pure emulation-based. 
+
+Emulation-based solutions outperform hardware-in-the-loop solutions significantly because of the higher computation power.
+
+𝜇AFL on the other hand outperforms Avatar since it suffers less from synchronization.
+
 ## What is your analysis of the identified problem, idea and evaluation?
 
 The fact that the ETM tracing module doesn't instrument the code sounds pretty nice.
 
 ## What are the contributions?
 
-* See Introduction.
-* 𝜇AFL, the first fuzzing tool that is applicable to the driver code of MCU firmware.
-* Proposed using ARM ETM for non-intrusive feedback collection. Used Linear Code Sequence And Jump (LCSAJ) analysis to directly process raw ETM data without expensive disassembling.
-* Some bugs detected.
+See Introduction.
+
+Proposed 𝜇AFL, the first fuzzing tool that is applicable to the driver code of MCU firmware.
+
+Proposed using ARM ETM for non-intrusive feedback collection. Used Linear Code Sequence And Jump (LCSAJ) analysis to directly process raw ETM data without expensive disassembling.
+
+Some bugs were detected.
 
 ## What are future directions for this research?
 
-To be added
+It would be helpful to compare the hardware-based results with emulation-based ones, to identify potential issues with emulation-based testing scheme.
 
 ## What questions are you left with?
 
@@ -130,4 +144,4 @@ For multi-tasked MCU firmware (briefly mentioned in Section 3.3), will the execu
 
 ## What is your take-away message from this paper?
 
-To be added
+The demonstration of using ETM to collect execution trace is very useful.
