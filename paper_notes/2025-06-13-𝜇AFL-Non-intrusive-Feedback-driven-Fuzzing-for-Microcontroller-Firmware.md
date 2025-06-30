@@ -14,9 +14,6 @@ ICSE '22: Proceedings of the 44th International Conference on Software Engineeri
 [https://doi.org/10.1145/3510003.3510208](https://doi.org/10.1145/3510003.3510208)
 
 ---
-
-See [this blog](/%F0%9D%9C%87AFL-Non-intrusive-Feedback-driven-Fuzzing-for-Microcontroller-Firmware) for a more detailed paper review.
-
 # Q&A ([link](https://cseweb.ucsd.edu/~wgg/CSE210/howtoread.html))
 
 **What are the motivations for this work?** 
