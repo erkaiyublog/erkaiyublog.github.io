@@ -117,16 +117,22 @@ Combining binary coverage and branch coverage.
 
 The coverage experiments are conducted for **72 hours**. All bugs listed were found in this experiment. Each experiment was repeated **5 times** to reduce statistical errors. 
 
+Take-away: 
+1. Both KBinCov-KVM and KBinCov-TCG acheived higher coverage statistics (number of branches covered) than traditional fuzzers as well as state coverage fuzzers.
+2. KBinCov achieves a significantly higher binary coverage statistic than the comparison.
+
 ## What is your analysis of the identified problem, idea and evaluation?
 
 To be added
 
 ## What are the contributions?
-* See Abstract.
-* A new execution feedback and novelty detection mechanism, Kernel Binary Coverage Feedback.
-* A prototype tool KBinCov integrated into kernel fuzzer syzkaller. 
-* Higher code and binary coverage, lower overhead.
-* Found 21 previously unknown bugs using KBinCov with Syzkaller.
+See Abstract.
+
+A new execution feedback and novelty detection mechanism, Kernel Binary Coverage Feedback.
+
+A prototype tool KBinCov integrated into kernel fuzzer syzkaller. The tool provides higher code and binary coverage, lower overhead.
+
+Found 21 previously unknown bugs using KBinCov with Syzkaller.
 
 ## What are future directions for this research?
 
