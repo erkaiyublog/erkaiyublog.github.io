@@ -4,7 +4,7 @@ title: "Paper Review - 𝜇AFL: Non-intrusive Feedback-driven Fuzzing for Microc
 tags: paper-reading firmware fuzzing arm 
 ---
 
-This is a paper review of the work *𝜇AFL: Non-intrusive Feedback-driven Fuzzing for Microcontroller Firmware*. 
+This is a review of the paper *𝜇AFL: Non-intrusive Feedback-driven Fuzzing for Microcontroller Firmware*. 
 
 Some basic info of [this paper](https://doi.org/10.1145/3510003.3510208):
 
