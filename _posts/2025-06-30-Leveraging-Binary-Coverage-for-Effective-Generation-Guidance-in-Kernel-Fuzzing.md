@@ -123,7 +123,7 @@ Take-away:
 
 ## What is your analysis of the identified problem, idea and evaluation?
 
-To be added
+The idea of including data access into the metrics is super interesting. I'm a bit concerned about the overhead introduced by data access monitoring, but it seemed to be acceptable according to the experiments. The idea of introducing such metrics is basically provide more detailed feedback to the fuzzer, or, to think of it as manually creating more branches in execution path.
 
 ## What are the contributions?
 See Abstract.
@@ -136,17 +136,20 @@ Found 21 previously unknown bugs using KBinCov with Syzkaller.
 
 ## What are future directions for this research?
 
-To be added
+-
 
 ## What questions are you left with?
 
-To be added
+-
 
 ## What is your take-away message from this paper?
 
 ### Kernel State Coverage Works
 In Section 3.2 the author mentioned works that abstract the execution state of the program as feedback for fuzzers (e.g. IJON and StateFuzz). I haven't heard of this approach before.
 
-* Including memory pattern in kernel code coverage metrics can be benefitial as it includes more info. 
-* The memory overhead introduced by memory pattern is affordable, while the run-time overhead might be higher than state-of-the-art implementations. In the experiments, it takes KBinCov longer execution time to really achieve a better result.
-* In Section 6.2, the authors explained that QEMU-KVM has significantly higher coverage statistics than QEMU-TCG, due to the fact that ***QEMU enabled a different set of devices under the two modes, thus affecting the number of modules the kernel loads during initialization***, and in turn resulting in a difference in the figures when saturated.
+### Some Thoughts
+Including memory pattern in kernel code coverage metrics can be benefitial as it includes more info. 
+
+The memory overhead introduced by memory pattern is affordable, while the run-time overhead might be higher than state-of-the-art implementations. In the experiments, it takes KBinCov longer execution time to really achieve a better result.
+
+In Section 6.2, the authors explained that QEMU-KVM has significantly higher coverage statistics than QEMU-TCG, due to the fact that ***QEMU enabled a different set of devices under the two modes, thus affecting the number of modules the kernel loads during initialization***, and in turn resulting in a difference in the figures when saturated.
