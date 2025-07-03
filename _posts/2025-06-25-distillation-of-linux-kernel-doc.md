@@ -56,6 +56,14 @@ Livepatching allows users to redirect function calls so that patches can be appl
 
 There are multiple mechanisms in the Linux kernel that are directly related to **redirection of code execution**; namely: **kernel probes**, **function tracing**, and **livepatching**. All three approaches need to **modify the existing code at runtime**. Therefore they need to be aware of each other and not step over each other’s toes. See [this section](https://www.kernel.org/doc/html/v6.11/livepatch/livepatch.html#id4) for more details.
 
+Livepatch has a consistency model (such consistency model tend to be super complicated, think about the case when an updated function involves changes of locking, and needs one or more other functions to be updated at the same time) which is a hybrid of kGraft and kpatch: it uses kGraft’s per-task consistency and syscall barrier switching combined with kpatch’s stack trace switching. There are also a number of fallback options which make it quite flexible. 
+
 A diagram demonstrating a naive understanding of livepatch:
 
 ![livepatch](/images/posts/distillation_linux/livepatching.png)
+
+Limitations of livepatch:
+* Only functions that can be traced could be patched.
+    * **Livepatch is based on the dynamic ftrace**. In particular, functions implementing ftrace or the livepatch ftrace handler could not be patched. Otherwise, the code would end up in an infinite loop :)
+* Livepatch works reliably only when the dynamic ftrace is located at the very beginning of the function.
+* Kretprobes using the ftrace framework conflict with the patched functions.
