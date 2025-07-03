@@ -14,7 +14,6 @@ Authors: Jianzhong Liu, Yuheng Shen, Yiru Xu, Yu Jiang
 Published: 09 Dec 2024
 
 CCS '24: Proceedings of the 2024 on ACM SIGSAC Conference on Computer and Communications Security Pages 3763 - 3777
-
 ```
 
 ***Table of Contents***
