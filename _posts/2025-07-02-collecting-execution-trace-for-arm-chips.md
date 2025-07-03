@@ -19,6 +19,11 @@ The paper [*FrankenTrace: Low-Cost, Cycle-Level, Widely Applicable Program Execu
 
 FrankenTrace collects full cycle-level traces by **repeatedly executing** the target software with varied tracing configurations and then merging the results. This approach overcomes the bandwidth limitations of low-speed debug interfaces (like SWO) without needing expensive ETM-based hardware.
 
+Hardware features required: 
+* DWT (Debug Watchpoint and Trace): Configured to sample PC or monitor memory accesses.
+* ITM (Instrumentation Trace Macrocell): Receives trace packets and timestamps them.
+* SWO (Single Wire Output): Used to output trace data over UART (low bandwidth).
+
 # What is ETM?
 
 # References
