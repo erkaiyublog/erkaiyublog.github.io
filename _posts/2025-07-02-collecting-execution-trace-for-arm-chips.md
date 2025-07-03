@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 title: Collecting Execution Trace for ARM Chips
 tags: arm firmware
 ---
