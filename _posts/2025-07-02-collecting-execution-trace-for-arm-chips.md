@@ -15,6 +15,7 @@ This blog only focuses on methods **based on hardware** features.
 # Tracing Without ETM
 Before introducing execution tracing based on ETM, I'd like to first introduce some alternatives.
 
+## FrankenTrace
 The paper [*FrankenTrace: Low-Cost, Cycle-Level, Widely Applicable Program Execution Tracing for ARM Cortex-M SoC*](https://doi.org/10.1145/3576914.3587521) introduces a method for collecting traces without relying on ETM.
 
 FrankenTrace collects full cycle-level traces by **repeatedly executing** the target software with varied tracing configurations and then merging the results. This approach overcomes the bandwidth limitations of low-speed debug interfaces (like SWO) without needing expensive ETM-based hardware.
@@ -24,7 +25,13 @@ Hardware features required:
 * ITM (Instrumentation Trace Macrocell): Receives trace packets and timestamps them.
 * SWO (Single Wire Output): Used to output trace data over UART (low bandwidth).
 
+The trace can be collected with cheap logical analyzers or UART-USB chips.
+
+FrankenTrace supports generating two types of traces: a noninvasive cycle-level PC trace and a cycle-level LSU trace of varying invasiveness.
+
 # What is ETM?
+
+## HATBED
 
 # References
 1. FrankenTrace: Low-Cost, Cycle-Level, Widely Applicable Program Execution Tracing for ARM Cortex-M SoC [https://doi.org/10.1145/3576914.3587521](https://doi.org/10.1145/3576914.3587521) 
