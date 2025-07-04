@@ -51,6 +51,7 @@ For the actual experiments, the authors employed a **USB logic analyzer** based 
 ## What is ETM?
 
 ## HATBED
+HATBED is a testbed designed for IoT devices equipped with ARM Cortex-M3/M4 processors, utilizing standardized built-in debugging units and general hardware-assisted tracing technologies.
 
 # References
 1. FrankenTrace: Low-Cost, Cycle-Level, Widely Applicable Program Execution Tracing for ARM Cortex-M SoC [https://doi.org/10.1145/3576914.3587521](https://doi.org/10.1145/3576914.3587521) 
