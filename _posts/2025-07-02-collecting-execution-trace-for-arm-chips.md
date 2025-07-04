@@ -45,9 +45,7 @@ That said, I can certainly imagine scenarios where FrankenTrace would be useful:
 
 For the actual experiments, the authors employed a **USB logic analyzer** based on a popular Cypress CY7C68013A chip, which allows for reliable sampling at up to **24 MHz**. For robust symbol recovery they sampled 3 times per symbol, achieving a maximum effective UART symbol rate of **8 Mbaud**. The captured data was then processed in software by two decoders from the open-source sigrok project: first by a UART decoder and then by an ARM ITM decoder. They modified the latter to save the decoded tracing packets to a CSV that can be subsequently processed to generate the final trace.
 
-> Mbaud stands for Mega Baud, which means 1 million baud. It is a unit of symbol rate. ***Baud rate*** refers to the **number of symbols** transmitted per second.
-
-> A symbol is a "unit" of communication that the receiver can distinguish from others. In binary communication (like UART): 1 symbol = 1 bit
+> Mbaud stands for Mega Baud, which means 1 million baud. It is a unit of symbol rate. ***Baud rate*** refers to the **number of symbols** transmitted per second. A symbol is a "unit" of communication that the receiver can distinguish from others. In binary communication (like UART): 1 symbol = 1 bit
 
 # Tracing with ETM
 ## What is ETM?
