@@ -55,8 +55,8 @@ For the actual experiments, the authors employed a **USB logic analyzer** based 
 # Summary
 Below is a table featuring key data from all the experiments discussed in the works introduced in this blog.
 
-| Name       | Device | Chip    | Hardware Tools | 
-|:-----------|:---|:-----------|:----------------|
+| Name              | Device     | Chip                 | Hardware Tools                 | 
+|:------------------|:-----------|:---------------------|:-------------------------------|
 | FrankenTrace      |  TI CC2650 | 32-bit ARM Cortex-M3 | DWT, SWO, a USB logic analyzer |
 
 
