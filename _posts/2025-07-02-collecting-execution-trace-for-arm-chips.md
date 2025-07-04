@@ -32,7 +32,15 @@ The trace can be collected with cheap logical analyzers or UART-USB chips.
 FrankenTrace supports generating two types of traces: a noninvasive cycle-level PC trace and a cycle-level LSU trace of varying invasiveness.
 
 ![frankentrace overview](/images/posts/trace_arm/frankentrace.png)
+In the paper, the authors used DWT to sample PC at exactly N-cycle intervals, where the value of N is configurable. Since PC is sampled upon a transition of a configured tap bit of the cycle counter, to control the sampling offset for different *i*, the authors adjusted the point at which the sample is taken by "carefully manipulating the DWT configuration and by modifying the initial value of the counter".
 
+Despite the fact that FrankenTrace can collect execution traces at much lower cost and without requiring ETM, I personally find this method not entirely reliable. The instruction trace is reconstructed based on N **independent** executions (via ```system reset```), and the nondeterminism in these executions is simply non-negligible. The authors also point out that, due to nondeterminism, it often takes **more than N executions** to obtain consistent and useful traces. To determine consistency, the authors insert a special piece of code with a known trace before the analyzed code and later use this to check for validity.
+
+If the goal of collecting an execution trace is to obtain a precise reflection of the entire execution process, then trace collection based on re-execution seems somewhat unreliable to me.
+
+That said, I can certainly imagine scenarios where FrankenTrace would be useful:
+1. When one wants to collect execution traces for an ARM chip **without ETM** support.
+2. When one wants to reverse engineer some closed-source hardware by efficiently collecting its execution trace, without requiring strong consistency.
 
 # Tracing with ETM
 ## What is ETM?
