@@ -31,6 +31,7 @@ The trace can be collected with cheap logical analyzers or UART-USB chips.
 
 FrankenTrace supports generating two types of traces: a noninvasive cycle-level PC trace and a cycle-level LSU trace of varying invasiveness.
 
+Below is a screeshot from the paper, illustrating **half** of the workflow (I included only the workfow involving cycle-level PC trace).
 ![frankentrace overview](/images/posts/trace_arm/frankentrace.png)
 In the paper, the authors used DWT to sample PC at exactly N-cycle intervals, where the value of N is configurable. Since PC is sampled upon a transition of a configured tap bit of the cycle counter, to control the sampling offset for different *i*, the authors adjusted the point at which the sample is taken by "carefully manipulating the DWT configuration and by modifying the initial value of the counter".
 
