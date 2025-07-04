@@ -51,7 +51,13 @@ For the actual experiments, the authors employed a **USB logic analyzer** based 
 ## What is ETM?
 
 ## HATBED
-HATBED is a testbed designed for IoT devices equipped with ARM Cortex-M3/M4 processors, utilizing standardized built-in debugging units and general hardware-assisted tracing technologies.
+HATBED from [HATBED: A Distributed Hardware Assisted Testbed for Non-invasive Profiling of IoT Devices](https://dl.acm.org/doi/10.1145/3312480.3313172) is a testbed designed for IoT devices equipped with ARM Cortex-M3/M4 processors, utilizing standardized built-in debugging units and general hardware-assisted tracing technologies.
+
+They used a CY7C68013A based logic analyzer (controlled by sigrok) to collect the ETM trace.
+
+Unfortunately, I failed to understand the technical details provided by the authors in the paper, and there was no clear description of their workflow. 
+
+I found this [repository](https://github.com/PetteriAimonen/STM32_Trace_Example) which presumably inspired the authors of HATBED.
 
 # References
 1. FrankenTrace: Low-Cost, Cycle-Level, Widely Applicable Program Execution Tracing for ARM Cortex-M SoC [https://doi.org/10.1145/3576914.3587521](https://doi.org/10.1145/3576914.3587521) 
