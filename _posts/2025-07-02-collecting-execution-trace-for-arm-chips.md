@@ -52,14 +52,6 @@ For the actual experiments, the authors employed a **USB logic analyzer** based 
 
 ## HATBED
 
-# Summary
-Below is a table featuring key data from all the experiments discussed in the works introduced in this blog.
-
-| Name              | Device     | Chip                 | Hardware Tools                 | 
-|:------------------|:-----------|:---------------------|:-------------------------------|
-| FrankenTrace      |  TI CC2650 | 32-bit ARM Cortex-M3 | DWT, SWO, a USB logic analyzer |
-
-
 # References
 1. FrankenTrace: Low-Cost, Cycle-Level, Widely Applicable Program Execution Tracing for ARM Cortex-M SoC [https://doi.org/10.1145/3576914.3587521](https://doi.org/10.1145/3576914.3587521) 
 
