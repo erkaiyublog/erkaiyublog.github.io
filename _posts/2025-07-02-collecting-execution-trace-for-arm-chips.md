@@ -40,13 +40,27 @@ Despite the fact that FrankenTrace can collect execution traces at much lower co
 If the goal of collecting an execution trace is to obtain a precise reflection of the entire execution process, then trace collection based on re-execution seems somewhat unreliable to me.
 
 That said, I can certainly imagine scenarios where FrankenTrace would be useful:
-1. When one wants to collect execution traces for an ARM chip **without ETM** support.
+1. When one wants to collect execution traces for an ARM chip **without ETM** support (this is somewhat common among Cortex-M3-based SoCs, a related table can be found in the paper).
 2. When one wants to reverse engineer some closed-source hardware by efficiently collecting its execution trace, without requiring strong consistency.
+
+For the actual experiments, the authors employed a **USB logic analyzer** based on a popular Cypress CY7C68013A chip, which allows for reliable sampling at up to **24 MHz**. For robust symbol recovery they sampled 3 times per symbol, achieving a maximum effective UART symbol rate of **8 Mbaud**. The captured data was then processed in software by two decoders from the open-source sigrok project: first by a UART decoder and then by an ARM ITM decoder. They modified the latter to save the decoded tracing packets to a CSV that can be subsequently processed to generate the final trace.
+
+> Mbaud stands for Mega Baud, which means 1 million baud. It is a unit of symbol rate. ***Baud rate*** refers to the **number of symbols** transmitted per second.
+
+> A symbol is a "unit" of communication that the receiver can distinguish from others. In binary communication (like UART): 1 symbol = 1 bit
 
 # Tracing with ETM
 ## What is ETM?
 
 ## HATBED
+
+# Summary
+Below is a table featuring key data from all the experiments discussed in the works introduced in this blog.
+
+| Name       | Device | Chip    | Hardware Tools | 
+|:-----------|:---|:-----------|:----------------|
+| FrankenTrace      |  TI CC2650 | 32-bit ARM Cortex-M3 | DWT, SWO, A USB logic analyzer|
+
 
 # References
 1. FrankenTrace: Low-Cost, Cycle-Level, Widely Applicable Program Execution Tracing for ARM Cortex-M SoC [https://doi.org/10.1145/3576914.3587521](https://doi.org/10.1145/3576914.3587521) 
