@@ -57,7 +57,7 @@ Below is a table featuring key data from all the experiments discussed in the wo
 
 | Name       | Device | Chip    | Hardware Tools | 
 |:-----------|:---|:-----------|:----------------|
-| FrankenTrace      |  TI CC2650 | 32-bit ARM Cortex-M3 | DWT, SWO, A USB logic analyzer|
+| FrankenTrace      |  TI CC2650 | 32-bit ARM Cortex-M3 | DWT, SWO, a USB logic analyzer |
 
 
 # References
