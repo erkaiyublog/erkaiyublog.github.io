@@ -50,6 +50,25 @@ For the actual experiments, the authors employed a **USB logic analyzer** based 
 # Tracing with ETM
 ## What is ETM?
 
+## Ninja
+Ninja leverages a hardware-assisted isolated execution environment Trust-Zone to transparently trace and debug a target application with the help of Performance Monitor Unit (PMU) and Embedded Trace Macrocell (ETM). 
+
+An overview of the Ninja architecture:
+![arch](/images/posts/trace_arm/ninja_arch.png)
+
+The main idea of this design is that the "normal OS" (Linux or Android) on the left is being executed in **normal domain**, and the Ninja system on the right is being ran in **secure domain**. Such isolation makes use of the hardware-based **TrustZone** feature provided by ARM.
+
+The experiments were conducted on a **64-bit ARMv8 Juno r1 board**, which has two **ARM Cortex-A57** cores and four ARM Cortex-A53 cores.
+
+There are **funnels** controlled by a group of CoreSight Trace Funnel (CSTF) registers, the ETM trace is filtered by these funnels. For Ninja's experiment, the authors only collected traces for the core 0 in the Cortex-A57 cluster. The filtered result is output to **Embedded Trace FIFO (ETF)** which is controlled by Trace Memory Controller (TMC) registers. 
+
+The ETM is controlled by a group of trace registers. The following setting is applied to the Ninja system:
+1. Set all ```EXLEVEL_S``` bits and clear all ```EXLEVEL_NS``` bits of the ```TRCVICTLR``` register to collect trace for non-secure EL0 and non-secure EL1.
+2. Set the ```EN``` bit of the ```TRCPRGCTLR``` register to start the instruction trace.
+3. Clear the ```EN``` bit of the ```TRCPRGCTLR``` register to disable ETM.
+4. Set the ```StopOnFl``` bit and the ```FlushMan``` bits of ```FFCR``` register in the ```TMC``` registers to stop the ETF. 
+5. To **read the trace**, keep reading from the ```RRD``` register until ```0xFFFFFFFF``` is fetched.
+
 ## HATBED
 HATBED from [HATBED: A Distributed Hardware Assisted Testbed for Non-invasive Profiling of IoT Devices](https://dl.acm.org/doi/10.1145/3312480.3313172) is a testbed designed for IoT devices equipped with ARM Cortex-M3/M4 processors, utilizing standardized built-in debugging units and general hardware-assisted tracing technologies.
 
@@ -63,3 +82,7 @@ I found this [repository](https://github.com/PetteriAimonen/STM32_Trace_Example)
 1. FrankenTrace: Low-Cost, Cycle-Level, Widely Applicable Program Execution Tracing for ARM Cortex-M SoC [https://doi.org/10.1145/3576914.3587521](https://doi.org/10.1145/3576914.3587521) 
 
 2. HATBED: A Distributed Hardware Assisted Testbed for Non-invasive Profiling of IoT Devices [https://dl.acm.org/doi/10.1145/3312480.3313172](https://dl.acm.org/doi/10.1145/3312480.3313172)
+
+3. Tracing on STM32 discovery [https://essentialscrap.com/tips/arm_trace/theory.html](https://essentialscrap.com/tips/arm_trace/theory.html)
+
+4. Ninja: Towards Transparent Tracing and Debugging on ARM [https://dl.acm.org/doi/10.5555/3241189.3241193](https://dl.acm.org/doi/10.5555/3241189.3241193)
