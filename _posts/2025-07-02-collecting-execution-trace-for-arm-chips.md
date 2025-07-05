@@ -60,7 +60,7 @@ The main idea of this design is that the "normal OS" (Linux or Android) on the l
 
 The experiments were conducted on a **64-bit ARMv8 Juno r1 board**, which has two **ARM Cortex-A57** cores and four ARM Cortex-A53 cores.
 
-There are **funnels** controlled by a group of CoreSight Trace Funnel (CSTF) registers, the ETM trace is filtered by these funnels. For Ninja's experiment, the authors only collected traces for the core 0 in the Cortex-A57 cluster. The filtered result is output to **Embedded Trace FIFO (ETF)** which is controlled by Trace Memory Controller (TMC) registers. 
+As mentioned in Section 5.3.1, there are **funnels** controlled by a group of CoreSight Trace Funnel (CSTF) registers, the ETM trace is filtered by these funnels. For Ninja's experiment, the authors only collected traces for the core 0 in the Cortex-A57 cluster. The filtered result is output to **Embedded Trace FIFO (ETF)** which is controlled by Trace Memory Controller (TMC) registers. 
 
 The ETM is controlled by a group of trace registers. The following setting is applied to the Ninja system:
 1. Set all ```EXLEVEL_S``` bits and clear all ```EXLEVEL_NS``` bits of the ```TRCVICTLR``` register to collect trace for non-secure EL0 and non-secure EL1.
@@ -68,6 +68,12 @@ The ETM is controlled by a group of trace registers. The following setting is ap
 3. Clear the ```EN``` bit of the ```TRCPRGCTLR``` register to disable ETM.
 4. Set the ```StopOnFl``` bit and the ```FlushMan``` bits of ```FFCR``` register in the ```TMC``` registers to stop the ETF. 
 5. To **read the trace**, keep reading from the ```RRD``` register until ```0xFFFFFFFF``` is fetched.
+
+The authors also mentioned in Section 5.3.2 how to trace system calls with ETM and PMU.
+
+Experiments related to the tracing subsystem is introduced in Section 7.1. The authors wrote a simple Android application that uses Java Native Interface to read the ```/proc/self/status``` file line by line. The file contains 38 lines in total, it takes about 0.22 ms to finish executing. After the execution, the ETF contains **9.92 KB** encoded trace data, and the datarate is approximately **44.03 MB/s**. After decoding with ptm2human, the decoded data contains **1341 signpost instructions**.
+
+> **Signpost instructions** are used to help tools or developers identify and interpret events in the trace or log data. Examples of what they mark: Beginning and end of critical sections; Context switches; Specific events like acquiring a lock or sending a message. 
 
 ## HATBED
 HATBED from [HATBED: A Distributed Hardware Assisted Testbed for Non-invasive Profiling of IoT Devices](https://dl.acm.org/doi/10.1145/3312480.3313172) is a testbed designed for IoT devices equipped with ARM Cortex-M3/M4 processors, utilizing standardized built-in debugging units and general hardware-assisted tracing technologies.
