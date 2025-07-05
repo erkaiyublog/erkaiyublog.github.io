@@ -51,7 +51,7 @@ For the actual experiments, the authors employed a **USB logic analyzer** based 
 ## What is ETM?
 
 ## Ninja
-Ninja leverages a hardware-assisted isolated execution environment Trust-Zone to transparently trace and debug a target application with the help of Performance Monitor Unit (PMU) and Embedded Trace Macrocell (ETM). 
+[Ninja](https://dl.acm.org/doi/10.5555/3241189.3241193) leverages a hardware-assisted isolated execution environment Trust-Zone to transparently trace and debug a target application with the help of Performance Monitor Unit (PMU) and Embedded Trace Macrocell (ETM). 
 
 An overview of the Ninja architecture:
 ![arch](/images/posts/trace_arm/ninja_arch.png)
