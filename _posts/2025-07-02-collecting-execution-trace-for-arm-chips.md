@@ -49,6 +49,13 @@ For the actual experiments, the authors employed a **USB logic analyzer** based 
 
 # Tracing with ETM
 ## What is ETM?
+ETM stands for Embedded Trace Macrocell. To understand what **ETM** is, it is equally important to understand what **CoreSight** is. At a high level, ETM is a feature that captures trace data from a specific CPU core, and CoreSight is an infrastructure that collects trace data from sources like ETM, routes it through components (e.g., funnels, replicators), and outputs it to a trace sink (e.g., TPIU or memory). 
+
+The CoreSight architecture provides **a set of** standard **interfaces** and programmer model **views**. ETM is one of them.
+
+![coresight overview](/images/posts/trace_arm/coresight_overview.png)
+
+There are more than one webpage introducing ETM on the Arm website, the one that is closely related to CoreSight is called[Embedded Trace Macrocell Architecture Specification](https://developer.arm.com/documentation/ihi0014/q?lang=en). One thing to keep in mind is that online documents by Arm are usually quite large. A good way to start is by reading the *Preface* section and search for subtitles like *Intended Audience* and *How to Use This Specification*.
 
 ## Ninja
 [Ninja](https://dl.acm.org/doi/10.5555/3241189.3241193) leverages a hardware-assisted isolated execution environment Trust-Zone to transparently trace and debug a target application with the help of Performance Monitor Unit (PMU) and Embedded Trace Macrocell (ETM). 
@@ -67,7 +74,7 @@ The ETM is controlled by a group of trace registers. The following setting is ap
 2. Set the ```EN``` bit of the ```TRCPRGCTLR``` register to start the instruction trace.
 3. Clear the ```EN``` bit of the ```TRCPRGCTLR``` register to disable ETM.
 4. Set the ```StopOnFl``` bit and the ```FlushMan``` bits of ```FFCR``` register in the ```TMC``` registers to stop the ETF. 
-5. To **read the trace**, keep reading from the ```RRD``` register until ```0xFFFFFFFF``` is fetched.
+5. To **read the trace**, keep reading from the ```RRD``` (RAM Read Data) register until ```0xFFFFFFFF``` is fetched.
 
 The authors also mentioned in Section 5.3.2 how to trace system calls with ETM and PMU.
 
@@ -92,3 +99,5 @@ I found this [repository](https://github.com/PetteriAimonen/STM32_Trace_Example)
 3. Tracing on STM32 discovery [https://essentialscrap.com/tips/arm_trace/theory.html](https://essentialscrap.com/tips/arm_trace/theory.html)
 
 4. Ninja: Towards Transparent Tracing and Debugging on ARM [https://dl.acm.org/doi/10.5555/3241189.3241193](https://dl.acm.org/doi/10.5555/3241189.3241193)
+
+5. Embedded Trace Macrocell Architecture Specification ETMv1.0 to ETMv3.5 [https://developer.arm.com/documentation/ihi0014/q](https://developer.arm.com/documentation/ihi0014/q)
