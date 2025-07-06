@@ -76,7 +76,26 @@ ETMv4.0+ is used in Armv8-A (64-bit) and newer high-performance cores:
     Cortex-A75 and newer
     Neoverse series (E1, N1, V1)
 
-In light of this, I will focus on **ETM v4.0+** in this blog post. 
+In light of this, I will focus on **ETM v4.0+** in this blog post. The pdf documentation for ***ETM Arch Spec v4.0*** has **570 pages**. In the content below, I aim to cherry-pick the parts that interest me and summarize what I’ve learned.
+
+## ETMv4 
+The subjects of tracing in ETMv4 includes:
+1. Instruction execution.
+2. Data movements.
+3. Events in a PE.
+
+> PE (Processing Element) is the abstract machine that is defined in the Arm architecture. It can be simply viewed as a single CPU core.
+
+A **trace unit** performs the tracing functions. A trace unit might be implemented as part of a full debug solution inside a SoC. It has the following interfaces:
+* A PE interface, providing visibility of instruction execution and data movements within a PE.
+* One or more programming interfaces:
+    * A system instruction interface for direct programming from a PE.
+    * A memory-mapped interface for programming from a PE or other Managers in the system.
+    * An external debugger interface which is connected to a debug port on the chip, such as an ADI Debug Access Port (DAP).
+* A trace output interface, such as a parallel data interface.
+
+Below is an example of trace unit that is implemented in an SoC.
+![trace unit](/images/posts/trace_arm/trace_unit.png)
 
 ## What is CoreSight?
 **CoreSight** is another concept that comes closely with **ETM**. At a high level, ETM is a feature that captures trace data from a specific CPU core, and CoreSight is an infrastructure that collects trace data from sources like ETM, routes it through components (e.g., funnels, replicators), and outputs it to a trace sink (e.g., TPIU or memory). 
