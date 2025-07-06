@@ -51,16 +51,32 @@ For the actual experiments, the authors employed a **USB logic analyzer** based 
 ## What is ETM?
 ETM stands for Embedded Trace Macrocell. It is a real-time trace module providing **instruction and data tracing** of a processor. 
 
-People like ETM since it provides **non-intrusive, cycle-accurate, real-time tracing** 🍺.  
+People like ETM since it provides **non-intrusive, cycle-accurate, real-time tracing** 🍺. However, it's worth noting that not all ARM chips support ETM. 
 
-There is more than one webpage introducing ETM on the Arm website, the high-level one is called [Embedded Trace Macrocell Architecture Specification](https://developer.arm.com/documentation/ihi0014/q?lang=en) (I will refer to it as ***ETM Arch Spec*** from here on). 
+There is more than one webpage introducing ETM on the Arm website, two major ones are:
+1. [Embedded Trace Macrocell Architecture Specification](https://developer.arm.com/documentation/ihi0014/q?lang=en), 2011 (I will refer to it as ***ETM Arch Spec v3.5*** from here on). 
+2. [Embedded Trace Macrocell Architecture Specification ETMv4.0 to ETM4.6](https://developer.arm.com/documentation/ihi0064/hb/?lang=en), 2023 (I will refer to it as ***ETM Arch Spec v4.0*** from here on).
 
-## Where Do I Find the Specs?
-One thing to keep in mind is that online documents by Arm are usually quite large. A good way to start is by reading the *Preface* section and search for subtitles like *Intended Audience* and *How to Use This Specification*.
+I failed to find an official documentation clarifying the difference between ETM v3.5 and ETM v4.0+, but according to ChatGPT the major differences can be summarized as below,
+![difference](/images/posts/trace_arm/v3.5diff.png) 
 
-Noticeably, in the [*Additional Reading*](https://developer.arm.com/documentation/ihi0014/q/preface/Additional-reading/The-ETM-documentation-suite?lang=en) section of ***ETM Arch Spec***, there is a guide for what **specific documentation** to look for within the so-called *ETM documentation suite*. ***ETM Arch Spec*** is part of the *ETM documentation suite* and contains information that is relevant to all implementations of the ETM. The other manuals in the ETM documentation suite are **implementation specific**. Two points from this section that attract my attention are:
-1. There is an ETM Technical Reference Manual (TRM) describing the implementation defined behavior of the ETM.
-2. For the Cortex-M3 processor, the CoreSight ETM-M3 is described in the Cortex-M3 Technical Reference Manual (ARM DDI 0337).
+Furthermore, regarding typical chip models that support ETM, ChatGPT generated the following summary.
+
+ETM v3.5 is used mostly in Armv7-A and Armv7-R cores:
+
+    Cortex-A5, Cortex-A7, Cortex-A8, 
+    Cortex-A9, Cortex-A15, Cortex-R4/R5
+    Cortex-M series don't use ETM v3.5 
+        but may use ETM-M (a scaled-down version)
+
+ETMv4.0+ is used in Armv8-A (64-bit) and newer high-performance cores:
+
+    Cortex-A35, Cortex-A53, Cortex-A55
+    Cortex-A57, Cortex-A72, Cortex-A73
+    Cortex-A75 and newer
+    Neoverse series (E1, N1, V1)
+
+In light of this, I will focus on **ETM v4.0+** in this blog post. 
 
 ## What is CoreSight?
 **CoreSight** is another concept that comes closely with **ETM**. At a high level, ETM is a feature that captures trace data from a specific CPU core, and CoreSight is an infrastructure that collects trace data from sources like ETM, routes it through components (e.g., funnels, replicators), and outputs it to a trace sink (e.g., TPIU or memory). 
@@ -113,4 +129,6 @@ I found this [repository](https://github.com/PetteriAimonen/STM32_Trace_Example)
 
 4. Ninja: Towards Transparent Tracing and Debugging on ARM [https://dl.acm.org/doi/10.5555/3241189.3241193](https://dl.acm.org/doi/10.5555/3241189.3241193)
 
-5. Embedded Trace Macrocell Architecture Specification ETMv1.0 to ETMv3.5 [https://developer.arm.com/documentation/ihi0014/q](https://developer.arm.com/documentation/ihi0014/q) (***ETM Arch Spec***)
+5. Embedded Trace Macrocell Architecture Specification ETMv1.0 to ETMv3.5 [https://developer.arm.com/documentation/ihi0014/q](https://developer.arm.com/documentation/ihi0014/q) (***ETM Arch Spec v3.5***)
+
+6. Embedded Trace Macrocell Architecture Specification ETMv4.0 to ETM4.6 [https://developer.arm.com/documentation/ihi0064/hb](https://developer.arm.com/documentation/ihi0064/hb) (***ETM Arch Spec v4.0***)
