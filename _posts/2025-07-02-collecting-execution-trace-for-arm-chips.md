@@ -55,7 +55,11 @@ The CoreSight architecture provides **a set of** standard **interfaces** and pro
 
 ![coresight overview](/images/posts/trace_arm/coresight_overview.png)
 
-There are more than one webpage introducing ETM on the Arm website, the one that is closely related to CoreSight is called[Embedded Trace Macrocell Architecture Specification](https://developer.arm.com/documentation/ihi0014/q?lang=en). One thing to keep in mind is that online documents by Arm are usually quite large. A good way to start is by reading the *Preface* section and search for subtitles like *Intended Audience* and *How to Use This Specification*.
+There are more than one webpage introducing ETM on the Arm website, the one that is closely related to CoreSight is called [Embedded Trace Macrocell Architecture Specification](https://developer.arm.com/documentation/ihi0014/q?lang=en) (I will refer to it as ***ETM Arch Spec*** from here on). One thing to keep in mind is that online documents by Arm are usually quite large. A good way to start is by reading the *Preface* section and search for subtitles like *Intended Audience* and *How to Use This Specification*.
+
+Noticeably, in the [*Additional Reading*](https://developer.arm.com/documentation/ihi0014/q/preface/Additional-reading/The-ETM-documentation-suite?lang=en) section of ***ETM Arch Spec***, there is a guide for what **specific documentation** to look for within the so-called *ETM documentation suite*. ***ETM Arch Spec*** is part of the *ETM documentation suite* and contains information that is relevant to all implementations of the ETM. The other manuals in the ETM documentation suite are **implementation specific**. Two points from this section that attract my attention are:
+1. There is an ETM Technical Reference Manual (TRM) describing the implementation defined behavior of the ETM.
+2. For the Cortex-M3 processor, the CoreSight ETM-M3 is described in the Cortex-M3 Technical Reference Manual (ARM DDI 0337).
 
 ## Ninja
 [Ninja](https://dl.acm.org/doi/10.5555/3241189.3241193) leverages a hardware-assisted isolated execution environment Trust-Zone to transparently trace and debug a target application with the help of Performance Monitor Unit (PMU) and Embedded Trace Macrocell (ETM). 
@@ -100,4 +104,4 @@ I found this [repository](https://github.com/PetteriAimonen/STM32_Trace_Example)
 
 4. Ninja: Towards Transparent Tracing and Debugging on ARM [https://dl.acm.org/doi/10.5555/3241189.3241193](https://dl.acm.org/doi/10.5555/3241189.3241193)
 
-5. Embedded Trace Macrocell Architecture Specification ETMv1.0 to ETMv3.5 [https://developer.arm.com/documentation/ihi0014/q](https://developer.arm.com/documentation/ihi0014/q)
+5. Embedded Trace Macrocell Architecture Specification ETMv1.0 to ETMv3.5 [https://developer.arm.com/documentation/ihi0014/q](https://developer.arm.com/documentation/ihi0014/q) (***ETM Arch Spec***)
