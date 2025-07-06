@@ -49,17 +49,26 @@ For the actual experiments, the authors employed a **USB logic analyzer** based 
 
 # Tracing with ETM
 ## What is ETM?
-ETM stands for Embedded Trace Macrocell. To understand what **ETM** is, it is equally important to understand what **CoreSight** is. At a high level, ETM is a feature that captures trace data from a specific CPU core, and CoreSight is an infrastructure that collects trace data from sources like ETM, routes it through components (e.g., funnels, replicators), and outputs it to a trace sink (e.g., TPIU or memory). 
+ETM stands for Embedded Trace Macrocell. It is a real-time trace module providing **instruction and data tracing** of a processor. 
+
+People like ETM since it provides **non-intrusive, cycle-accurate, real-time tracing** 🍺.  
+
+There is more than one webpage introducing ETM on the Arm website, the high-level one is called [Embedded Trace Macrocell Architecture Specification](https://developer.arm.com/documentation/ihi0014/q?lang=en) (I will refer to it as ***ETM Arch Spec*** from here on). 
+
+## Where Do I Find the Specs?
+One thing to keep in mind is that online documents by Arm are usually quite large. A good way to start is by reading the *Preface* section and search for subtitles like *Intended Audience* and *How to Use This Specification*.
+
+Noticeably, in the [*Additional Reading*](https://developer.arm.com/documentation/ihi0014/q/preface/Additional-reading/The-ETM-documentation-suite?lang=en) section of ***ETM Arch Spec***, there is a guide for what **specific documentation** to look for within the so-called *ETM documentation suite*. ***ETM Arch Spec*** is part of the *ETM documentation suite* and contains information that is relevant to all implementations of the ETM. The other manuals in the ETM documentation suite are **implementation specific**. Two points from this section that attract my attention are:
+1. There is an ETM Technical Reference Manual (TRM) describing the implementation defined behavior of the ETM.
+2. For the Cortex-M3 processor, the CoreSight ETM-M3 is described in the Cortex-M3 Technical Reference Manual (ARM DDI 0337).
+
+## What is CoreSight?
+**CoreSight** is another concept that comes closely with **ETM**. At a high level, ETM is a feature that captures trace data from a specific CPU core, and CoreSight is an infrastructure that collects trace data from sources like ETM, routes it through components (e.g., funnels, replicators), and outputs it to a trace sink (e.g., TPIU or memory). 
 
 The CoreSight architecture provides **a set of** standard **interfaces** and programmer model **views**. ETM is one of them.
 
 ![coresight overview](/images/posts/trace_arm/coresight_overview.png)
 
-There are more than one webpage introducing ETM on the Arm website, the one that is closely related to CoreSight is called [Embedded Trace Macrocell Architecture Specification](https://developer.arm.com/documentation/ihi0014/q?lang=en) (I will refer to it as ***ETM Arch Spec*** from here on). One thing to keep in mind is that online documents by Arm are usually quite large. A good way to start is by reading the *Preface* section and search for subtitles like *Intended Audience* and *How to Use This Specification*.
-
-Noticeably, in the [*Additional Reading*](https://developer.arm.com/documentation/ihi0014/q/preface/Additional-reading/The-ETM-documentation-suite?lang=en) section of ***ETM Arch Spec***, there is a guide for what **specific documentation** to look for within the so-called *ETM documentation suite*. ***ETM Arch Spec*** is part of the *ETM documentation suite* and contains information that is relevant to all implementations of the ETM. The other manuals in the ETM documentation suite are **implementation specific**. Two points from this section that attract my attention are:
-1. There is an ETM Technical Reference Manual (TRM) describing the implementation defined behavior of the ETM.
-2. For the Cortex-M3 processor, the CoreSight ETM-M3 is described in the Cortex-M3 Technical Reference Manual (ARM DDI 0337).
 
 ## Ninja
 [Ninja](https://dl.acm.org/doi/10.5555/3241189.3241193) leverages a hardware-assisted isolated execution environment Trust-Zone to transparently trace and debug a target application with the help of Performance Monitor Unit (PMU) and Embedded Trace Macrocell (ETM). 
