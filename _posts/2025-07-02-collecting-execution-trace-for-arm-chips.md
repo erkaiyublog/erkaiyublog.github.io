@@ -92,10 +92,16 @@ A **trace unit** performs the tracing functions. A trace unit might be implement
     * A system instruction interface for direct programming from a PE.
     * A memory-mapped interface for programming from a PE or other Managers in the system.
     * An external debugger interface which is connected to a debug port on the chip, such as an ADI Debug Access Port (DAP).
-* A trace output interface, such as a parallel data interface.
+* A trace output interface, such as a parallel data interface. There are three ways to export the trace:
+    * Use a dedicated trace port capable of sustaining the bandwidth of the trace to realize **real-time continous** export.
+    * Use a dedicated memory (called Embedded Trace Buffer, aka **ETB** in the CoreSight technology) to store short-term trace in a **circular buffer** style, and later export with debug port like JTAG-DP.
+    * Use a range of reserved shared system memory. Note that this means tracing **might affect system behavior**, because the trace contends for system bus bandwidth with normal bus traffic (unlike ETB, which has its own bus).  
 
 Below is an example of trace unit that is implemented in an SoC.
 ![trace unit](/images/posts/trace_arm/trace_unit.png)
+
+* ADI: Arm Debug Interface.
+* ICE: In-Circuit Emulator.
 
 ## What is CoreSight?
 **CoreSight** is another concept that comes closely with **ETM**. At a high level, ETM is a feature that captures trace data from a specific CPU core, and CoreSight is an infrastructure that collects trace data from sources like ETM, routes it through components (e.g., funnels, replicators), and outputs it to a trace sink (e.g., TPIU or memory). 
