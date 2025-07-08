@@ -105,6 +105,11 @@ Below is an example of trace unit that is implemented in an SoC.
 
 Since the trace collected during execution can quickly take up a huge storage, a few **compression techinques** is used when generating the trace stream. The main technique her is the concept of **P0 elements** in the instruction trace stream. A P0 element acts as a **signpost** in the program flow, indicating that execution is proceeding along a given branch. A trace analyzer can reconstruct the stream of instructions that are executed between P0 elements by using the P0 element stream and the program image. To further compress or generate more details, there are configurations such as: 1. removing program addresses from the trace; 2. including a return stack.
 
+Additionally, there are many ways to configure the trace being collected, some noticeable approaches are:
+1. Filtering of trace (for only functions/data transfers/code of interest)
+2. Trace unit resources (e.g. counters, comparators, and external inputs) can be used 
+3. Specify which types of instructions are traced
+
 ## What is CoreSight?
 **CoreSight** is another concept that comes closely with **ETM**. At a high level, ETM is a feature that captures trace data from a specific CPU core, and CoreSight is an infrastructure that collects trace data from sources like ETM, routes it through components (e.g., funnels, replicators), and outputs it to a trace sink (e.g., TPIU or memory). 
 
