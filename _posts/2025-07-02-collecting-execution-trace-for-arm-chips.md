@@ -115,6 +115,8 @@ Additionally, there are many ways to configure the trace being collected, some n
 2. Trace unit resources (e.g. counters, comparators, and external inputs) can be used 
 3. Specify which types of instructions are traced
 
+It's worth noting that in ***ETM Arch Spec v4.0*** there is *Appendix C Recommended Configurations* section which contains a set of recommended configurations for trace unit implementations. Besides, *Appendix D Filtering Examples* and *Appendix E Resource Selection Examples* are useful references as well.
+
 ## What is CoreSight?
 **CoreSight** is another concept that comes closely with **ETM**. At a high level, ETM is a feature that captures trace data from a specific CPU core, and CoreSight is an infrastructure that collects trace data from sources like ETM, routes it through components (e.g., funnels, replicators), and outputs it to a trace sink (e.g., TPIU or memory). 
 
