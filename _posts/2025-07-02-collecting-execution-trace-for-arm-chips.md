@@ -15,7 +15,7 @@ This blog only focuses on methods **based on hardware** features.
 # Tracing Without ETM
 Before introducing execution tracing based on ETM, I'd like to first introduce some alternatives.
 
-## FrankenTrace
+## Related Work: FrankenTrace
 The paper [*FrankenTrace: Low-Cost, Cycle-Level, Widely Applicable Program Execution Tracing for ARM Cortex-M SoC*](https://doi.org/10.1145/3576914.3587521) introduces a method for collecting traces without relying on ETM.
 
 FrankenTrace collects full cycle-level traces by **repeatedly executing** the target software with varied tracing configurations and then merging the results. This approach overcomes the bandwidth limitations of low-speed debug interfaces (like SWO) without needing expensive ETM-based hardware.
@@ -124,7 +124,7 @@ The CoreSight architecture provides **a set of** standard **interfaces** and pro
 
 ![coresight overview](/images/posts/trace_arm/coresight_overview.png)
 
-## Ninja
+## Related Work: Ninja
 [Ninja](https://dl.acm.org/doi/10.5555/3241189.3241193) leverages a hardware-assisted isolated execution environment Trust-Zone to transparently trace and debug a target application with the help of Performance Monitor Unit (PMU) and Embedded Trace Macrocell (ETM). 
 
 An overview of the Ninja architecture:
@@ -149,10 +149,17 @@ Experiments related to the tracing subsystem is introduced in Section 7.1. The a
 
 > **Signpost instructions** are used to help tools or developers identify and interpret events in the trace or log data. Examples of what they mark: Beginning and end of critical sections; Context switches; Specific events like acquiring a lock or sending a message. 
 
-## 𝜇AFL
+## Related Work: 𝜇AFL
+[𝜇AFL](https://dl.acm.org/doi/10.1145/3510003.3510208) proposes the first fuzzing tool that is applicable to the **driver code** of MCU (Micro Computing Unit) firmware, it leverages the tracing capability of ETM to collect execution trace for the fuzzer. 
 
+The experiments are performed on a NXP TWR-K64F120M (Cortex-M4 based) and a STM32H7B3I-EVAL (Cortex-M7 based). Persumably, the version of ETM used by the authors is ETMv3.5 or earlier. 
 
-## HATBED
+**J-Trace Pro** is used in the experiments for three main purposes:
+1. Feed testcases to the target device (see Section 3.2 "We leverage the SEGGER RTT protocol for high-speed transmission")
+2. Configure filters for ETM (in Section 3.3 "We use the DWT hardware feature to filter out irrelevant ETM packets", DWT is **likely** to be controlled by the debug dongle)
+3. Collect the trace stream from ETM.
+
+## Related Work: HATBED
 HATBED from [HATBED: A Distributed Hardware Assisted Testbed for Non-invasive Profiling of IoT Devices](https://dl.acm.org/doi/10.1145/3312480.3313172) is a testbed designed for IoT devices equipped with ARM Cortex-M3/M4 processors, utilizing standardized built-in debugging units and general hardware-assisted tracing technologies.
 
 They used a CY7C68013A based logic analyzer (controlled by sigrok) to collect the ETM trace.
@@ -168,7 +175,7 @@ The main contributor of the forum post open sourced his github repository [etm-t
 
 I did a mini experiment with a **Raspberry Pi Pico 2 W** and a **Raspberry Pi Debug Probe** and managed to got the expected trace output. I recorded the steps I took for this setup [here](https://github.com/erkaii/raspberrypi-setup/tree/main/etm-trace-rp2350) for future reference.
 
-A photo of the hardware connection.
+Below is a photo of the hardware connection.
 ![connection](/images/posts/trace_arm/connection.png)
 
 # References
