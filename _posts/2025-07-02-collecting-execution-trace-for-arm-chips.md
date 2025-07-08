@@ -103,13 +103,14 @@ Below is an example of trace unit that is implemented in an SoC.
 * ADI: Arm Debug Interface.
 * ICE: In-Circuit Emulator.
 
+Since the trace collected during execution can quickly take up a huge storage, a few **compression techinques** is used when generating the trace stream. The main technique her is the concept of **P0 elements** in the instruction trace stream. A P0 element acts as a **signpost** in the program flow, indicating that execution is proceeding along a given branch. A trace analyzer can reconstruct the stream of instructions that are executed between P0 elements by using the P0 element stream and the program image. To further compress or generate more details, there are configurations such as: 1. removing program addresses from the trace; 2. including a return stack.
+
 ## What is CoreSight?
 **CoreSight** is another concept that comes closely with **ETM**. At a high level, ETM is a feature that captures trace data from a specific CPU core, and CoreSight is an infrastructure that collects trace data from sources like ETM, routes it through components (e.g., funnels, replicators), and outputs it to a trace sink (e.g., TPIU or memory). 
 
 The CoreSight architecture provides **a set of** standard **interfaces** and programmer model **views**. ETM is one of them.
 
 ![coresight overview](/images/posts/trace_arm/coresight_overview.png)
-
 
 ## Ninja
 [Ninja](https://dl.acm.org/doi/10.5555/3241189.3241193) leverages a hardware-assisted isolated execution environment Trust-Zone to transparently trace and debug a target application with the help of Performance Monitor Unit (PMU) and Embedded Trace Macrocell (ETM). 
@@ -136,6 +137,9 @@ Experiments related to the tracing subsystem is introduced in Section 7.1. The a
 
 > **Signpost instructions** are used to help tools or developers identify and interpret events in the trace or log data. Examples of what they mark: Beginning and end of critical sections; Context switches; Specific events like acquiring a lock or sending a message. 
 
+## 𝜇AFL
+
+
 ## HATBED
 HATBED from [HATBED: A Distributed Hardware Assisted Testbed for Non-invasive Profiling of IoT Devices](https://dl.acm.org/doi/10.1145/3312480.3313172) is a testbed designed for IoT devices equipped with ARM Cortex-M3/M4 processors, utilizing standardized built-in debugging units and general hardware-assisted tracing technologies.
 
@@ -147,6 +151,8 @@ I found this [repository](https://github.com/PetteriAimonen/STM32_Trace_Example)
 
 # References
 1. FrankenTrace: Low-Cost, Cycle-Level, Widely Applicable Program Execution Tracing for ARM Cortex-M SoC [https://doi.org/10.1145/3576914.3587521](https://doi.org/10.1145/3576914.3587521) 
+
+2. 𝜇AFL: Non-intrusive Feedback-driven Fuzzing for Microcontroller Firmware [https://dl.acm.org/doi/10.1145/3510003.3510208](https://dl.acm.org/doi/10.1145/3510003.3510208)
 
 2. HATBED: A Distributed Hardware Assisted Testbed for Non-invasive Profiling of IoT Devices [https://dl.acm.org/doi/10.1145/3312480.3313172](https://dl.acm.org/doi/10.1145/3312480.3313172)
 
