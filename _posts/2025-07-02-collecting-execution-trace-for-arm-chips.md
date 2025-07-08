@@ -161,6 +161,16 @@ Unfortunately, I failed to understand the technical details provided by the auth
 
 I found this [repository](https://github.com/PetteriAimonen/STM32_Trace_Example) which presumably inspired the authors of HATBED.
 
+## A Mini Experiment with Raspberry Pi Pico
+I came across a [forum post](https://forums.raspberrypi.com/viewtopic.php?t=383655) on tracing for Raspberry Pi Pico 2. The motivation behind this discussion is that the **ARM Cortex M33** cores inside the RP2350 (found on the Pico 2 / Pico 2 W) support ETMv4, and Pico 2 was just released in 2024 hence not too much about this potential tracing capability has been explored. 
+
+The main contributor of the forum post open sourced his github repository [etm-trace-rp2350](https://github.com/czietz/etm-trace-rp2350), which essentially contains a **GDB script** that helps configuring the ETM on Pico 2 for trace collection.
+
+I did a mini experiment with a **Raspberry Pi Pico 2 W** and a **Raspberry Pi Debug Probe** and managed to got the expected trace output. I recorded the steps I took for this setup [here](https://github.com/erkaii/raspberrypi-setup/tree/main/etm-trace-rp2350) for future reference.
+
+A photo of the hardware connection.
+![connection](/images/posts/trace_arm/connection.png)
+
 # References
 1. FrankenTrace: Low-Cost, Cycle-Level, Widely Applicable Program Execution Tracing for ARM Cortex-M SoC [https://doi.org/10.1145/3576914.3587521](https://doi.org/10.1145/3576914.3587521) 
 
@@ -175,3 +185,5 @@ I found this [repository](https://github.com/PetteriAimonen/STM32_Trace_Example)
 5. Embedded Trace Macrocell Architecture Specification ETMv1.0 to ETMv3.5 [https://developer.arm.com/documentation/ihi0014/q](https://developer.arm.com/documentation/ihi0014/q) (***ETM Arch Spec v3.5***)
 
 6. Embedded Trace Macrocell Architecture Specification ETMv4.0 to ETM4.6 [https://developer.arm.com/documentation/ihi0064/hb](https://developer.arm.com/documentation/ihi0064/hb) (***ETM Arch Spec v4.0***)
+
+7. ETM instruction tracing for RP2350 [https://forums.raspberrypi.com/viewtopic.php?t=383655](https://forums.raspberrypi.com/viewtopic.php?t=383655)
