@@ -57,7 +57,12 @@ There is more than one webpage introducing ETM on the Arm website, two major one
 1. [Embedded Trace Macrocell Architecture Specification](https://developer.arm.com/documentation/ihi0014/q?lang=en), 2011 (I will refer to it as ***ETM Arch Spec v3.5*** from here on). 
 2. [Embedded Trace Macrocell Architecture Specification ETMv4.0 to ETM4.6](https://developer.arm.com/documentation/ihi0064/hb/?lang=en), 2023 (I will refer to it as ***ETM Arch Spec v4.0*** from here on).
 
-I failed to find an official documentation clarifying the difference between ETM v3.5 and ETM v4.0+, but according to ChatGPT the major differences can be summarized as below,
+In ***ETM Arch Spec v4.0*** there is a section named *Introduction to the ETMv4 architecture*, where major changes in ETMv4 is listed. Below I list some critical ones:
+1. ETMv4 supports tracing 64-bit architectures, Armv8 architecture
+2. ETMv4 provides data tracing, event tracing, and tracing of conditional non-branch instructions in addition to instruction tracing
+3. ETMv4 places **no requirements** on the impact that trace generation has on the performance of a PE. For some markets and trace requirements, the trace solution might always have some performance impact on the PE and the ETMv4 architecture does not prohibit this.
+
+According to ChatGPT the major differences can be summarized as below,
 ![difference](/images/posts/trace_arm/v3.5diff.png) 
 
 Furthermore, regarding typical chip models that support ETM, ChatGPT generated the following summary.
