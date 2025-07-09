@@ -157,7 +157,7 @@ The experiments are performed on a NXP TWR-K64F120M (Cortex-M4 based) and a STM3
 **J-Trace Pro** is used in the experiments for three main purposes:
 1. Feed testcases to the target device (see Section 3.2 "We leverage the SEGGER RTT protocol for high-speed transmission")
 2. Configure filters for ETM (in Section 3.3 "We use the DWT hardware feature to filter out irrelevant ETM packets", DWT is **likely** to be controlled by the debug dongle)
-3. Collect the trace stream from ETM.
+3. Collect the trace stream from ETM
 
 ## Related Work: HATBED
 HATBED from [HATBED: A Distributed Hardware Assisted Testbed for Non-invasive Profiling of IoT Devices](https://dl.acm.org/doi/10.1145/3312480.3313172) is a testbed designed for IoT devices equipped with ARM Cortex-M3/M4 processors, utilizing standardized built-in debugging units and general hardware-assisted tracing technologies.
