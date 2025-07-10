@@ -67,3 +67,5 @@ Limitations of livepatch:
     * **Livepatch is based on the dynamic ftrace**. In particular, functions implementing ftrace or the livepatch ftrace handler could not be patched. Otherwise, the code would end up in an infinite loop :)
 * Livepatch works reliably only when the dynamic ftrace is located at the very beginning of the function.
 * Kretprobes using the ftrace framework conflict with the patched functions.
+
+# [CoreSight - ARM Hardware Trace](https://www.kernel.org/doc/html/v6.11/trace/coresight/index.html)
