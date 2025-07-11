@@ -69,3 +69,4 @@ Limitations of livepatch:
 * Kretprobes using the ftrace framework conflict with the patched functions.
 
 # [CoreSight - ARM Hardware Trace](https://www.kernel.org/doc/html/v6.11/trace/coresight/index.html)
+Coresight is an umbrella of technologies allowing for the debugging of ARM based SoC. It includes solutions for JTAG and HW assisted tracing.

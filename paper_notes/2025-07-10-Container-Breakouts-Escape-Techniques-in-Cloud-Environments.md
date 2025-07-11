@@ -23,3 +23,7 @@ The attributes subject to modification by the container runtime to perform proce
 * Secure computing (seccomp)
 * **Namespaces**: In process management, if capabilities define *what* a process can do, then namespaces define *where* these actions can be performed. Essentially, namespaces provide a layer of abstraction that enables a process and its children to operate as if they possess their own exclusive instance within a global resource.
 * Control groups (cgroups).
+
+5 examples of container escape were provided by the article. Some notes taken while reading: 
+![exmpl1](/images/posts/container_breakouts/expl1.jpeg)
+![exmpl2](/images/posts/container_breakouts/expl2.jpeg)
