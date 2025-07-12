@@ -1,5 +1,5 @@
 ---
-published: true
+published: false
 title: 25年夏日的一些杂想
 tags: CN
 ---
