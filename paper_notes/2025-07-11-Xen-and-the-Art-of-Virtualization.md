@@ -34,19 +34,35 @@ SOSP '03: Proceedings of the nineteenth ACM symposium on Operating systems princ
 ![arch](/images/posts/xen/arch.png)
 * The hypervisor itself provides **only basic control operations**. 
 * *Domain0* runs control software that manages the entire server (e.g. can create and destroy domains, set network filters and routing rules, monitor per-domain network activity at packet and flow granularity, and create and delete virtual network interfaces and virtual block device). 
+* For interactions between domain and Xen:
+```
+        --- synchronous hypercall ---->
+Domain                                   Xen       
+        <----- asynchronous event -----
+```
+* Data transfer is realized using I/O **ring buffer** (per-guest).
 
+![ioring](/images/posts/xen/ioring.png)
+
+* More detailed subsystem virtualization is introduced in Section 3.3.
 
 **What is the work's evaluation of the proposed solution?**
-* See Section 6.
-* Higher coverage.
+* See Section 4.
+* A thorough performance evaluation of Xen:
+    * Benchmark Xen against a number of alternative virtualization techniques.
+    * Compare the total system throughput executing multiple applications concurrently on a single native operating system against running each application in its own virtual machine.  
+    * Evaluate the performance isolation Xen provides between guest OSes, and assess the total overhead of running large numbers of operating systems on the same hardware. 
+* Used XenoLinux port for measurements. Single CPU in all tests (neither Xen nor any of the VMware products currently support multiprocessor guest OSes).
+* Results for relative performance (multiple test suites used):
+
+![dia1](/images/posts/xen/dia1.png)
 
 **What is your analysis of the identified problem, idea and evaluation?**
 
 NONE
 
 **What are the contributions?**
-* See Introduction.
-* AidFuzzer, an Adaptive Interrupt-Driven Fuzzing framework that provides a proper interrupt triggering mechanism for firmware fuzzing.
+*
 
 **What are future directions for this research?**
 
