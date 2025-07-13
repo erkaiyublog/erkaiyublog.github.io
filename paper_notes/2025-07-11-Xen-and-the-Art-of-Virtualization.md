@@ -57,16 +57,21 @@ Domain                                   Xen
 
 ![dia1](/images/posts/xen/dia1.png)
 
+* Detailed experiments on subsystem overhead are done in Section 4.2.
+    * It's worth noting that the authors pointed out "the dangers of taking microbenchmarks too seriously" in Section 4.2 as the results may be effected by cache performance.
+* For performance isolation, ran 4 domains configured with equal resource allocations, with two domains running normal workloads, two others each running a pair of extremely antisocial processes. Turned out that the performance of normal workload domains were only marginally affected by the behaviour of the two domains running disruptive processes. VMware Workstation achieves similar levels of isolation, but at reduced levels of absolute performance.
+
 **What is your analysis of the identified problem, idea and evaluation?**
 
 NONE
 
 **What are the contributions?**
-*
+* See Introduction.
+* Xen hypervisor which partitions the resources of a computer between domains running guest operating systems.
 
 **What are future directions for this research?**
 
-NONE
+* See Section 6.1.
 
 **What questions are you left with?**
 
