@@ -70,3 +70,60 @@ Limitations of livepatch:
 
 # [CoreSight - ARM Hardware Trace](https://www.kernel.org/doc/html/v6.11/trace/coresight/index.html)
 Coresight is an umbrella of technologies allowing for the debugging of ARM based SoC. It includes solutions for JTAG and HW assisted tracing.
+
+ARM has developed a HW assisted tracing solution by means of different components, each being added to a design at synthesis time to cater to specific tracing needs. Components are generally categorised as **source**, **link** and **sink**s and are (usually) discovered using the AMBA bus.
+
+A typical coresight system would look like this:
+
+```
+ *****************************************************************
+**************************** AMBA AXI  ****************************===||
+ *****************************************************************    ||
+       ^                    ^                            |            ||
+       |                    |                            *            **
+    0000000    :::::     0000000    :::::    :::::    @@@@@@@    ||||||||||||
+    0 CPU 0<-->: C :     0 CPU 0<-->: C :    : C :    @ STM @    || System ||
+ |->0000000    : T :  |->0000000    : T :    : T :<--->@@@@@     || Memory ||
+ |  #######<-->: I :  |  #######<-->: I :    : I :      @@@<-|   ||||||||||||
+ |  # ETM #    :::::  |  # PTM #    :::::    :::::       @   |
+ |   #####      ^ ^   |   #####      ^ !      ^ !        .   |   |||||||||
+ | |->###       | !   | |->###       | !      | !        .   |   || DAP ||
+ | |   #        | !   | |   #        | !      | !        .   |   |||||||||
+ | |   .        | !   | |   .        | !      | !        .   |      |  |
+ | |   .        | !   | |   .        | !      | !        .   |      |  *
+ | |   .        | !   | |   .        | !      | !        .   |      | SWD/
+ | |   .        | !   | |   .        | !      | !        .   |      | JTAG
+ *****************************************************************<-|
+*************************** AMBA Debug APB ************************
+ *****************************************************************
+  |    .          !         .          !        !        .    |
+  |    .          *         .          *        *        .    |
+ *****************************************************************
+******************** Cross Trigger Matrix (CTM) *******************
+ *****************************************************************
+  |    .     ^              .                            .    |
+  |    *     !              *                            *    |
+ *****************************************************************
+****************** AMBA Advanced Trace Bus (ATB) ******************
+ *****************************************************************
+  |          !                        ===============         |
+  |          *                         ===== F =====<---------|
+  |   :::::::::                         ==== U ====
+  |-->:: CTI ::<!!                       === N ===
+  |   :::::::::  !                        == N ==
+  |    ^         *                        == E ==
+  |    !  &&&&&&&&&       IIIIIII         == L ==
+  |------>&& ETB &&<......II     I        =======
+  |    !  &&&&&&&&&       II     I           .
+  |    !                    I     I          .
+  |    !                    I REP I<..........
+  |    !                    I     I
+  |    !!>&&&&&&&&&       II     I           *Source: ARM ltd.
+  |------>& TPIU  &<......II    I            DAP = Debug Access Port
+          &&&&&&&&&       IIIIIII            ETM = Embedded Trace Macrocell
+              ;                              PTM = Program Trace Macrocell
+              ;                              CTI = Cross Trigger Interface
+              *                              ETB = Embedded Trace Buffer
+         To trace port                       TPIU= Trace Port Interface Unit
+                                             SWD = Serial Wire Debug
+```
