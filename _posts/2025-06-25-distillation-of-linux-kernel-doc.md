@@ -155,3 +155,13 @@ linaro-developer:~# ls - l /sys/bus/coresight/devices/etm0/connections
 There are two ways to use the Coresight framework:
 1. using the ```perf``` command line tools.
 2. interacting directly with the Coresight devices using **the sysFS interface**.
+
+Coresight tracers are represented using the Perf framework’s Performance Monitoring Unit (PMU) abstraction. As such the perf framework takes charge of controlling when tracing gets enabled based on when the process of interest is scheduled. When configured in a system, Coresight PMUs will be listed when queried by the perf command line tool:
+
+```
+inaro@linaro-nano:~$ ./perf list pmu
+
+    List of pre-defined events (to be used in -e):
+
+    cs_etm// [Kernel PMU event]
+```
