@@ -142,3 +142,16 @@ root:~# ls /sys/bus/coresight/devices/
  etm0     etm1     etm2         etm3  etm4      etm5      funnel0
  funnel1  funnel2  replicator0  stm0  tmc_etf0  tmc_etr0  tpiu0
 ```
+
+Each CoreSight component has a ```connections``` directory which will contain links to other CoreSight components. This allows the user to explore the trace topology and for larger systems, determine the most appropriate sink for a given source. For example, a typical arrangement for a ```etm0``` on a Juno platform will be:
+
+```
+linaro-developer:~# ls - l /sys/bus/coresight/devices/etm0/connections
+<file details>  cti_cpu0 -> ../../../23020000.cti/cti_cpu0
+<file details>  nr_links
+<file details>  out:0 -> ../../../230c0000.funnel/funnel2
+```
+
+There are two ways to use the Coresight framework:
+1. using the ```perf``` command line tools.
+2. interacting directly with the Coresight devices using **the sysFS interface**.
