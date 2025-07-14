@@ -127,3 +127,18 @@ A typical coresight system would look like this:
          To trace port                       TPIU= Trace Port Interface Unit
                                              SWD = Serial Wire Debug
 ```
+
+Device tree bindings are stored in ```Documentation/devicetree/bindings/arm/arm,coresight-*.yaml``` files.
+
+Registration process:
+![coresight_registration](/images/posts/distillation_linux/coresight-registration.png)
+
+The devices are named with **the base physical address of the device + the device type**.
+
+However, with the introduction of ACPI support, the names of the real devices are a bit cryptic and non-obvious. In short, the devices are now named with device type and a number indicating either the CPU it associates to (e.g. ```etm0```) or just for ordering (e.g. ```funnel0```). Examples are:
+
+```
+root:~# ls /sys/bus/coresight/devices/
+ etm0     etm1     etm2         etm3  etm4      etm5      funnel0
+ funnel1  funnel2  replicator0  stm0  tmc_etf0  tmc_etr0  tpiu0
+```
