@@ -169,3 +169,6 @@ inaro@linaro-nano:~$ ./perf list pmu
 ```
 
 #[Open Firmware and Devicetree 🔗](https://www.kernel.org/doc/html/v6.11/devicetree/index.html#open-firmware-and-devicetree)
+**Devicetree (DT)** is a data structure and language for describing hardware. Structurally, the DT is **a tree**, or acyclic graph with named nodes, and nodes may have an arbitrary number of named properties encapsulating arbitrary data. 
+
+It's worth noting that the kernel will use data in the DT to **identify the specific machine** it is running on.
