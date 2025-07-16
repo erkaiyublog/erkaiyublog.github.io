@@ -169,6 +169,9 @@ inaro@linaro-nano:~$ ./perf list pmu
 ```
 
 #[Open Firmware and Devicetree 🔗](https://www.kernel.org/doc/html/v6.11/devicetree/index.html#open-firmware-and-devicetree)
+
+I found [Device Tree: hardware description for everybody!](https://www.youtube.com/watch?v=Nz6aBffv-Ek&t=14s) a helpful resource for understanding the concept of device tree. Some of the screenshots below were made when watching this tutorial.
+
 **Devicetree (DT)** is a data structure and language for describing hardware. Structurally, the DT is **a tree**, or acyclic graph with named nodes, and nodes may have an arbitrary number of named properties encapsulating arbitrary data. An OS uses the DT to discover the topology of the hardware **at runtime**, and thereby supports a majority of available hardware without hard coded information.
 
 It's worth noting that the kernel will use data in the DT to **identify the specific machine** it is running on.
@@ -176,3 +179,8 @@ It's worth noting that the kernel will use data in the DT to **identify the spec
 Devicetree is passed to the kernel at boot time as a binary blob called the **Device Tree Binary (dtb)**, which represents a **flattened** device tree (FDT). During early kernel initialization, the function ```unflatten_device_tree()``` is called to unflatten the DT, converting the DT blob into an internal, more efficient runtime structure.
 
 To apply dynamic changes to the DT at runtime, the **device tree changesets** mechanism can be used internally. From the user's perspective, a **device tree overlay (.dtbo)** binary blob is needed when requesting an update to the live DT.
+
+```.dtsi``` files are included files, while ```.dts``` files are **final** device trees that will be accepted as inputs to the **device tree compiler (dtc)**. Typically, ```.dtsi``` files will contain definitions of SoC-level information (or sometimes definitions common to several almost identical boards), and the ```.dts``` files contain the board-level information.
+
+For building DT in Linux,
+![dt build](/images/posts/distillation_linux/dt_compile.png)
