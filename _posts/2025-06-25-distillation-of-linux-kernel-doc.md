@@ -12,7 +12,7 @@ I’m currently working with the v6.11 version of the Linux kernel. You can find
 * TOC
 {:toc}
 
-# [Static Keys](https://www.kernel.org/doc/html/v6.11/staging/static-keys.html#static-keys)
+# [Static Keys 🔗](https://www.kernel.org/doc/html/v6.11/staging/static-keys.html#static-keys)
 Static keys allows the inclusion of **seldom used features** in performance-sensitive fast-path kernel code, via a GCC feature and a **code patching technique**.
 
 To understand static keys, we need to first introduce the concept of "jump label", which is enabled by ```asm goto``` in gcc (v4.5). Using the ‘asm goto’, we can create branches that are either taken or not taken by default, **without the need to check memory**. Then, at run-time, we can patch the branch site to change the branch direction.
@@ -51,7 +51,7 @@ Note that switching branches results in some locks being taken, particularly the
 
 Since statics key is based on jump labels, one can disable static keys entirely by setting ```CONFIG_JUMP_LABEL=n``` when configuring kernel compilation.
 
-# [Livepatch](https://www.kernel.org/doc/html/v6.11/livepatch/livepatch.html)
+# [Livepatch 🔗](https://www.kernel.org/doc/html/v6.11/livepatch/livepatch.html)
 Livepatching allows users to redirect function calls so that patches can be applied to critical functions without rebooting the system.
 
 There are multiple mechanisms in the Linux kernel that are directly related to **redirection of code execution**; namely: **kernel probes**, **function tracing**, and **livepatching**. All three approaches need to **modify the existing code at runtime**. Therefore they need to be aware of each other and not step over each other’s toes. See [this section](https://www.kernel.org/doc/html/v6.11/livepatch/livepatch.html#id4) for more details.
@@ -68,7 +68,7 @@ Limitations of livepatch:
 * Livepatch works reliably only when the dynamic ftrace is located at the very beginning of the function.
 * Kretprobes using the ftrace framework conflict with the patched functions.
 
-# [CoreSight - ARM Hardware Trace](https://www.kernel.org/doc/html/v6.11/trace/coresight/index.html)
+# [CoreSight - ARM Hardware Trace 🔗](https://www.kernel.org/doc/html/v6.11/trace/coresight/index.html)
 Coresight is an umbrella of technologies allowing for the debugging of ARM based SoC. It includes solutions for JTAG and HW assisted tracing.
 
 ARM has developed a HW assisted tracing solution by means of different components, each being added to a design at synthesis time to cater to specific tracing needs. Components are generally categorised as **source**, **link** and **sink**s and are (usually) discovered using the AMBA bus.
@@ -156,7 +156,9 @@ There are two ways to use the Coresight framework:
 1. using the ```perf``` command line tools.
 2. interacting directly with the Coresight devices using **the sysFS interface**.
 
-Coresight tracers are represented using the Perf framework’s Performance Monitoring Unit (PMU) abstraction. As such the perf framework takes charge of controlling when tracing gets enabled based on when the process of interest is scheduled. When configured in a system, Coresight PMUs will be listed when queried by the perf command line tool:
+**sysFS interface**: Details can be found in [this section](https://www.kernel.org/doc/html/v6.11/trace/coresight/coresight.html#using-the-sysfs-interface), the main idea is to enable/disable tracing by writing 0/1 into files like ```enable_sink``` and ```enable_source``` under the related device (e.g. ```etb```) directories.
+
+**Perf way**: Coresight tracers are represented using the Perf framework’s Performance Monitoring Unit (PMU) abstraction. As such the perf framework takes charge of controlling when tracing gets enabled based on when the process of interest is scheduled. When configured in a system, Coresight PMUs will be listed when queried by the perf command line tool:
 
 ```
 inaro@linaro-nano:~$ ./perf list pmu
