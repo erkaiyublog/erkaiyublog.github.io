@@ -167,3 +167,5 @@ inaro@linaro-nano:~$ ./perf list pmu
 
     cs_etm// [Kernel PMU event]
 ```
+
+#[Open Firmware and Devicetree 🔗](https://www.kernel.org/doc/html/v6.11/devicetree/index.html#open-firmware-and-devicetree)
