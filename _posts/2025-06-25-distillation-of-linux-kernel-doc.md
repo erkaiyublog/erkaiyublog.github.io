@@ -180,7 +180,7 @@ Devicetree is passed to the kernel at boot time as a binary blob called the **De
 
 To apply dynamic changes to the DT at runtime, the **device tree changesets** mechanism can be used internally. From the user's perspective, a **device tree overlay (.dtbo)** binary blob is needed when requesting an update to the live DT.
 
-```.dtsi``` files are included files, while ```.dts``` files are **final** device trees that will be accepted as inputs to the **device tree compiler (dtc)**. Typically, ```.dtsi``` files will contain definitions of SoC-level information (or sometimes definitions common to several almost identical boards), and the ```.dts``` files contain the board-level information.
+Source code for DT is in the format of **Devicetree Sources (DTS)**. Besides ```.dts``` files, there are also ```.dtsi``` files. ```.dtsi``` files are included files, while ```.dts``` files are **final** device trees that will be accepted as inputs to the **device tree compiler (dtc)**. Typically, ```.dtsi``` files will contain definitions of SoC-level information (or sometimes definitions common to several almost identical boards), and the ```.dts``` files contain the board-level information. See [this section](https://www.kernel.org/doc/html/v6.11/devicetree/bindings/dts-coding-style.html) for details about DTS coding style.
 
-For building DT in Linux,
+For building DT in Linux, 
 ![dt build](/images/posts/distillation_linux/dt_compile.png)
