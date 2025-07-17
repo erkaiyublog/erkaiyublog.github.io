@@ -168,7 +168,7 @@ inaro@linaro-nano:~$ ./perf list pmu
     cs_etm// [Kernel PMU event]
 ```
 
-#[Open Firmware and Devicetree 🔗](https://www.kernel.org/doc/html/v6.11/devicetree/index.html#open-firmware-and-devicetree)
+# [Open Firmware and Devicetree 🔗](https://www.kernel.org/doc/html/v6.11/devicetree/index.html#open-firmware-and-devicetree)
 
 I found [Device Tree: hardware description for everybody!](https://www.youtube.com/watch?v=Nz6aBffv-Ek&t=14s) a helpful resource for understanding the concept of device tree. Some of the screenshots below were made when watching this tutorial.
 
