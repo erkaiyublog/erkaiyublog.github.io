@@ -10,3 +10,7 @@ IPADS-SYS
 
 [https://zhuanlan.zhihu.com/p/1926351920387302642](https://zhuanlan.zhihu.com/p/1926351920387302642)
 ---
+
+## Disentangling the Dual Role of NIC Receive Rings
+
+一个针对NIC ring buffer的优化。
