@@ -6,6 +6,46 @@ tags: hypervisor qemu
 
 The official documentation for running Xen on ARM in QEMU is quite old (latest update on 2019 by the time this post is published). Luckily, I managed to get it working, so I'm writing this post for future reference. 
 
+Major components and their versions:
+* Linux: *6.11.7*
+* Xen: *4.18.5* 
+* qemu-system-aarch64: *8.2.2* 
+* gcc: *13.3.0*
+
+## Install Dependencies
+
+```bash
+sudo apt udpate
+
+sudo apt install git build-essential ninja-build pkg-config libglib2.0-dev \
+libpixman-1-dev libcap-ng-dev python3-pip python3-venv wget gcc qemu-system-arm \
+flex bison libelf-dev bc libssl-dev curl zstd 
+```
+
+## Cross Compile Linux for ARM
+Use the following script to compile Linux-6.11.7 for ARM.
+
+```bash
+wget https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.11.7.tar.xz -O linux-6.11.7.tar.xz
+tar Jxvf linux-6.11.7.tar.xz
+rm linux-6.11.7.tar.xz
+
+cd linux-6.11.7
+ARM_FLAGS='ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-'
+
+make $ARM_FLAGS defconfig
+./scripts/config -d CONFIG_WERROR
+make $ARM_FLAGS olddefconfig
+make $ARM_FLAGS -j$(nproc)
+```
+
+## Download the Xen Server Disk Image 
+QEMU works well with UEFI firmware for the emulated machine. To get the system working, download an Aarch64 UEFI ready distro image, 
+
+```bash
+wget https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-arm64-uefi1.img
+```
+
 ## Build Xen for ARM
 First, download the Xen repository.
 
@@ -16,12 +56,14 @@ cd xen
 git checkout RELEASE-4.18.5 
 ```
 
-Cross compile Xen hypervisor and toolstack.
+Cross compile the Xen hypervisor.
 
 ```bash
 make distclean
 make dist-xen XEN_TARGET_ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
 ```
+
+The result of the compilation is stored as ```xen/xen/xen.efi```, this file will be used later.
 
 ## Run QEMU (1)
 Use the following command to launch QEMU for the first time, the goal is to **set root password**. The MAC address used in the command is just a common convention for QEMU.
@@ -133,7 +175,8 @@ Update the ```dtb``` file:
 ```bash
 dtc -I dtb -O dts virt-gicv3.dtb > virt-gicv3.dts ;
 sed 's/compatible = "arm,pl061.*/status = "disabled";/g' virt-gicv3.dts > virt-gicv3-edited.dts ;
-dtc -I dts -O dtb virt-gicv3-edited.dts > virt-gicv3.dtb
+dtc -I dts -O dtb virt-gicv3-edited.dts > virt-gicv3.dtb ;
+rm virt-gicv3-edited.dts virt-gicv3.dts
 ```
 
 SCP the config file into the QEMU VM,
