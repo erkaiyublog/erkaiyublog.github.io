@@ -12,6 +12,8 @@ Major components and their versions:
 * qemu-system-aarch64: *8.2.2* 
 * gcc: *13.3.0*
 
+> **Warning**: Run all the commands below that relate to updates to the QEMU VM (e.g. ```scp```, ```passwd```) with **patience**, QEMU takes longer to sync the updates than it appears to! Best practice is to **wait for at least 30 seconds** before shutting down QEMU with the changes made.
+
 ## Install Dependencies
 
 ```bash
@@ -19,7 +21,7 @@ sudo apt update
 
 sudo apt install git build-essential ninja-build pkg-config libglib2.0-dev \
 libpixman-1-dev libcap-ng-dev python3-pip python3-venv wget gcc qemu-system-arm \
-flex bison libelf-dev bc libssl-dev curl zstd gcc-aarch64-linux-gnu \
+flex bison libelf-dev bc libssl-dev curl zstd binutils gcc-aarch64-linux-gnu \
 libncurses-dev
 ```
 
