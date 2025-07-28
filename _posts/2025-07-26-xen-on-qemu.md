@@ -50,10 +50,9 @@ wget https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-arm64
 First, download the Xen repository.
 
 ```bash
-sudo git clone https://xenbits.xen.org/git-http/xen.git
-sudo chown -R $USER:$USER xen
+git clone https://xenbits.xen.org/git-http/xen.git
 cd xen
-git checkout RELEASE-4.18.5 
+git checkout RELEASE-4.18.5
 ```
 
 Cross compile the Xen hypervisor.
