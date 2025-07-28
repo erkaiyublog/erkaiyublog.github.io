@@ -12,7 +12,8 @@ Major components and their versions:
 * qemu-system-aarch64: *8.2.2* 
 * gcc: *13.3.0*
 
-> **Warning**: Run all the commands below that relate to updates to the QEMU VM (e.g. ```scp```, ```passwd```) with **patience**, QEMU takes longer to sync the updates than it appears to! Best practice is to **wait for at least 30 seconds** before shutting down QEMU with the changes made.
+***Warning***: Run all commands below that update the QEMU VM (e.g., ```scp```, ```passwd```) with patience, as QEMU can take longer to sync changes than it appears. As a best practice, **wait at least 30 seconds** before shutting down QEMU after making changes.
+
 
 ## Install Dependencies
 
