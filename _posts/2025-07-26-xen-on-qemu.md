@@ -19,7 +19,7 @@ sudo apt update
 
 sudo apt install git build-essential ninja-build pkg-config libglib2.0-dev \
 libpixman-1-dev libcap-ng-dev python3-pip python3-venv wget gcc qemu-system-arm \
-flex bison libelf-dev bc libssl-dev curl zstd 
+flex bison libelf-dev bc libssl-dev curl zstd gcc-aarch64-linux-gnu
 ```
 
 ## Cross Compile Linux for ARM
