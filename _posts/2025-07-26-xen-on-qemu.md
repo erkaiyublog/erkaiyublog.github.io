@@ -15,7 +15,7 @@ Major components and their versions:
 ## Install Dependencies
 
 ```bash
-sudo apt udpate
+sudo apt update
 
 sudo apt install git build-essential ninja-build pkg-config libglib2.0-dev \
 libpixman-1-dev libcap-ng-dev python3-pip python3-venv wget gcc qemu-system-arm \
