@@ -12,7 +12,7 @@ Major components and their versions:
 * qemu-system-aarch64: *8.2.2* 
 * gcc: *13.3.0*
 
-***Warning***: Run all commands below that update the QEMU VM (e.g., ```scp```, ```passwd```) with patience, as QEMU can take longer to sync changes than it appears. As a best practice, **wait at least 30 seconds** before shutting down QEMU after making changes.
+***Note***: Run all commands below that update the QEMU VM (e.g., ```scp```, ```passwd```) with patience, as QEMU can take longer to sync changes than it appears. As a best practice, **wait at least 30 seconds** before shutting down QEMU after making changes.
 
 
 ## Install Dependencies
@@ -114,6 +114,13 @@ qemu-system-aarch64 \
 
 Note that this QEMU launch will **take much longer**, a ```cloud-init``` feature during booting will take 120 seconds before its timeout.
 
+### Disable Cloud-init
+It took a long time for the Ubuntu to boot, now disable this by:
+
+```bash
+sudo touch /etc/cloud/cloud-init.disabled
+```
+
 ### Set Up SSH Access
 Inside the VM, create the ```.ssh/authorized_keys``` file:
 
@@ -146,7 +153,7 @@ Write a Xen config file named ```xen.cfg``` on the host machine,
 
 ```
  options=console=dtuart noreboot dom0_mem=512M
- kernel=kernel root=/dev/vda1 init=/bin/sh rw console=hvc0
+ kernel=kernel root=/dev/vda1 rw console=hvc0
  dtb=virt-gicv3.dtb
 ```
 
