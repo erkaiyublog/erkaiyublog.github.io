@@ -37,11 +37,14 @@ ISSTA 2023: Proceedings of the 32nd ACM SIGSOFT International Symposium on Softw
     * Difference between fail/success is extracted at the AST level, which can more comprehensively represent bug-causal features.
     * AST operation is sorted by frequency and then extracted as vector. D3 takes the distace between test failures.
 * For optimization ***o***: Use delta debugging to identify the minimal bug-triggering optimizations (binary search).
-* For test execution ***c***: Collect function coverage achieved by the bug-triggering test program as the original information in this dimension (similar to the existing work [20]). Then, it identifies the bug-causal functions from all the covered functions by estimating their suspicious scores via the idea of spectrum-based bug localization, and finally treats highly suspicious functions as the bug-causal features in this dimension. 
+* For test execution ***c***: Collect function coverage achieved by the bug-triggering test program as the original information in this dimension (similar to the existing work). Then, it identifies the bug-causal functions from all the covered functions by estimating their suspicious scores via the idea of spectrum-based bug localization, and finally treats highly suspicious functions as the bug-causal features in this dimension. 
 * Finally, the test failure prioritization is done by calculating the distance extracted from the three dimensions, and ranks them by the furthest-point-first (FPF) algorithm.
 
 **What is the work's evaluation of the proposed solution?**
 * See Section 4.
+* Used two datasets: the dataset released by the existing study on compiler bug de-duplication (consists of 1,275 test failures caused by 35 unique silent bugs for GCC-4.3.0) and the dataset released by the existing studies on testing compilers (contains 647 test failures caused by 20 unique silent bugs in GCC-4.4.0, 26 test failures caused by 7 unique silent bugs in GCC-4.5.0, and 116 test failures caused by 6 unique silent bugs in LLVM-2.8, respectively).
+* In total, used four datasets from four versions of two popular C compilers (i.e., GCC and LLVM), including 2,024 test failures caused by 62 unique silent bugs.
+* Used RAUC-n as the metric. it transforms the prioritization result produced by a technique to a plot, where the x-axis represents the number of test failures and the y-axis repre- sents the number of corresponding unique bugs. Then, it calculates the ratio of the area under the curve for a technique to that for the ideal prioritization. Larger RAUC values mean more unique bugs that developers can identify when investigating the same number of test failures, indicating better de-duplication effectiveness.
 
 **What is your analysis of the identified problem, idea and evaluation?**
 * The idea of measuring distance shall not be an unusal approach. The subject (compiler test) seems to be the real innovation.
@@ -51,7 +54,8 @@ ISSTA 2023: Proceedings of the 32nd ACM SIGSOFT International Symposium on Softw
 * D3. A novel technique for addressing  the de-duplication problem on silent compiler bugs.
 
 **What are future directions for this research?**
-NONE
+* See Section 5.
+* Overhead issue: The average time spent on each test program is 45.64s, while by Tamer and Transformer (two prior works) is 1.36s and 25.57s.
 
 **What questions are you left with?**
 
