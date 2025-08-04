@@ -21,17 +21,17 @@ ISSTA 2023: Proceedings of the 32nd ACM SIGSOFT International Symposium on Softw
 * Evaluating the quality of compilers is critical.
 * Bug duplication problem: Many test failures are caused by the same compiler bug.
 * **Silent compiler bugs** make the bug duplication problem worse due to the lack of crash feedback.
+* The two bug-triggering test programs shown below are corresponding to the same bug in GCC-4.4.0, and they both produce inconsistent outputs under the optimization levels ```-O0``` and ```-O1```. The test programs in the example give significantly different compiler coverage, which invalidates the code coverage approach by prior works. 
+![example](/images/posts/compiler3d/example.png)
 
 **What is the proposed solution?**
-* See Abstract.
-* Characterize the silent bugs from the testing process and identify 3D information:
-    1. test program
-    2. optimizations
-    3. test execution
+* See Abstract, Section 3.
+* Characterize the silent bugs (***b***) from the testing process and identify 3D information:
+    1. test program ***p***
+    2. optimizations ***o***
+    3. test execution ***c***
 * Systematically conduct causal analysis to identify bug-causal features from each of the 3D for more accurate bug de-duplication.
 * Rank the test failures that are more likely to be caused by different silent bugs higher by measuring the distance among test failures based on the 3D bug-causal features.
-* The two bug-triggering test programs shown below are corresponding to the same bug in GCC-4.4.0, and they both produce inconsistent outputs under the optimization levels ```-O0``` and ```-O1```.
-![example](/images/posts/compiler3d/example.png)
 
 **What is the work's evaluation of the proposed solution?**
 
