@@ -1,6 +1,6 @@
 ---
 published: true 
-title: Cloud Image  
+title: Enabling Networking in QEMU VM with Ubuntu Cloud Server Image 
 tags: qemu Tips
 ---
 
