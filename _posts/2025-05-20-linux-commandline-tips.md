@@ -64,6 +64,7 @@ When using the Linux command line and related tools, there are many useful trick
 * ```-v``` excludes matched lines.
 * ```-m <n>``` shows the first ```n``` matching lines.  
 * ```--exclude=".."``` excludes certain filenames.   
+* ```--exclude-dir=".."``` excludes certain directories.
 * ```$''``` to include special charactors. For example, ```grep $'hello\tworld'```.
 
 # Objdump
