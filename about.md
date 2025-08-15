@@ -3,8 +3,6 @@ layout: default
 title: About Me
 permalink: /about/
 ---
-
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -288,9 +286,9 @@ permalink: /about/
         <div class="card">
             <div class="hero-section">
                 <div class="profile-container">
-                    <img src="./images/me.jpeg" alt="Erkaiyu" class="profile-image">
+                    <img src="https://github/erkaiyublog/erkaiyublog.github.io/images/me.jpeg" alt="Erkai Yu" class="profile-image">
                 </div>
-                <h1>Erkaiyu</h1>
+                <h1>Erkai Yu</h1>
                 <div class="subtitle typing-animation">Computer Science Graduate Student</div>
             </div>
 
