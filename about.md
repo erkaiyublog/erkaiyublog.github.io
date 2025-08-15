@@ -286,7 +286,7 @@ permalink: /about/
         <div class="card">
             <div class="hero-section">
                 <div class="profile-container">
-                    <img src="https://github/erkaiyublog/erkaiyublog.github.io/images/me.jpeg" alt="Erkai Yu" class="profile-image">
+                    <img src="https://github.com/erkaiyublog/erkaiyublog.github.io/blob/master/images/me.jpeg" alt="Erkai Yu" class="profile-image">
                 </div>
                 <h1>Erkai Yu</h1>
                 <div class="subtitle typing-animation">Computer Science Graduate Student</div>
