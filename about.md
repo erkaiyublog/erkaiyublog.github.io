@@ -7,7 +7,7 @@ permalink: /about/
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Me</title>
+    <title>About Me - Erkaiyu</title>
     <style>
         * {
             margin: 0;
@@ -286,7 +286,8 @@ permalink: /about/
         <div class="card">
             <div class="hero-section">
                 <div class="profile-container">
-                    <img src="https://github.com/erkaiyublog/erkaiyublog.github.io/blob/master/images/me.jpeg" alt="Erkai Yu" class="profile-image">
+                    <img src="https://erkaiyublog.github.io/images/me.jpeg" alt="Erkai Yu" class="profile-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                    <div class="profile-fallback" style="display: none; width: 150px; height: 150px; border-radius: 50%; background: #667eea; color: white; font-size: 48px; font-weight: bold; text-align: center; line-height: 150px; margin: 0 auto;">EY</div>
                 </div>
                 <h1>Erkai Yu</h1>
                 <div class="subtitle typing-animation">Computer Science Graduate Student</div>
