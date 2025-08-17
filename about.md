@@ -3,6 +3,7 @@ layout: default
 title: About Me
 permalink: /about/
 ---
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -24,7 +25,7 @@ permalink: /about/
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 40px 20px;
             background-color: white;
