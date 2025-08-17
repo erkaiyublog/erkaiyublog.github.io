@@ -239,27 +239,23 @@ permalink: /about/
     </div>
 
     <div class="section">
-        <h2 class="section-title">Research Interests</h2>
-        <div class="research-interests">
-            <h3>Primary Research Areas:</h3>
-            <ul>
-                <li>Software Testing and Verification</li>
-                <li>Operating System Testing</li>
-                <li>Program Analysis</li>
-                <li>System Security</li>
-            </ul>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2 class="section-title">Professional Experience</h2>
+        <h2 class="section-title">Working Experience</h2>
         
+        <div class="experience-item">
+            <div class="job-title">Research Assistant</div>
+            <div class="institution">UIUC & Boeing</div>
+            <div class="date-location">May 2025 - Augest 2025 • Urbana, IL</div>
+            <div class="description">
+                Conducted research on operating system testing, covering topics such as emulation, hypervisors, and hardware execution profiling.
+            </div>
+        </div>
+
         <div class="experience-item">
             <div class="job-title">Research and Development Intern</div>
             <div class="institution">Momenta</div>
             <div class="date-location">February 2024 - June 2024 • Shanghai, China</div>
             <div class="description">
-                Conducted research and development in autonomous driving technology, focusing on software testing and system validation.
+                Conducted research and development in autonomous driving technology.
             </div>
         </div>
     </div>
@@ -270,7 +266,7 @@ permalink: /about/
         <div class="experience-item">
             <div class="job-title">Teaching Assistant</div>
             <div class="institution">CS 101: Introduction to Programming for Scientists and Engineers</div>
-            <div class="date-location">University of Illinois Urbana-Champaign • Fall 2024, Spring 2025, Fall 2025</div>
+            <div class="date-location">UIUC • Fall 2024, Spring 2025, Fall 2025</div>
             <div class="description">
                 Assisted in course instruction, grading, and student support for introductory programming course.
             </div>
@@ -290,14 +286,14 @@ permalink: /about/
             <div class="institution">CS 101: Introduction to Programming for Scientists and Engineers</div>
             <div class="date-location">ZJUI • Fall 2023</div>
             <div class="description">
-                Assisted in teaching introductory programming concepts and provided student guidance.
+                Assisted in course instruction, grading, and student support for introductory programming course.
             </div>
         </div>
 
         <div class="experience-item">
             <div class="job-title">Course Assistant</div>
             <div class="institution">ECE 391: Computer Systems Engineering</div>
-            <div class="date-location">University of Illinois Urbana-Champaign • Spring 2023</div>
+            <div class="date-location">UIUC • Spring 2023</div>
             <div class="description">
                 Supported course operations and provided technical assistance for computer systems engineering course.
             </div>
@@ -309,21 +305,27 @@ permalink: /about/
         <div class="experience-item">
             <div class="job-title">Master of Science in Computer Science</div>
             <div class="institution">University of Illinois Urbana-Champaign</div>
-            <div class="date-location">2023 - Present</div>
-            <div class="description">
-                Focus on software testing, operating systems, and program analysis.
-            </div>
+            <div class="date-location">2024 - Present</div>
+        </div>
+
+        <div class="experience-item">
+            <div class="job-title">Bachelor of Science in Computer Engineering </div>
+            <div class="institution">University of Illinois Urbana-Champaign</div>
+            <div class="date-location">2020 - 2024</div>
+        </div>
+
+        <div class="experience-item">
+            <div class="job-title">Bachelor of Engineering in Computer Engineering</div>
+            <div class="institution">Zhejiang University</div>
+            <div class="date-location">2020 - 2024</div>
         </div>
     </div>
 
     <div class="contact-section">
         <h2>Contact Information</h2>
-        <p style="margin-bottom: 20px; opacity: 0.9;">For research collaborations, academic discussions, or inquiries:</p>
+        <p style="margin-bottom: 20px; opacity: 0.9;">I'm always looking for opportunities to make meaningful changes:</p>
         <a href="mailto:erkaiyu2@illinois.edu" class="contact-email">
             erkaiyu2@illinois.edu
         </a>
-        <div class="publications-note">
-            For a complete list of publications and research work, please visit my <a href="/" style="color: #bdc3c7; text-decoration: underline;">blog</a>.
-        </div>
     </div>
 </div>
