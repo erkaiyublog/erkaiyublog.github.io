@@ -42,6 +42,10 @@ Xen for ARM can be really useful. In the automotive domain, Xen is particularly 
 
 AWS initially ran many of its servers on Xen. Over time, they developed their own hardware–software stack called Nitro, which consists of custom DPUs (Data Processing Units) and the Nitro Hypervisor. Unlike general-purpose Xen, the Nitro Hypervisor is lightweight and designed specifically to work with AWS’s custom Nitro hardware.
 
+A screenshot from [an insightful forum post](https://forums.lawrencesystems.com/t/xen-vs-xenserver-vs-kvm-vs-proxmox/14256):
+
+![post](/images/posts/virtual-hyper-container/post.png)
+
 # What is HVM?
 HVM stands for Hardware Virtual Machine, a virtualization mode that uses hardware extensions provided by modern CPUs (like Intel VT-x or AMD-V) to enable full virtualization of guest operating systems.
 
