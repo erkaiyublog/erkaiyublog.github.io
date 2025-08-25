@@ -51,7 +51,18 @@ HVM stands for Hardware Virtual Machine, a virtualization mode that uses hardwar
 
 It allows **a guest OS to run unmodified**, as if it were on real hardware.
 
+# What is a Container?
+A container is a lightweight, portable way to package and run applications. It bundles together the application's code, its libraries, dependencies, and configuration into one unit so it runs the same everywhere.
+
+Container provides isolation to the application, meaning the application believes that it is the only app being run on an OS.
+
+## What is Docker? What is Kubernetes?
+Docker is a container platform that helps building, packaging, and running containers.
+
+K8s is a container orchestration system that helps managing, scaling, and coordinating many containers across **a cluster of machines**.
+
 # References
 1. [A brief synopsis of KVM, HVM, and VFIO](https://forums.unraid.net/topic/37013-a-brief-synopsis-of-kvm-hvm-and-vfio/).
 2. [Xen Project Beginners Guide](https://wiki.xenproject.org/wiki/Xen_Project_Beginners_Guide).
 3. [Xen vs XenServer vs KVM vs Proxmox](https://forums.lawrencesystems.com/t/xen-vs-xenserver-vs-kvm-vs-proxmox/14256).
+4. [What's the Difference Between Kubernetes and Docker?](https://aws.amazon.com/compare/the-difference-between-kubernetes-and-docker/).
