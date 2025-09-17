@@ -33,3 +33,24 @@ task together with the massive parallelism makes the SGEMM super suitable for
 GPU computation. 
 
 # Optimization with GPU
+Firstly, it is important to have an overall picture of the **problem-size** before 
+considering potential optimizations. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
