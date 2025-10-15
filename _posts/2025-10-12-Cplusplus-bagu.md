@@ -331,12 +331,25 @@ void foo(T1 a, int b) { cout << "T2 is int\n"; }
 # 左值右值
 需要注意的是```lvalue```和```rvalue```的l与r并不直接代表left和right。```lavlue = locator value```，```rvalue = read value```。
 
+一个浅显的理解是左值是可以获得其内存地址值的。
+
 对左值右值的理解需要涉及一些其他的(Value Categories)概念：
 1. ```glvalue``` 泛左值：包括传统的左值和将亡值。它们一般有名字，可以确定一个对象或函数。
 2. ```prvalue``` 纯右值：就是传统意义上的右值。
-3. ```xvalue``` 将亡值：它是C++11引入的新概念。它代表一个生命周期即将结束、其资源可以被“移动”走的对象。它同时具有左值和右值的部分特性。它是“可以被重用的左值”。通常通过```std::move```转换而来，或者是一个返回右值引用的函数调用。  
+3. ```xvalue``` 将亡值：Expring Value, 它是C++11引入的新概念。它代表一个生命周期即将结束、其资源可以被“移动”走的对象。它同时具有左值和右值的部分特性。它是“可以被重用的左值”。通常通过```std::move```转换而来，或者是一个返回右值引用的函数调用。  
 4. ```lvalue``` 左值：定位值，有持久状态、有名字、可以取地址的。
 5. ```rvalue``` 右值：临时值，一个临时的、短暂的、没有名字、不能被取地址的“值”。C++11之后，右值包括了纯右值和将亡值。
+
+一些例子：
+```cpp
+// 左值
+++i; // 可以写 (++i) = 10; 会将10赋值给i
+int x = 5; // x是左值
+
+// 右值
+5;
+int y = x + 1; // x + 1是右值
+```
 
 一个宏观的理解：
 ```
@@ -347,7 +360,187 @@ void foo(T1 a, int b) { cout << "T2 is int\n"; }
    lvalue   xvalue   prvalue
 ```
 
+## 左值引用
+即传统的C++“引用”。用的是```&```符号。特点是引用的值必须被初始化，且一旦绑定就不能再指向其他对象。需要注意的是```const &```可以绑定右值。这是因为“只读”操作不会破坏右值的临时性。
+
+一些简单的例子：
+```cpp
+int a = 5;
+int &ref_a = a; // 左值引用指向左值，编译通过
+int &ref_a = 5; // 左值引用指向了右值，会编译失败!!
+const int &ref_a = 5;  // const的引用是可以对右值的，因为const左值引用不会修改指向值
+```
+
+## 右值引用
+右值引用是C++11引入的，用```&&```表示。指的是一个即将被销毁的对象的别名。它“接管”了该临时对象的资源。主要用来延长临时对象的生命周期，或者“窃取”其资源。只能绑定到右值，不能直接绑定到左值（除非使用```std::move```强制转换）。
+
+右值引用的写法如下：
+```cpp
+int&& r = 10; // 10是右值
+r = 20; // 修改了这个临时值
+```
+
+可见右值引用在这种写法下没什么太大意义。它的关键在于可以右值引用指向与```std::move```结合。```std::move```函数会返回一个左值的右值引用（准确的地说，是一个将亡值），即告诉编译器某个左值的资源将被偷走（但窃取的具体是由程序员实现），被move from的左值在这之后的状态是unspecified，它没有立即被摧毁，并且可以在之后被正常摧毁，但不应该再使用它。语法是```auto&& r = std::move(l)```。
+
+一个实际的例子，运用了移动构造函数来高效实现移动，避免深拷贝：
+```cpp
+class MyString {
+    char* m_data;
+public:
+    // 移动构造函数：参数是右值引用
+    MyString(MyString&& other) noexcept {
+        std::cout << "Move Constructor Called" << std::endl;
+        m_data = other.m_data;  // “窃取”资源
+        other.m_data = nullptr; // 将原对象置为空，防止其析构时释放资源
+    }
+
+    // ... 其他构造函数、析构函数等 ...
+};
+
+int main() {
+    MyString s1;
+    // MyString s2(s1);    // 这会调用拷贝构造函数（如果存在）
+    MyString s2(std::move(s1)); // 使用 std::move 将 s1 强制转换为右值，
+                                // 从而调用移动构造函数，高效转移资源。
+                                // 此后s1的状态变成unspecified，到作用域解释正常释放资源
+    return 0;
+}
+```
+
 ## 移动语义
+动机是避免昂贵的拷贝（例如对于```vector```, ```string```对象简单赋值时都是深拷贝实现）。移动语义的核心思想是窃取即将消亡的对象的资源。
+
+移动语义是基于右值引用的，一般是将A的资源窃取给B时，先用```std::move(A)```来得到A的将亡值，然后利用B自身定义的移动构造函数或移动赋值运算符来窃取A。
+
+以下是一个较完整的例子：
+```cpp
+#include <iostream>
+#include <cstring>
+#include <utility> // for std::move
+
+class String {
+private:
+    char* m_data;
+    size_t m_size;
+
+public:
+    // 1. 普通构造函数
+    String(const char* str = "") {
+        m_size = strlen(str);
+        m_data = new char[m_size + 1];
+        strcpy(m_data, str);
+    }
+
+    // 2. 拷贝构造函数 (深拷贝)
+    String(const String& other) {
+        m_size = other.m_size;
+        m_data = new char[m_size + 1];
+        strcpy(m_data, other.m_data);
+    }
+
+    // 3. 移动构造函数 (资源窃取)
+    // 注意：参数是非常量右值引用 String&&
+    String(String&& other) noexcept {
+        // 直接窃取 other 的资源
+        m_data = other.m_data;
+        m_size = other.m_size;
+        // 将 other 置于有效但可析构的状态
+        other.m_data = nullptr;
+        other.m_size = 0;
+    }
+
+    // 4. 拷贝赋值运算符 (深拷贝)
+    String& operator=(const String& other) {
+        if (this != &other) { // 防止自赋值
+            delete[] m_data; // 释放原有资源
+            m_size = other.m_size;
+            m_data = new char[m_size + 1];
+            strcpy(m_data, other.m_data);
+        }
+        return *this;
+    }
+
+    // 5. 移动赋值运算符 (资源窃取)
+    String& operator=(String&& other) noexcept {
+        if (this != &other) { // 防止自赋值（虽然不常见，但安全起见）
+            delete[] m_data;   // 释放自己的原有资源
+            // 窃取 other 的资源
+            m_data = other.m_data;
+            m_size = other.m_size;
+            // 将 other 置于有效但可析构的状态
+            other.m_data = nullptr;
+            other.m_size = 0;
+        }
+        return *this;
+    }
+
+    // 析构函数
+    ~String() {
+        delete[] m_data; // delete nullptr 是安全的!
+    }
+};
+
+int main() {
+    String str1("Hello");
+
+    // 使用拷贝构造创建 str2
+    String str2(str1); // 调用拷贝构造函数
+
+    // 使用移动构造创建 str3
+    // String("World") 是一个临时对象（右值），所以会调用移动构造函数
+    String str3(String("World"));
+
+    // 使用 std::move 强制移动 str1 到 str4 
+    // std::move(str1) 将左值 str1 转换为右值引用，允许“移动”
+    // 此后，str1 不再拥有有效的字符串数据！
+    String str4(std::move(str1));
+    std::cout << "str4: ";
+
+    // 移动赋值操作 
+    String str5;
+    // 将 str4 的资源移动给 str5
+    str5 = std::move(str4);
+
+    return 0;
+}
+```
+
+## 完美转发
+完美转发指的是在编写泛型函数（尤其是模板函数）时，将一个或多个参数连同其原始类型（值类型、左值引用、右值引用）以及常量性，毫无保留地、原封不动地传递给另一个函数。
+
+首先需要理解一个叫引用折叠的概念，在模板推导的语境下，引用的引用会被折叠：
+1. ```T& &```, ```T& &&```, ```T&& &```都会折叠成```T&```。
+2. ```T&& &&```会折叠成```T&&```。
+
+根据这个折叠的性质，如果直接写两个模版函数，一个对左值，一个对右值，且假设这中间还有一层函数用于调用这两个函数中的一个，则如果简单地对传入参数进行调用，由于引用折叠，一定会调用左值的实现，如果强行用```std::move```则一定会调用右值实现。于是需要```std::forward```来完美转发原本的左右值。以下为一个例子：
+
+```cpp
+template<typename T>
+void print(T & t){
+    std::cout << "Lvalue ref" << std::endl;
+}
+
+template<typename T>
+void print(T && t){
+    std::cout << "Rvalue ref" << std::endl;
+}
+
+template<typename T>
+void testForward(T && v){ 
+    print(v);   //v此时已经是个左值了,永远调用左值版本的print
+    print(std::forward<T>(v)); //保留左右值的性质
+    print(std::move(v)); //永远调用右值版本的print
+
+    std::cout << "======================" << std::endl;
+}
+
+int main(int argc, char * argv[])
+{
+    int x = 1;
+    testForward(x); //实参为左值
+    testForward(std::move(x)); //实参为右值
+}
+```
 
 # 锁与线程
 # 编译过程
