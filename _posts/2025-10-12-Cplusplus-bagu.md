@@ -328,8 +328,28 @@ void foo(T1 a, T2 b) { cout << "Generic\n"; }
 template <typename T1>
 void foo(T1 a, int b) { cout << "T2 is int\n"; }
 ```
+# 左值右值
+需要注意的是```lvalue```和```rvalue```的l与r并不直接代表left和right。```lavlue = locator value```，```rvalue = read value```。
+
+对左值右值的理解需要涉及一些其他的(Value Categories)概念：
+1. ```glvalue``` 泛左值：包括传统的左值和将亡值。它们一般有名字，可以确定一个对象或函数。
+2. ```prvalue``` 纯右值：就是传统意义上的右值。
+3. ```xvalue``` 将亡值：它是C++11引入的新概念。它代表一个生命周期即将结束、其资源可以被“移动”走的对象。它同时具有左值和右值的部分特性。它是“可以被重用的左值”。通常通过```std::move```转换而来，或者是一个返回右值引用的函数调用。  
+4. ```lvalue``` 左值：定位值，有持久状态、有名字、可以取地址的。
+5. ```rvalue``` 右值：临时值，一个临时的、短暂的、没有名字、不能被取地址的“值”。C++11之后，右值包括了纯右值和将亡值。
+
+一个宏观的理解：
+```
+        expression
+          /     \
+     glvalue   rvalue
+       /  \      /  \
+   lvalue   xvalue   prvalue
+```
+
+## 移动语义
+
 # 锁与线程
-# 移动语义
 # 编译过程
 # Perf性能分析
 # 网络栈的实现
