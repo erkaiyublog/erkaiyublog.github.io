@@ -549,8 +549,10 @@ int main(int argc, char * argv[])
 # 资源
 ## 书
 * [A Tour of C++](https://www.stroustrup.com/Tour.html): Bjarne Stroustrup写的书，仅256页，适合空闲时翻阅
+
 ## Github上的文库
 * [cpp_backend_awsome_blog](https://github.com/0voice/cpp_backend_awsome_blog): 有1000篇c++后端相关博文，2023年整理的，这个库的拥有者[@0voice](https://github.com/0voice)还有大量的相关的库
 * [Modern-CPP-Programming](https://github.com/federico-busato/Modern-CPP-Programming): ppt形式的C++教材
+
 ## 文档
 * [cppreference.com](https://cppreference.com/): 看着目录复习就行
