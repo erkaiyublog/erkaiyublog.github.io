@@ -134,7 +134,7 @@ if (auto shared_prev = node2->prev.lock()) {
 
 ## 虚函数
 
-虚函数用```virtual```关键字声明，用于实现运行时的多态。其底层原理是编译器会对每个带有虚函数的类构造```vtable```虚函数表，每个该类的对象都会包含一个隐藏的指针```vptr```，指向其所属类的虚函数表。
+虚函数用```virtual```关键字声明，用于实现运行时的多态。其底层原理是编译器会对每个带有虚函数的类构造```vtable```虚函数表，每个该类的对象都会包含一个隐藏的指针```vptr```，指向其所属类的虚函数表。这里一个经常问的问题是“虚函数表是每个类独有还是每个对象独有？”应该是每个类。
 
 派生类重写虚函数时函数的签名应该与基类的虚函数一致，并在定义处加```override```关键字。
 
@@ -567,9 +567,6 @@ C++的一些常见锁包括：
 2. 任务提交是由用户提交到队列，线程池会唤醒一个等待的线程去执行任务。
 3. 当停止时，设置停止标志，唤醒所有线程并等待所有线程结束。
 
-# 编译过程
-# Perf性能分析
-# 网络栈的实现
 # 资源
 ## 书
 * [A Tour of C++](https://www.stroustrup.com/Tour.html): Bjarne Stroustrup写的书，仅256页，适合空闲时翻阅
@@ -580,3 +577,6 @@ C++的一些常见锁包括：
 
 ## 文档
 * [cppreference.com](https://cppreference.com/): 看着目录复习就行
+
+## 视频
+* [CppCon 2018: Jonathan Boccara “105 STL Algorithms in Less Than an Hour”](https://www.youtube.com/watch?v=2olsGf6JIkU): STL里一些算法的实现
