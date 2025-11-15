@@ -46,7 +46,12 @@ ACM SIGPLAN Notices, Volume 47, Issue 6, Pages 335 - 346
 * C-Reducer, a test-case modular reducer for compiler test reduction that output more than 25 times smaller than that produced by a line-based delta debugger, on average.
 
 **What are future directions for this research?**
-NONE
+* See Section 6, 9.
+* According to the authors, their furture work is gonna be related to automatic production of additional elements of a compiler bug report.
+* In my point of view, the algorithm of C-Reduction is clearly not optimal in terms of efficiency. It is basically:
+    1. An outer while loop checking if fixpoint is reached
+    2. An inner for loop iterating through all the pre-defined transformations. 
+* I believe that the algorithm can be better designed to eliminate certain transformations during the process of search, which should improve the performance.
 
 **What questions are you left with?**
 
