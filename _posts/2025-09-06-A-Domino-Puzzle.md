@@ -16,6 +16,8 @@ At any time you may move a domino from its current position to a new one, provid
 
 Can you retile the augmented board so that all the dominoes are horizontal?
 
+![puzzle](/images/posts/domino/puzzle1.jpeg)
+
 ## My Thought Process
 
 # Knights on A Chessboard 
