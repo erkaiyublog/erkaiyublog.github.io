@@ -20,6 +20,12 @@ Can you retile the augmented board so that all the dominoes are horizontal?
 
 ## My Thought Process
 
+The moving domino seemed to be a little bit messy at the first glance. However, notice the fact that each domino always cover one black square and one white square no matter how it's placed, it is easy to draw the conclusion that each black square is exactly covered by one domino. Further, imagine there is a hinge at each black square, and the domino covering it is rotating on it.
+
+![puzzle](/images/posts/domino/puzzle2.jpeg)
+
+![puzzle](/images/posts/domino/puzzle3.jpeg)
+
 # Knights on A Chessboard 
 
 The idea of "divide and conquer" (or "solving the problem with a smaller number") of the domino puzzle together with the chessboard reminded me of another puzzle. I remember watching a video clip in which many chess grand masters were asked to answer several puzzles related to chess, and Anish Giri quickly got this puzzle correct (sadly, I couldn't remember the title of that video).
