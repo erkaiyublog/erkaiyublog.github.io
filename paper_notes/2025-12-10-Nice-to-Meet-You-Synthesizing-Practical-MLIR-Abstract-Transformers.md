@@ -23,27 +23,29 @@ POPL 2026
     1. Abstract transformers are usually started in a imprecise form and get optimized later. This process is very expensive.
     2. Across 17 different LLVM backends, only four have any abstract transformers at all for LLVM instructions representing target-specific (e.g. x86-64, RISC-V, AArch64) intrinsics. In this case, developers who substitute intrinsics for portable code while chasing performance can see degraded dataflow-driven optimizations in nearby code because the portable code could be analyzed but the intrinsics cannot.
 * Operations that lack abstract transformers must be analyzed conservatively: they return *top* (concept from abstract representation, of course), the unknown value. 
+* The work synthesizes abstract transformer for formally specified (using an MLIR dialect) contrect instruction semantics, it addresses the following research questions in the context of finite, Galois-connection-based abstract domains:
+    * Is it practical to automatically generate abstract transformer for multiple domains that are used in real-world compilers using existing formally specified concrete instruction semantics?
+    * How precise can it be while remaining sound?
+    * Can the synthesis procedure navigate the search space without meaningful help from users? 
 
 **What is the proposed solution?**
-* See Abstract, Seciton 4, 5, 6.
-* Use a novel framework in which a generic fixpoint computation invokes modular transformations that perform reduction operations.
-* Introducted a generalized delta debugger, which combines a search algorithm, a transformation operator, a validity-checking function, and a fitness function (check if the program is human-friendly).
-* For test-case validity (whether the C code contains any UB), the authors don't have a general solution. Their approach is to use either CSmith which already guarantees validity of generated programs or semantics-checking C interpreter like KCC and Frama-C.
-* Three reducers were implemented, 2 of which are based on CSmith:
-    1. Altering the randomization of CSmith to generate programs that produce the same output.
-    2. Fast-Reducer, uses AST of CSmith. Ideas like dead-code elimination, path divergence exploition, effect inline (try replacing all func calls with inline) are used to help reduction.
-    3. Modular Reducer. Named C-Reducer, it invokes a collection of pluggable transformations until a global fixpoint is reached.
+* See Introduction.
+* Treat synthesis as an optimization problem. Use stochastic search techniques inspired by Stoke, where candidate transformers evolve through a sequence of random modifications guided by the cost function induced by the objective.
 
 
 **What is the work's evaluation of the proposed solution?**
-* See Section 7.
+* See Introduction.
+* Validated their prototype by synthesizing transformers for three non-relational, compiler-friendly abstract domains (KnownBits, signed and unsigned ConstantRange) for 39 instructions that are present both in LLVM and in MLIR’s Arith dialect. 
+* Evaluated by synthesizing abstract transformers for the abstract domains and operations used in the LLVM IR. The results show that NiceToMeetYou complements the precision of LLVM transformers (when measured on 8-bit and 64-bit integers) of 7/47 transformers in the KnownBits domain and 19/47 in ConstantRange. With the addition of a handwritten reduced-product operator for combining synthesized transformers across different abstract domains, the synthesized transformers exceed LLVM’s precision on 22/47 operators.
 
 **What is your analysis of the identified problem, idea and evaluation?**
-* The work is limited to handling UB for C code. Generalizing the technique to other programming languages might be a useful follow-up.
 
 **What are the contributions?**
 * See Introduction.
-* C-Reducer, a test-case modular reducer for compiler test reduction that output more than 25 times smaller than that produced by a line-based delta debugger, on average.
+* Propose a framework for synthesizing abstract transformers that leverages existing formal semantics for instructions, and is not limited to specific abstract domains and does not require program templates
+* Design an algorithm that incrementally synthesizes the meet of multiple abstract transformers, which enables an MCMC-based search procedure that can discover individual smaller transformers that can be added to the meet.
+* Implement the algorithm in NiceToMeetYou, a tool that effectively balances MCMC-based exploration with SMT-based verification. Apply NiceToMeetYou on the bread-and-butter abstract domains from LLVM, namely KnownBits and ConstantRange
+* Conduct an evaluation showing how NiceToMeetYou can synthesize abstract transformers for real LLVM operators.
 
 **What are future directions for this research?**
 * See Section 6, 9.
