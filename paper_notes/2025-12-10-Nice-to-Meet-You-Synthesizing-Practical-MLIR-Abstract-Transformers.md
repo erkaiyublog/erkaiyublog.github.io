@@ -34,7 +34,7 @@ POPL 2026
 
 
 **What is the work's evaluation of the proposed solution?**
-* See Introduction.
+* See Introduction, Section 2.
 * Validated their prototype by synthesizing transformers for three non-relational, compiler-friendly abstract domains (KnownBits, signed and unsigned ConstantRange) for 39 instructions that are present both in LLVM and in MLIR’s Arith dialect. 
 * Evaluated by synthesizing abstract transformers for the abstract domains and operations used in the LLVM IR. The results show that NiceToMeetYou complements the precision of LLVM transformers (when measured on 8-bit and 64-bit integers) of 7/47 transformers in the KnownBits domain and 19/47 in ConstantRange. With the addition of a handwritten reduced-product operator for combining synthesized transformers across different abstract domains, the synthesized transformers exceed LLVM’s precision on 22/47 operators.
 
