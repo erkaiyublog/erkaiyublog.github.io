@@ -554,7 +554,41 @@ C++的一些常见锁包括：
 5. ```lock_guard```，RAII互斥锁包装器，实现构造时自动加锁，析构时自动解锁，确保异常退出时锁的释放。
 6. ```unique_lock```，更灵活的RAII互斥锁包装器，支持延迟锁定，手动解锁和锁的所有权转移，比```lock_guard```更灵活。
 
-# 线程池
+# 线程
+## 线程的基本用法
+首先当然是最基础的thread用法，头文件是`#include <thread>`。
+
+基础的用法是
+```cpp
+#include <thread>
+#include <iostream>
+
+using namespace std;
+
+void worker(int a, int b) {
+    cout << "Hi, this is a worker thread!\n";
+    cout << a << " " << b << endl;
+    return;
+}
+
+int main() {
+    thread t1(worker, 1, 2);
+    thread t2(worker, 3, 4);
+
+    t1.join();
+    t2.join();
+
+    return 0;
+}
+```
+
+如果不调用`join()`的话仍然能过编译，但是runtime会产生Abort，这是由于thread最后处于joinable的状态，程序会调用`std::terminate()`，引发Abort。而主动调用了`join()`则意味着会等待（block）直至该线程结束，此时线程不再是joinable。另外可以用`t.joinable()`的真伪来判断是否可以调用`join`。
+
+另一种让线程不再是joinable的方法是调用`t.detach()`，这个方法会将线程直接丢给OS，不会等待它结束，也不应该再去尝试使用该线程的结果，因为完全没有同步的机制。
+
+自C++20起提供了RAII的线程方案，即`jthread`，用法与`thread`一样，但是程序中无需主动调用`join`。
+
+## 线程池
 面试中可能会出现类似“简述线程池的编写方式”的题目（我曾被问过）。这里记一下线程池的大概思路。
 
 线程池的核心组件包括：
