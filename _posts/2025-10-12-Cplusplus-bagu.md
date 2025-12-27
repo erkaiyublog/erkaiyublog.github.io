@@ -10,6 +10,11 @@ tags: CN C++
 * TOC
 {:toc}
 
+# 数据结构
+## `emplace_back`与`push_back`有何区别
+`push_back`是将一个已存在的对象拷贝或者移动进入容器，可能会产生临时对象。而`emplace_back`是接受构造函数的参数，并依靠完美转发直接在容器中创建对象。
+
+
 # 内存分配
 常见的内存分配是在栈或者堆上。注意一个程序运行时被分配的栈大小一般是8MB（这是由操作系统、编译器和运行时的设置决定的）。
 
@@ -608,6 +613,7 @@ int main() {
 ## Github上的文库
 * [cpp_backend_awsome_blog](https://github.com/0voice/cpp_backend_awsome_blog): 有1000篇c++后端相关博文，2023年整理的，这个库的拥有者[@0voice](https://github.com/0voice)还有大量的相关的库
 * [Modern-CPP-Programming](https://github.com/federico-busato/Modern-CPP-Programming): ppt形式的C++教材
+* [Awesome-QuantDev-Learn](https://github.com/0voice/Awesome-QuantDev-Learn/blob/main/C++%E9%87%8F%E5%8C%96%E5%BC%80%E5%8F%91%E6%96%B9%E5%90%91/README.md): 量化相关的C++内容，同样出自[@0voice](https://github.com/0voice)
 
 ## 文档
 * [cppreference.com](https://cppreference.com/): 看着目录复习就行
