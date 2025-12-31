@@ -593,6 +593,9 @@ int main() {
 
 自C++20起提供了RAII的线程方案，即`jthread`，用法与`thread`一样，但是程序中无需主动调用`join`。
 
+## 基于条件变量的线程间同步
+条件变量即condition variable，在头文件`condition_variable`中。用于通知其他的线程，某一共享资源可以被使用。常用于producer-consumer或sender-receiver场景。
+
 ## 线程池
 面试中可能会出现类似“简述线程池的编写方式”的题目（我曾被问过）。这里记一下线程池的大概思路。
 
