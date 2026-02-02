@@ -26,7 +26,7 @@ tags: CN C++
 ```cpp
 // 1. delete[]的使用
 int* array = new int[100]; // array是整数指针，但堆上分配了100个整数的内存
-delete[] array; // delete带上[]以表明释放的是整个数组的内存，此处用delete会UB
+delete[] array; // delete带上[]以表明释放的是整个数组的内存，此处用delete array会UB
 
 // 2. new与malloc失败的处理
 try { // new的失败会触发exception，所以应该用try/catch来处理
