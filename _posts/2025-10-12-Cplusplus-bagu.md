@@ -137,6 +137,17 @@ if (auto shared_prev = node2->prev.lock()) {
 
 类和结构有些很八股的题，比如我曾被问到过一个空的类对象占内存大小是多少，当时傻乎乎回答0，其实是1字节。
 
+## 函数重载与重写
+重载(overload)指的是在同一作用域内，函数名相同但参数列表不同。本质上是由编译器通过名字修饰(name mangling)来实现的，它会根据函数名和参数列表生成一个唯一的内部名称，因此对于编译器而言它们完全是不同的函数。
+
+另外，有一个叫函数表(symbol table)的概念，这是编译器用于内部维护，以及会导出到object file和exectuable的。例如如果写了多个名为`display`的函数，且传参不同，则可以编译一个object file并用`nm`命令查看，可以看到编译器内部对`display`函数的不同命名。
+
+```
+0000000000000110 T __Z7displayd
+0000000000000000 T __Z7displayi
+0000000000000154 T __Z7displayid
+```
+
 ## 虚函数
 
 虚函数用```virtual```关键字声明，用于实现运行时的多态。其底层原理是编译器会对每个带有虚函数的类构造```vtable```虚函数表，每个该类的对象都会包含一个隐藏的指针```vptr```，指向其所属类的虚函数表。这里一个经常问的问题是“虚函数表是每个类独有还是每个对象独有？”应该是每个类。
@@ -620,6 +631,7 @@ int main() {
 
 ## 文档
 * [cppreference.com](https://cppreference.com/): 看着目录复习就行
+* [C++八股整理（持续更新）](https://zhuanlan.zhihu.com/p/1974476625048511804): 知乎的一篇整理
 
 ## 视频
 * [CppCon 2018: Jonathan Boccara “105 STL Algorithms in Less Than an Hour”](https://www.youtube.com/watch?v=2olsGf6JIkU): STL里一些算法的实现
