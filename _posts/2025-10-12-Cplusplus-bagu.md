@@ -14,6 +14,32 @@ tags: CN C++
 ## `emplace_back`与`push_back`有何区别
 `push_back`是将一个已存在的对象拷贝或者移动进入容器，可能会产生临时对象。而`emplace_back`是接受构造函数的参数，并依靠完美转发直接在容器中创建对象。
 
+## 类型转换
+常见的有三种：
+1. C风格的类型转换：`(Type) expr`
+2. 静态类型转换：`static_cast<Type>(expr)`
+2. 动态类型转换：`dynamic_cast<Type>(expr)`
+
+其中C风格的类型转换是通过别的类型转换实现的，所以是隐式地调用别的类型转换，需要避免使用它。
+
+静态类型转换`static_cast<Type>(expr)`是编译时进行的，但它不会在运行时检查是否可以转换。一个危险的场景是downcasting，将基类转换为派生类：
+
+```cpp
+Base* b = new Derived1();
+Derived2* d = static_cast<Derived2*>(b);
+```
+
+这里是可以通过编译的，但是如果后续调用了`Derived2`中有而`Derived1`中没有的函数则产生UB。
+
+动态类型转换`dynamic_cast<Type>(expr)`是在静态类型转换的基础上增加了运行时的检查，就可以避免上述问题产生UB。如果`Derived1`的对象不能被转换为`Derived2`，会返回一个`nullptr`，所以使用动态类型转换更安全：
+
+```cpp
+Base* b = new Derived1();
+Derived2* d = dynamic_cast<Derived2*>(b);
+
+if (d) {
+}
+```
 
 # 内存分配
 常见的内存分配是在栈或者堆上。注意一个程序运行时被分配的栈大小一般是8MB（这是由操作系统、编译器和运行时的设置决定的）。
