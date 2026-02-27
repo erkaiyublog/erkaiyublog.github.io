@@ -265,6 +265,15 @@ permalink: /about/
         
         <div class="experience-item">
             <div class="job-title">Teaching Assistant</div>
+            <div class="institution">CS 128: Introduction to Computer Science II</div>
+            <div class="date-location">UIUC • Spring 2026</div>
+            <div class="description">
+                Assisted in course instruction, grading, and student support for introductory computer science course.
+            </div>
+        </div>
+
+        <div class="experience-item">
+            <div class="job-title">Teaching Assistant</div>
             <div class="institution">CS 101: Introduction to Programming for Scientists and Engineers</div>
             <div class="date-location">UIUC • Fall 2024, Spring 2025, Fall 2025</div>
             <div class="description">
