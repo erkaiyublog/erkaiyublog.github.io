@@ -61,3 +61,11 @@ tags: CN market
 
 # 详细TAM表格
 ![pic3](../images/posts/onrobotaxi/pic3.png)
+
+# 补充
+WeRide在3月23日发布财报，显示数据是有800辆Robotaxi，日均每辆车的订单为15，最高为26。
+![pic4](../images/posts/onrobotaxi/pic4.png)
+
+# 参考资料
+1. [China's Robotaxi market - the road to commercialization](https://www.goldmansachs.com/pdfs/insights/goldman-sachs-research/robotaxi/report.pdf)
+2. [WeRide Reports Record Full Year 2025 Revenue of RMB684.6 Million, Up 90% Year over Year](https://ir.weride.ai/news-releases/news-release-details/weride-reports-record-full-year-2025-revenue-rmb6846-million-90)
