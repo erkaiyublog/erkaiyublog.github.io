@@ -66,6 +66,9 @@ tags: CN market
 WeRide在3月23日发布财报，显示数据是有800辆Robotaxi，日均每辆车的订单为15，最高为26。
 ![pic4](../images/posts/onrobotaxi/pic4.png)
 
+PonyAI在3月26日发布财报，显示数据是有1400辆Robotaxi，日均每辆车的订单最高为25。
+
 # 参考资料
 1. [China's Robotaxi market - the road to commercialization](https://www.goldmansachs.com/pdfs/insights/goldman-sachs-research/robotaxi/report.pdf)
 2. [WeRide Reports Record Full Year 2025 Revenue of RMB684.6 Million, Up 90% Year over Year](https://ir.weride.ai/news-releases/news-release-details/weride-reports-record-full-year-2025-revenue-rmb6846-million-90)
+3. [PONY AI Inc. Scales with 160% Robotaxi Revenues Growth YoY and 500%+ Fare-Charging Revenues Surge YoY in Q4, Targeting Deployment in 20+ Cities by Year-End](https://ir.pony.ai/node/8016/pdf)
