@@ -326,6 +326,48 @@ int main() {
 
 题外话：Python对多重继承的处理(MRO, Method Resolution Order)运用的是一种叫C3线性化的算法来强制对类的方法进行先后排序以消除C++中这样的潜在的运行时错误。我在准备八股时偶然从AI口中听说这个Python与C++的不同，于是好奇心驱使下两种都了解了一下，随后我曾问过许多同专业的朋友，都不知道虚继承，谁想到几天后面试某国内量化头部私募，C++八股的第二个问的就是虚继承。。。我其实挺好奇这种虚继承在现实项目中具体有多广泛的运用。
 
+## 类在内存中的大小
+有一类特别的题目是问在某些极端情形下`class`在内存中所占的字节数。
+
+例如一个空的类，由于任何`object`都需要至少有一个地址，所以一个空的类也占一字节。
+```cpp
+class A {} // sizeof(A) == 1
+```
+
+一个空的类，但是有一个函数，这个成员函数。由于函数的实现是存在代码段，所以这种情况下`class`的大小仍然是1字节。
+```cpp
+class A {
+    public:
+    int Add (int a, int b) {return a+b;} // sizeof(A) == 1 
+}
+```
+
+下面例子里一个有多个数据的类，由于alignment作用，会是8字节。
+```cpp
+class A {
+    int a;
+    char b;
+} // sizeof(A) == 8
+```
+
+一个仅有虚函数的类，需要存一个指向虚函数表的`vptr`，因此在64位系统下是8字节。
+```cpp
+class A {
+    virtual void fA() {}
+    virtual int fB() {}
+} // sizeof(A) == 8
+```
+
+一个继承的类，若自身没有数据，则是与父类一个大小。两个父类时，会是两个父类大小之和。
+```cpp
+class Base {};
+class Derived : public Base {}; // sizeof(Derived) == 1
+
+class A {};
+class B {};
+class C : public A, public B {}; // sizeof(C) == 1
+```
+
 # 模版
 
 模版声明时```template```后面可以是```class```也可以是```typename```，前者比后者更早被引入C++。举个混用的例子：
