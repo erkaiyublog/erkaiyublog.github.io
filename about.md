@@ -230,17 +230,26 @@ permalink: /about/
         <img src="https://erkaiyublog.github.io/images/me.jpeg" alt="Erkai Yu" class="profile-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
         <div class="profile-fallback">EY</div>
         <h1>Erkai Yu</h1>
-        <div class="title">Computer Science Graduate Student</div>
-        <div class="affiliation">University of Illinois Urbana-Champaign</div>
+        <div class="title">Software Engineer</div>
+        <div class="affiliation">WeRide</div>
     </div>
 
     <div class="bio">
-        <p>I am a second-year master's student in Computer Science at the University of Illinois Urbana-Champaign. My research focuses on software testing and operating system testing under the supervision of Professor <a href="https://mir.cs.illinois.edu/marinov/" target="_blank" style="color: #34495e; text-decoration: underline;">Darko Marinov</a>.</p>
+        <p>I am a software engineer.</p>
     </div>
 
     <div class="section">
         <h2 class="section-title">Working Experience</h2>
         
+        <div class="experience-item">
+            <div class="job-title">Software Engineer</div>
+            <div class="institution">WeRide</div>
+            <div class="date-location">July 2026 - • Shanghai, China</div>
+            <div class="description">
+                AI Infra, CUDA programming, model deployment and optimization.
+            </div>
+        </div>
+
         <div class="experience-item">
             <div class="job-title">Research Assistant</div>
             <div class="institution">UIUC & Boeing</div>
@@ -333,8 +342,8 @@ permalink: /about/
     <div class="contact-section">
         <h2>Contact Information</h2>
         <p style="margin-bottom: 20px; opacity: 0.9;">I'm always looking for opportunities to make meaningful changes:</p>
-        <a href="mailto:erkaiyu2@illinois.edu" class="contact-email">
-            erkaiyu2@illinois.edu
+        <a href="mailto:si1krow@outlook.com" class="contact-email">
+            si1krow@outlook.com
         </a>
     </div>
 </div>
