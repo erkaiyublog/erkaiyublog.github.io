@@ -321,9 +321,9 @@ permalink: /about/
     <div class="section">
         <h2 class="section-title">Education</h2>
         <div class="experience-item">
-            <div class="job-title">Master of Science in Computer Science</div>
+            <div class="job-title">Master of Computer Science</div>
             <div class="institution">University of Illinois Urbana-Champaign</div>
-            <div class="date-location">2024 - Present</div>
+            <div class="date-location">2024 - 2026</div>
         </div>
 
         <div class="experience-item">
