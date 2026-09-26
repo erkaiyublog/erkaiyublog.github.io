@@ -55,3 +55,16 @@
   tags: 小说
   rate: 5
 
+- title: "长夜"
+  author: "阿加莎·克里斯蒂"
+  year: 1967
+  endtime: 2026.9.24
+  tags: 推理小说
+  rate: 3
+
+- title: "摩托日记"
+  author: "切·格瓦拉"
+  year: 1952
+  endtime: 2026.9.23
+  tags: 小说
+  rate: 5
